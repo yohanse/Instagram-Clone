@@ -52,8 +52,9 @@ MIDDLEWARE = [
 ]
 
 DJOSER = {
-    'ACTIVATION_URL': '#/activate/{uid}/{token}',
-    'SEND_ACTIVATION_EMAIL': True,
+    'SERIALIZERS': {
+        'user_create': 'core.serializers.UserCreateSerializer',
+    },
 }
 
 ROOT_URLCONF = 'InstagramClone.urls'
