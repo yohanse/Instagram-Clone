@@ -10,6 +10,7 @@ mysqlclient = "*"
 djoser = "*"
 djangorestframework-simplejwt = "*"
 social-auth-app-django = "*"
+python-dotenv = "*"
 
 [dev-packages]
 

@@ -9,6 +9,6 @@ class User(AbstractUser):
     is_loged_in = models.BooleanField(default=False)
 
 class Confirmation(models.Model):
-    email = models.EmailField(unique=True)
+    email = models.EmailField()
     confirmation_code = models.CharField(max_length=6, null=True)
     is_confirmed = models.BooleanField(default=False)

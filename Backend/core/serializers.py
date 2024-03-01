@@ -12,3 +12,7 @@ class ConfirmationSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Confirmation
         fields=['email']
+
+class CheckConfirmationSerializer(ConfirmationSerializer):
+    class Meta(ConfirmationSerializer.Meta):
+        fields=['email', 'confirmation_code']
