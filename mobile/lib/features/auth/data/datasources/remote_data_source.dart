@@ -1,17 +1,38 @@
+import 'dart:convert';
+
 import '../models/auth_model.dart';
+import 'package:http/http.dart' as http;
 
 abstract class AuthRemoteDataSource {
-  Future<AuthModel> checkConfirmation({ required String email, required String confimationCode});
+  Future<AuthModel> checkConfirmation(
+      {required String email, required String confimationCode});
   Future<AuthModel> checkEmail({required String email});
 }
 
-class AuthRemoteDataSourceImpl implements AuthRemoteDataSource{
+class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
-  Future<AuthModel> checkConfirmation({required String email, required String confimationCode}) {
+  Future<AuthModel> checkConfirmation(
+      {required String email, required String confimationCode}) async {
+    String url = "http://127.0.0.1:8000/core";
+    final responseData = await http.post(Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+        body:
+            jsonEncode({'email': email, 'confirmation_code': confimationCode}));
+    final response = jsonDecode(responseData.body);
+    print(response);
+
+    return response['valid'];
   }
 
   @override
-  Future<AuthModel> checkEmail({required String email}) {
-  }
+  Future<AuthModel> checkEmail({required String email}) async {
+    String url = "http://127.0.0.1:8000/core";
+    final responseData = await http.post(Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'email': email}));
+    final response = jsonDecode(responseData.body);
+    print(response);
 
+    return response['email'];
+  }
 }
