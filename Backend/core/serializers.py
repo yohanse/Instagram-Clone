@@ -1,6 +1,14 @@
 from djoser.serializers import UserCreateSerializer as BaseUserCreateSerializer
+from rest_framework import serializers
+from . import models
 
 class UserCreateSerializer(BaseUserCreateSerializer):
-    
     class Meta(BaseUserCreateSerializer.Meta):
-        fields = ['id', 'password', 'email', 'birth_date', 'username', 'first_name', 'last_name']
+        model = models.User
+        fields = ['id', 'email']
+
+
+class ConfirmationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Confirmation
+        fields=['email']
