@@ -5,21 +5,21 @@ import 'package:mobile/core/usecase/usecase.dart';
 import 'package:mobile/features/auth/domain/entities/auth_entitie.dart';
 import 'package:mobile/features/auth/domain/repository/auth_repository.dart';
 
-class CheckConfirmation implements Usecase<AuthEntitie, Params> {
+class CheckConfirmation implements Usecase<AuthEntitie, Params1> {
   final AuthRepository authRepository;
   CheckConfirmation({required this.authRepository});
 
   @override
-  Future<Either<Failure, AuthEntitie>> call(Params params) async {
+  Future<Either<Failure, AuthEntitie>> call(Params1 params) async {
     return authRepository.checkConfirmation(
         email: params.email, confimationCode: params.confimationCode);
   }
 }
 
-class Params extends Equatable {
+class Params1 extends Equatable {
   final String email, confimationCode;
 
-  const Params({required this.email, required this.confimationCode}):super();
+  const Params1({required this.email, required this.confimationCode}):super();
   
   @override
   List<Object?> get props => [email, confimationCode];

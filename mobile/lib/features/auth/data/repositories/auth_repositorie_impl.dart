@@ -26,10 +26,10 @@ class AuthRepositorieImpl implements AuthRepository {
             email: email, confimationCode: confimationCode);
         return Right(ans);
       } on ServerException {
-        return Left(ServerFailure());
+        return const Left(ServerFailure("yohanse"));
       }
     } else {
-      return Left(NetworkFailure());
+      return const Left(NetworkFailure("yohanse"));
     }
   }
 
@@ -41,10 +41,10 @@ class AuthRepositorieImpl implements AuthRepository {
         final ans = await authRemoteDataSource.checkEmail(email: email);
         return Right(ans);
       } on ServerException {
-        return Left(ServerFailure());
+        return const Left(ServerFailure("yohanse"));
       }
     } else {
-      return Left(NetworkFailure());
+      return const Left(NetworkFailure("yohanse"));
     }
   }
 }
