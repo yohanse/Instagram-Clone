@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/features/auth/presentation/pages/email.dart';
+import 'package:mobile/instagram.dart';
+import 'injection.dart' as di;
 
-void main() {
-  runApp(MaterialApp(
-    home: EmailPage(),
-  ));
+void main() async {
+  await di.init();
+  runApp(
+    const MaterialApp(
+      home: InstagramApp(),
+    ),
+  );
 }
