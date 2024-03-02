@@ -14,14 +14,14 @@ class InstagramApp extends StatelessWidget {
     final GoRouter _router = GoRouter(
       navigatorKey: GlobalKey<NavigatorState>(),
       routes: [
+        // GoRoute(
+        //   path: '/',
+        //   builder: (context, state) => EmailPage(),
+        // ),
         GoRoute(
           path: '/',
-          builder: (context, state) => EmailPage(),
-        ),
-        GoRoute(
-          path: '/confirmation',
           builder: (context, state) => CodePage(
-            email: state.extra! as String,
+            email: "mehabawyohanse793@gmail.com",
           ),
         ),
       ],

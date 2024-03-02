@@ -17,10 +17,15 @@ class CustomSixDigitInput extends StatelessWidget {
     return Row(
       children: [
         NumericalInput(controller: controller1, readOnly: readOnly),
+        SizedBox(width: 7,),
         NumericalInput(controller: controller2, readOnly: readOnly),
+        SizedBox(width: 7,),
         NumericalInput(controller: controller3, readOnly: readOnly),
+        SizedBox(width: 7,),
         NumericalInput(controller: controller4, readOnly: readOnly),
+        SizedBox(width: 7,),
         NumericalInput(controller: controller5, readOnly: readOnly),
+        SizedBox(width: 7,),
         NumericalInput(controller: controller6, readOnly: readOnly),
       ],
     );

@@ -63,18 +63,7 @@ class CodePage extends StatelessWidget {
                     },
                   ),
                   SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    "you may receive SMS notifications from us for security and login purposes.",
-                    style: TextStyle(
-                      color: const Color.fromARGB(160, 224, 219, 219),
-                      fontSize: 10,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
+                    height: 15,
                   ),
                   ElevatedButton(
                     onPressed: () {
@@ -95,6 +84,36 @@ class CodePage extends StatelessWidget {
                     style: ButtonStyle(
                       backgroundColor:
                           MaterialStateProperty.all<Color>(Color(0xFF0064E0)),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      BlocProvider.of<AuthBloc>(context).add(
+                        AuthCheckEmail(
+                          email: emailController.text,
+                        ),
+                      );
+                    },
+                    child: Text(
+                      "I didn't get the code",
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    style: ButtonStyle(
+                      side: MaterialStateProperty.all<BorderSide>(
+                        BorderSide(
+                          color: const Color.fromARGB(200, 224, 219, 219), // Set your desired border color
+                          width: 0.5, // Set your desired border width
+                        ),
+                      ),
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Color(0xFF11222F)),
                     ),
                   ),
                 ],

@@ -11,6 +11,7 @@ class NumericalInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: TextField(
+        textAlign: TextAlign.center,
         maxLength: 1,
         keyboardType: TextInputType.number,
         inputFormatters: <TextInputFormatter>[
@@ -23,13 +24,8 @@ class NumericalInput extends StatelessWidget {
           color: const Color.fromARGB(255, 255, 255, 255),
         ),
         decoration: InputDecoration(
+          counterText: '',
           contentPadding: EdgeInsets.symmetric(horizontal: 8.0),
-          hintText: 'Email',
-          hintStyle: TextStyle(
-            fontSize: 16,
-            color: const Color.fromARGB(200, 224, 219, 219),
-          ),
-      
           filled: true,
           fillColor: Color(0xFF1C2B33), // Set transparent background color
           border: OutlineInputBorder(
