@@ -25,12 +25,12 @@ class AuthRepositorieImpl implements AuthRepository {
             email: email, confimationCode: confimationCode);
         return Right(ans);
       } on ServerException {
-        return const Left(ServerFailure("Server not working properly"));
+        return const Left(ServerFailure("Server not working properly."));
       } on EmailNotCorrectException {
         return const Left(EmailNotCorrectFailure("Email not correct"));
       }
     } else {
-      return const Left(NetworkFailure("yohanse"));
+      return const Left(NetworkFailure("Netwrok error."));
     }
   }
 
@@ -41,10 +41,15 @@ class AuthRepositorieImpl implements AuthRepository {
         final ans = await authRemoteDataSource.checkEmail(email: email);
         return Right(ans);
       } on ServerException {
-        return const Left(ServerFailure("yohanse"));
+        return const Left(ServerFailure("Server not working properly."));
+      } on EmailAlreadyExistException {
+        return const Left(
+            EmailAlreadyExistFaliure("Email already have an account."));
+      } on EmailDoesNotExistException {
+        return const Left(EmailDoesNotExistFaliure("Wrong email."));
       }
     } else {
-      return const Left(NetworkFailure("yohanse"));
+      return const Left(NetworkFailure("Network error."));
     }
   }
 }

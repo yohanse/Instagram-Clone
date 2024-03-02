@@ -28,3 +28,15 @@ class EmailNotCorrectFailure extends Failure {
   @override
   List<Object?> get props => [];
 }
+
+class EmailDoesNotExistFaliure extends Failure {
+  const EmailDoesNotExistFaliure(super.message);
+  @override
+  List<Object?> get props => [];
+}
+
+class EmailAlreadyExistFaliure extends Failure {
+  const EmailAlreadyExistFaliure(super.message);
+  @override
+  List<Object?> get props => [];
+}

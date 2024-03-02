@@ -18,10 +18,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         body:
             jsonEncode({'email': email, 'confirmation_code': confimationCode}));
     final response = jsonDecode(responseData.body);
+    print(response);
     if (responseData.statusCode == 200 || responseData.statusCode == 201) {
       return response['valid'];
     }
-    throw EmailNotCorrectException();
+    throw ServerException();
   }
 
   @override
@@ -30,6 +31,12 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final responseData = await http.post(Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'email': email}));
-    return responseData.statusCode == 200 || responseData.statusCode == 201;
+    if (responseData.statusCode == 200 || responseData.statusCode == 201) {
+      return true;
+    }
+    if (jsonDecode(responseData.body)['error'] == 'Email already exists') {
+      throw EmailAlreadyExistException();
+    }
+    throw EmailDoesNotExistException();
   }
 }

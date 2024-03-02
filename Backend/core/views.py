@@ -26,7 +26,7 @@ class CheckEmailView(CreateModelMixin, GenericViewSet):
                     headers = self.get_success_headers(serializer.data)
                     return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
                 except:
-                    return Response({"error": "We could sent the email"}, status=status.HTTP_509_BANDWIDTH_LIMIT_EXCEEDED)
+                    return Response({"error": "Email does not exist."}, status=status.HTTP_509_BANDWIDTH_LIMIT_EXCEEDED)
             
     def perform_create(self, serializer, code):
         serializer.validated_data['confirmation_code'] = code
