@@ -46,7 +46,7 @@ class EmailPage extends StatelessWidget {
                   BlocConsumer<AuthBloc, AuthState>(
                     listener: (context, state) {
                       if (state is AuthLoaded && state.isValid) {
-                        context.go('/confirmation', extra: emailController.text);
+                        context.go('/signup/confirmation', extra: emailController.text);
                       }
                     },
                     builder: (context, state) {

@@ -8,6 +8,7 @@ import 'package:mobile/features/auth/domain/repository/auth_repository.dart';
 import 'package:mobile/features/auth/domain/usecases/check_confirmation.dart';
 import 'package:mobile/features/auth/domain/usecases/check_email_auth.dart';
 import 'package:mobile/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:mobile/features/auth/presentation/bloc/check_confirmation_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final sl = GetIt.instance;
@@ -16,10 +17,11 @@ Future<void> init() async {
   //Bloc
   sl.registerFactory(
     () => AuthBloc(
-      checkConfirmation: sl(),
       checkEmail: sl(),
     ),
   );
+
+  sl.registerFactory(() => CheckConfirmationBloc(checkConfirmation: sl()));
 
   //use case
   sl.registerLazySingleton(() => CheckEmail(authRepository: sl()));

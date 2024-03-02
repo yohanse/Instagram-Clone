@@ -4,39 +4,49 @@ import 'numerical_filed.dart';
 
 class CustomSixDigitInput extends StatelessWidget {
   final bool readOnly;
-  TextEditingController controller1 = TextEditingController();
-  TextEditingController controller2 = TextEditingController();
-  TextEditingController controller3 = TextEditingController();
-  TextEditingController controller4 = TextEditingController();
-  TextEditingController controller5 = TextEditingController();
-  TextEditingController controller6 = TextEditingController();
-  CustomSixDigitInput({super.key, required this.readOnly});
+  final TextEditingController controller1;
+  final TextEditingController controller2;
+  final TextEditingController controller3;
+  final TextEditingController controller4;
+  final TextEditingController controller5;
+  final TextEditingController controller6;
+  CustomSixDigitInput({
+    super.key,
+    required this.readOnly,
+    required this.controller1,
+    required this.controller2,
+    required this.controller3,
+    required this.controller4,
+    required this.controller5,
+    required this.controller6,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         NumericalInput(controller: controller1, readOnly: readOnly),
-        SizedBox(width: 7,),
+        const SizedBox(
+          width: 7,
+        ),
         NumericalInput(controller: controller2, readOnly: readOnly),
-        SizedBox(width: 7,),
+        const SizedBox(
+          width: 7,
+        ),
         NumericalInput(controller: controller3, readOnly: readOnly),
-        SizedBox(width: 7,),
+        const SizedBox(
+          width: 7,
+        ),
         NumericalInput(controller: controller4, readOnly: readOnly),
-        SizedBox(width: 7,),
+        const SizedBox(
+          width: 7,
+        ),
         NumericalInput(controller: controller5, readOnly: readOnly),
-        SizedBox(width: 7,),
+        const SizedBox(
+          width: 7,
+        ),
         NumericalInput(controller: controller6, readOnly: readOnly),
       ],
     );
-  }
-
-  String getDigit() {
-    return controller1.text +
-        controller2.text +
-        controller3.text +
-        controller4.text +
-        controller5.text +
-        controller6.text;
   }
 }

@@ -5,6 +5,8 @@ class BirthDatePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text("Birth Date");
+    return Scaffold(
+      body: Text("Birth Date"),
+    );
   }
 }

@@ -6,3 +6,8 @@ sealed class CheckConfirmationEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class CheckConfirmationEven extends CheckConfirmationEvent {
+  final String email, code;
+  const CheckConfirmationEven({required this.email, required this.code});
+}

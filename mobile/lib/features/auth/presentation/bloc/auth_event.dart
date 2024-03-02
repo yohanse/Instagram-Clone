@@ -12,7 +12,3 @@ class AuthCheckEmail extends AuthEvent {
   const AuthCheckEmail({required this.email});
 }
 
-class AuthCheckConfirmation extends AuthEvent {
-  final String email, code;
-  const AuthCheckConfirmation({required this.email, required this.code});
-}

@@ -8,3 +8,15 @@ sealed class CheckConfirmationState extends Equatable {
 }
 
 final class CheckConfirmationInitial extends CheckConfirmationState {}
+
+class CheckConfirmationLoading extends CheckConfirmationState {}
+
+class CheckConfirmationLoaded extends CheckConfirmationState {
+  final bool isValid;
+  const CheckConfirmationLoaded({required this.isValid});
+}
+
+class CheckConfirmationError extends CheckConfirmationState {
+  final String message;
+  const CheckConfirmationError({required this.message});
+}
