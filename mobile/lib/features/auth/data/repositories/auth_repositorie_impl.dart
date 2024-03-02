@@ -18,7 +18,7 @@ class AuthRepositorieImpl implements AuthRepository {
       required this.networkInfo});
 
   @override
-  Future<Either<Failure, AuthEntitie>> checkConfirmation(
+  Future<Either<Failure, bool>> checkConfirmation(
       {required String email, required String confimationCode}) async {
     if (await networkInfo.isConnected) {
       try {
@@ -34,7 +34,7 @@ class AuthRepositorieImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, AuthEntitie>> checkEmail(
+  Future<Either<Failure, bool>> checkEmail(
       {required String email}) async {
     if (await networkInfo.isConnected) {
       try {

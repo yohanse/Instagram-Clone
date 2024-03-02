@@ -5,12 +5,12 @@ import 'package:mobile/core/usecase/usecase.dart';
 import 'package:mobile/features/auth/domain/entities/auth_entitie.dart';
 import 'package:mobile/features/auth/domain/repository/auth_repository.dart';
 
-class CheckEmail implements Usecase<AuthEntitie, Params> {
+class CheckEmail implements Usecase<bool, Params> {
   final AuthRepository authRepository;
   CheckEmail({required this.authRepository});
 
   @override
-  Future<Either<Failure, AuthEntitie>> call(Params params) async {
+  Future<Either<Failure, bool>> call(Params params) async {
     return authRepository.checkEmail(
         email: params.email);
   }

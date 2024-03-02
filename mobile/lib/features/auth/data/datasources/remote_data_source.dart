@@ -1,17 +1,15 @@
 import 'dart:convert';
-
-import '../models/auth_model.dart';
 import 'package:http/http.dart' as http;
 
 abstract class AuthRemoteDataSource {
-  Future<AuthModel> checkConfirmation(
+  Future<bool> checkConfirmation(
       {required String email, required String confimationCode});
-  Future<AuthModel> checkEmail({required String email});
+  Future<bool> checkEmail({required String email});
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
-  Future<AuthModel> checkConfirmation(
+  Future<bool> checkConfirmation(
       {required String email, required String confimationCode}) async {
     String url = "http://127.0.0.1:8000/core";
     final responseData = await http.post(Uri.parse(url),
@@ -25,7 +23,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<AuthModel> checkEmail({required String email}) async {
+  Future<bool> checkEmail({required String email}) async {
     String url = "http://127.0.0.1:8000/core";
     final responseData = await http.post(Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
