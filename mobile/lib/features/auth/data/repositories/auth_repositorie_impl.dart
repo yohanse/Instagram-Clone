@@ -4,7 +4,6 @@ import 'package:mobile/core/error/failures.dart';
 import 'package:mobile/core/network/network_info.dart';
 import 'package:mobile/features/auth/data/datasources/local_data_source.dart';
 import 'package:mobile/features/auth/data/datasources/remote_data_source.dart';
-import 'package:mobile/features/auth/domain/entities/auth_entitie.dart';
 import 'package:mobile/features/auth/domain/repository/auth_repository.dart';
 
 class AuthRepositorieImpl implements AuthRepository {

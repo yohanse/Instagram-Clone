@@ -1,5 +1,4 @@
 import 'package:mobile/core/error/failures.dart';
-import 'package:mobile/features/auth/domain/entities/auth_entitie.dart';
 import 'package:dartz/dartz.dart';
 
 abstract class AuthRepository {
