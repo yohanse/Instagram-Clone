@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mobile/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:mobile/features/auth/presentation/pages/code.dart';
+import 'package:mobile/features/auth/presentation/widgets/TextField.dart';
 
 class EmailPage extends StatelessWidget {
   EmailPage({super.key});
@@ -20,7 +22,7 @@ class EmailPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    "What's your mobile number?",
+                    "What's your email?",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 22,
@@ -31,7 +33,7 @@ class EmailPage extends StatelessWidget {
                     height: 5,
                   ),
                   Text(
-                    "Enter the mobile number where you can be conducted. No one will see this on your profile.",
+                    "Enter the email where you can be conducted. No one will see this on your profile.",
                     style: TextStyle(
                       color: const Color.fromARGB(200, 224, 219, 219),
                       fontSize: 11,
@@ -44,57 +46,13 @@ class EmailPage extends StatelessWidget {
                   BlocConsumer<AuthBloc, AuthState>(
                     listener: (context, state) {
                       if (state is AuthLoaded && state.isValid) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CodePage(),
-                          ),
-                        );
+                        context.go('/confirmation', extra: emailController.text);
                       }
                     },
                     builder: (context, state) {
-                      return TextField(
+                      return CustomTextInput(
                         controller: emailController,
                         readOnly: state is AuthLoading,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: const Color.fromARGB(255, 255, 255, 255),
-                        ),
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(horizontal: 8.0),
-                          hintText: 'Email',
-                          hintStyle: TextStyle(
-                            fontSize: 16,
-                            color: const Color.fromARGB(200, 224, 219, 219),
-                          ),
-
-                          filled: true,
-                          fillColor: Color(
-                              0xFF1C2B33), // Set transparent background color
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                                10.0), // Set border radius
-                            borderSide: BorderSide(
-                              color: const Color.fromARGB(
-                                  200, 224, 219, 219), // Set border color
-                              width: 0.5, // Set border width
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                              color: const Color.fromARGB(200, 224, 219, 219),
-                              width: 0.5,
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                              color: const Color.fromARGB(200, 224, 219, 219),
-                              width: 0.5,
-                            ),
-                          ),
-                        ),
                       );
                     },
                   ),
@@ -137,7 +95,12 @@ class EmailPage extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {},
-                child: Text("Already have an account?"),
+                child: Text(
+                  "Already have an account?",
+                  style: TextStyle(
+                    color: Color(0xFF0064E0),
+                  ),
+                ),
               ),
             ],
           ),

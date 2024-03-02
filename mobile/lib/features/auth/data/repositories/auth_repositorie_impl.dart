@@ -25,7 +25,9 @@ class AuthRepositorieImpl implements AuthRepository {
             email: email, confimationCode: confimationCode);
         return Right(ans);
       } on ServerException {
-        return const Left(ServerFailure("yohanse"));
+        return const Left(ServerFailure("Server not working properly"));
+      } on EmailNotCorrectException {
+        return const Left(EmailNotCorrectFailure("Email not correct"));
       }
     } else {
       return const Left(NetworkFailure("yohanse"));
@@ -33,8 +35,7 @@ class AuthRepositorieImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> checkEmail(
-      {required String email}) async {
+  Future<Either<Failure, bool>> checkEmail({required String email}) async {
     if (await networkInfo.isConnected) {
       try {
         final ans = await authRemoteDataSource.checkEmail(email: email);

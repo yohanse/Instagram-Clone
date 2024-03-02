@@ -22,3 +22,9 @@ class NetworkFailure extends Failure {
   @override
   List<Object?> get props => [];
 }
+
+class EmailNotCorrectFailure extends Failure {
+  const EmailNotCorrectFailure(super.message);
+  @override
+  List<Object?> get props => [];
+}
