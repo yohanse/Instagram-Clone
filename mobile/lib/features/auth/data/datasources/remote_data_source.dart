@@ -6,6 +6,7 @@ abstract class AuthRemoteDataSource {
   Future<bool> checkConfirmation(
       {required String email, required String confimationCode});
   Future<bool> checkEmail({required String email});
+  Future<bool> checkUsername({required String username});
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -37,6 +38,21 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     if (jsonDecode(responseData.body)['error'] == 'Email already exists') {
       throw EmailAlreadyExistException();
     }
-    throw EmailDoesNotExistException();
+    throw ServerException();
+  }
+  
+  @override
+  Future<bool> checkUsername({required String username}) async{
+    String url = "http://192.168.0.105:8000/core/checkUsername/";
+    final responseData = await http.post(Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'username': username}));
+    if (responseData.statusCode == 200 || responseData.statusCode == 201) {
+      return true;
+    }
+    if (jsonDecode(responseData.body)['error'] == 'username already exists') {
+      throw UsernameAlreadyExistException();
+    }
+    throw ServerException();
   }
 }

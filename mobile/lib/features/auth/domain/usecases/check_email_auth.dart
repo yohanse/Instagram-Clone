@@ -4,9 +4,9 @@ import 'package:mobile/core/error/failures.dart';
 import 'package:mobile/core/usecase/usecase.dart';
 import 'package:mobile/features/auth/domain/repository/auth_repository.dart';
 
-class CheckEmail implements Usecase<bool, Params> {
+class CheckEmailUsecase implements Usecase<bool, Params> {
   final AuthRepository authRepository;
-  CheckEmail({required this.authRepository});
+  CheckEmailUsecase({required this.authRepository});
 
   @override
   Future<Either<Failure, bool>> call(Params params) async {

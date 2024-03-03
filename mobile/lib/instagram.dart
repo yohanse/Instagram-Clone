@@ -5,6 +5,7 @@ import 'package:mobile/features/auth/presentation/bloc/check_email/check_email_b
 import 'package:mobile/features/auth/presentation/bloc/check_confirmation/check_confirmation_bloc.dart';
 import 'package:mobile/features/auth/presentation/pages/birth_date.dart';
 import 'package:mobile/features/auth/presentation/pages/create_password.dart';
+import 'package:mobile/features/auth/presentation/pages/finalConfirmation.dart';
 import 'package:mobile/features/auth/presentation/pages/name.dart';
 import 'package:mobile/injection.dart';
 
@@ -45,6 +46,10 @@ class InstagramApp extends StatelessWidget {
         GoRoute(
           path: '/signup/confirmation/password/birthday/name/username',
           builder: (context, state) => UserNamePage(),
+        ),
+        GoRoute(
+          path: '/signup/confirmation/password/birthday/name/username/final',
+          builder: (context, state) => const FinalConfirmationPage(),
         ),
       ],
     );

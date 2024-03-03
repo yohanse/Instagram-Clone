@@ -4,9 +4,9 @@ import 'package:mobile/core/error/failures.dart';
 import 'package:mobile/core/usecase/usecase.dart';
 import 'package:mobile/features/auth/domain/repository/auth_repository.dart';
 
-class CheckConfirmation implements Usecase<bool, Params1> {
+class CheckConfirmationUsecase implements Usecase<bool, Params1> {
   final AuthRepository authRepository;
-  CheckConfirmation({required this.authRepository});
+  CheckConfirmationUsecase({required this.authRepository});
 
   @override
   Future<Either<Failure, bool>> call(Params1 params) async {

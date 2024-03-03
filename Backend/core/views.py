@@ -47,5 +47,17 @@ class CheckConfirmationView(CreateModelMixin, GenericViewSet):
             return Response({'valid': True}, status=status.HTTP_200_OK)
         except models.Confirmation.DoesNotExist:
             return Response({'valid': False}, status=status.HTTP_200_OK)
+        
 
+class CheckUsernameView(CreateModelMixin, GenericViewSet):
+    serializer_class = serializers.CheckUsernameSerializer
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        username = serializer.validated_data['username']
+        try:
+            confirmation = models.User.objects.get(username=username)
+            return Response({'valid': True}, status=status.HTTP_200_OK)
+        except models.User.DoesNotExist:
+            return Response({'valid': False}, status=status.HTTP_200_OK)
 

@@ -16,3 +16,8 @@ class ConfirmationSerializer(serializers.ModelSerializer):
 class CheckConfirmationSerializer(ConfirmationSerializer):
     class Meta(ConfirmationSerializer.Meta):
         fields=['email', 'confirmation_code']
+
+class CheckUsernameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.User
+        fields=['username']

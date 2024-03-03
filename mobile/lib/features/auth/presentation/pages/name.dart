@@ -46,7 +46,7 @@ class NamePage extends StatelessWidget {
                     onPressed: () {
                       if (nameController.text.isNotEmpty) {
                         context
-                            .go("/signup/confirmation/password/birthday/name");
+                            .go("/signup/confirmation/password/birthday/name/username");
                       } else {
                         openDialog(context, "Please fill your birthday.");
                       }

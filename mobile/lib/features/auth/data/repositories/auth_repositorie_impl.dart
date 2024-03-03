@@ -52,4 +52,25 @@ class AuthRepositorieImpl implements AuthRepository {
       return const Left(NetworkFailure("Network error."));
     }
   }
+
+  @override
+  Future<Either<Failure, bool>> checkUsername(
+      {required String username}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final ans =
+            await authRemoteDataSource.checkUsername(username: username);
+        return Right(ans);
+      } on ServerException {
+        return const Left(ServerFailure("Server not working properly."));
+      } on EmailAlreadyExistException {
+        return const Left(
+            EmailAlreadyExistFaliure("Email already have an account."));
+      } on EmailDoesNotExistException {
+        return const Left(EmailDoesNotExistFaliure("Wrong email."));
+      }
+    } else {
+      return const Left(NetworkFailure("Network error."));
+    }
+  }
 }

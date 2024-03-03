@@ -7,7 +7,7 @@ part 'check_confirmation_state.dart';
 
 class CheckConfirmationBloc
     extends Bloc<CheckConfirmationEvent, CheckConfirmationState> {
-  final CheckConfirmation checkConfirmation;
+  final CheckConfirmationUsecase checkConfirmation;
   CheckConfirmationBloc({
     required this.checkConfirmation,
   }) : super(CheckConfirmationInitial()) {

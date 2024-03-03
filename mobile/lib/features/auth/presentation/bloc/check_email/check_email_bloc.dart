@@ -6,7 +6,7 @@ part 'check_email_event.dart';
 part 'check_email_state.dart';
 
 class CheckEmailBloc extends Bloc<CheckEmailEvent, AuthState> {
-  final CheckEmail checkEmail;
+  final CheckEmailUsecase checkEmail;
   CheckEmailBloc({ required this.checkEmail})
       : super(AuthInitial()) {
     on<CheckEmailEven>((event, emit) async {
