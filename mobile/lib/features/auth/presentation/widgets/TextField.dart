@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 class CustomTextInput extends StatelessWidget {
   final TextEditingController controller;
   final bool readOnly;
-  const CustomTextInput({super.key, required this.controller, required this.readOnly});
+  final String hintText;
+  const CustomTextInput(
+      {super.key, required this.controller, required this.readOnly, required this.hintText});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +18,7 @@ class CustomTextInput extends StatelessWidget {
       ),
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(horizontal: 8.0),
-        hintText: 'Email',
+        hintText: hintText,
         hintStyle: TextStyle(
           fontSize: 16,
           color: const Color.fromARGB(200, 224, 219, 219),

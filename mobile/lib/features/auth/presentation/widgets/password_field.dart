@@ -8,7 +8,7 @@ class CustomPasswordField extends StatefulWidget {
   State<CustomPasswordField> createState() => _CustomPasswordFieldState();
 }
 
-bool obscure = false;
+bool obscure = true;
 
 class _CustomPasswordFieldState extends State<CustomPasswordField> {
   @override
@@ -23,11 +23,15 @@ class _CustomPasswordFieldState extends State<CustomPasswordField> {
       decoration: InputDecoration(
         suffixIcon: IconButton(
           color: Color.fromARGB(200, 224, 219, 219),
-          icon: const Icon(Icons.visibility_off),
-          onPressed: () {},
+          icon: Icon(obscure ? Icons.visibility_off : Icons.visibility),
+          onPressed: () {
+            setState(() {
+              obscure = !obscure;
+            });
+          },
         ),
         contentPadding: EdgeInsets.symmetric(horizontal: 8.0),
-        hintText: 'Date',
+        hintText: 'Password',
         hintStyle: TextStyle(
           fontSize: 16,
           color: const Color.fromARGB(200, 224, 219, 219),

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile/features/auth/presentation/bloc/check_email/check_email_bloc.dart';
 import 'package:mobile/features/auth/presentation/bloc/check_confirmation/check_confirmation_bloc.dart';
+import 'package:mobile/features/auth/presentation/pages/birth_date.dart';
 import 'package:mobile/features/auth/presentation/pages/create_password.dart';
 import 'package:mobile/features/auth/presentation/pages/code.dart';
 import 'package:mobile/features/auth/presentation/pages/email.dart';
@@ -28,7 +29,7 @@ class InstagramApp extends StatelessWidget {
         // ),
         GoRoute(
           path: '/',
-          builder: (context, state) =>  CreatePasswordPage(),
+          builder: (context, state) =>  BirthDatePage(),
         ),
       ],
     );

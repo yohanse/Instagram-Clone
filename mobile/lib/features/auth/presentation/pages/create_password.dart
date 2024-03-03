@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobile/features/auth/presentation/widgets/date.dart';
 
 import '../widgets/password_field.dart';
 
@@ -22,7 +21,7 @@ class CreatePasswordPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    "What's your email?",
+                    "Create a password",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 22,
@@ -33,7 +32,7 @@ class CreatePasswordPage extends StatelessWidget {
                     height: 5,
                   ),
                   Text(
-                    "Enter the email where you can be conducted. No one will see this on your profile.",
+                    "Create a password with at least 6 letters or numbers. It should be something others can't guess.",
                     style: TextStyle(
                       color: const Color.fromARGB(200, 224, 219, 219),
                       fontSize: 11,
@@ -46,17 +45,7 @@ class CreatePasswordPage extends StatelessWidget {
                   CustomPasswordField(
                     passwordController: passwordController,
                   ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    "you may receive SMS notifications from us for security and login purposes.",
-                    style: TextStyle(
-                      color: const Color.fromARGB(160, 224, 219, 219),
-                      fontSize: 10,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                  
                   SizedBox(
                     height: 10,
                   ),

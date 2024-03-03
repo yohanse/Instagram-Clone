@@ -57,6 +57,7 @@ class EmailPage extends StatelessWidget {
                       CustomTextInput(
                         controller: emailController,
                         readOnly: state is CheckEmailLoading,
+                        hintText: "Email",
                       ),
                       SizedBox(
                         height: 5,
