@@ -18,7 +18,7 @@ def send_email(email):
         # message = f'Your confirmation code is: {confirmation_code}'
         # from_email = settings.EMAIL_HOST_USER
         # send_mail(subject, message, from_email, [email], fail_silently=False)
-        # return confirmation_code  # Return code if successful
+        return confirmation_code  # Return code if successful
 
     except Exception as error:
         print(f"Error sending email: {error}")
