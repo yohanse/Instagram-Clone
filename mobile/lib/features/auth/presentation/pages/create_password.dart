@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/features/auth/presentation/widgets/date.dart';
 
+import '../widgets/password_field.dart';
+
 // ignore: must_be_immutable
-class BirthDatePage extends StatelessWidget {
-  BirthDatePage({super.key});
+class CreatePasswordPage extends StatelessWidget {
+  CreatePasswordPage({super.key});
   TextEditingController emailController = TextEditingController();
-  TextEditingController dateController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -41,7 +43,9 @@ class BirthDatePage extends StatelessWidget {
                   SizedBox(
                     height: 10,
                   ),
-                  CustomDate(dateController: dateController,),
+                  CustomPasswordField(
+                    passwordController: passwordController,
+                  ),
                   SizedBox(
                     height: 5,
                   ),
@@ -57,7 +61,7 @@ class BirthDatePage extends StatelessWidget {
                     height: 10,
                   ),
                   ElevatedButton(
-                    onPressed:() {},
+                    onPressed: () {},
                     child: Text(
                       "Next",
                       style: TextStyle(
@@ -90,6 +94,3 @@ class BirthDatePage extends StatelessWidget {
     );
   }
 }
-
-
-
