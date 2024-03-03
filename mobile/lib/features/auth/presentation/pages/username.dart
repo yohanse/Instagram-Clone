@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/TextField.dart';
+import '../widgets/username_field.dart';
 
 // ignore: must_be_immutable
 class NamePage extends StatelessWidget {
@@ -19,23 +19,31 @@ class NamePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    "What's your name?",
+                    "Create a username",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 22,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  SizedBox(
-                    height: 5,
+                  Text(
+                    "Add a username or use our suggestion. you can change this at any time.",
+                    style: TextStyle(
+                      color: const Color.fromARGB(200, 224, 219, 219),
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 15,
                   ),
-                  CustomTextInput(
+                  UsernameField(
                     controller: nameController,
-                    readOnly: false,
-                    hintText: "Full name",
+                    suffixIcon: Icon(
+                      Icons.check_circle,
+                      color: Colors.green,
+                    ),
+                    hintText: "Username",
                   ),
                   SizedBox(
                     height: 15,
