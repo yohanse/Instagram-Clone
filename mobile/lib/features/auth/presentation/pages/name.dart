@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../widgets/TextField.dart';
+import '../widgets/dialog.dart';
 
 // ignore: must_be_immutable
 class NamePage extends StatelessWidget {
@@ -41,7 +43,14 @@ class NamePage extends StatelessWidget {
                     height: 15,
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if (nameController.text.isNotEmpty) {
+                        context
+                            .go("/signup/confirmation/password/birthday/name");
+                      } else {
+                        openDialog(context, "Please fill your birthday.");
+                      }
+                    },
                     child: Text(
                       "Next",
                       style: TextStyle(

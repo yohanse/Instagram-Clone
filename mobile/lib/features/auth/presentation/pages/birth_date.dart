@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mobile/features/auth/presentation/widgets/date.dart';
+
+import '../widgets/dialog.dart';
 
 // ignore: must_be_immutable
 class BirthDatePage extends StatelessWidget {
   BirthDatePage({super.key});
-  TextEditingController emailController = TextEditingController();
   TextEditingController dateController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -48,7 +50,14 @@ class BirthDatePage extends StatelessWidget {
                     height: 15,
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if (dateController.text.isNotEmpty) {
+                        context
+                            .go("/signup/confirmation/password/birthday/name");
+                      } else {
+                        openDialog(context, "Please fill your birthday.");
+                      }
+                    },
                     child: Text(
                       "Next",
                       style: TextStyle(
