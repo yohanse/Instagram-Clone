@@ -3,8 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile/features/auth/presentation/bloc/check_email/check_email_bloc.dart';
 import 'package:mobile/features/auth/presentation/bloc/check_confirmation/check_confirmation_bloc.dart';
-import 'package:mobile/features/auth/presentation/pages/name.dart';
 import 'package:mobile/injection.dart';
+
+import 'features/auth/presentation/pages/username.dart';
 
 class InstagramApp extends StatelessWidget {
   const InstagramApp({super.key});
@@ -26,7 +27,7 @@ class InstagramApp extends StatelessWidget {
         // ),
         GoRoute(
           path: '/',
-          builder: (context, state) =>  NamePage(),
+          builder: (context, state) =>  UserNamePage(),
         ),
       ],
     );

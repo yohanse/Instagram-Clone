@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import '../widgets/username_field.dart';
 
 // ignore: must_be_immutable
-class NamePage extends StatelessWidget {
-  NamePage({super.key});
+class UserNamePage extends StatelessWidget {
+  UserNamePage({super.key});
   TextEditingController nameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
