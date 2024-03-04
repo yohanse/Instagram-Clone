@@ -55,9 +55,10 @@ class CheckUsernameView(CreateModelMixin, GenericViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         username = serializer.validated_data['username']
+        print(serializer.validated_data)
         try:
             confirmation = models.User.objects.get(username=username)
-            return Response({'valid': True}, status=status.HTTP_200_OK)
-        except models.User.DoesNotExist:
             return Response({'valid': False}, status=status.HTTP_200_OK)
+        except models.User.DoesNotExist:
+            return Response({'valid': True}, status=status.HTTP_200_OK)
 

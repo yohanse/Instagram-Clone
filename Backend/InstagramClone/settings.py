@@ -152,11 +152,11 @@ AUTH_USER_MODEL = 'core.User'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = "mehabawyohanse12@gmail.com"
-EMAIL_HOST_PASSWORD = "tzui cppu uwsn ysoa"
+EMAIL_HOST_PASSWORD = "pwpk mkbf iqdz mgnw"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.0.105']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.0.106', '0.0.0.0', '192.168.57.112']

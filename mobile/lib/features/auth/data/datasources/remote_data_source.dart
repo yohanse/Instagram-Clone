@@ -13,7 +13,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<bool> checkConfirmation(
       {required String email, required String confimationCode}) async {
-    String url = "http://192.168.0.105:8000/core/checkCode/";
+    String url = "http://192.168.0.106:8000/core/checkCode/";
     final responseData = await http.post(Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
         body:
@@ -28,7 +28,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<bool> checkEmail({required String email}) async {
-    String url = "http://192.168.0.105:8000/core/checkEmail/";
+    String url = "http://192.168.0.106:8000/core/checkEmail/";
     final responseData = await http.post(Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'email': email}));
@@ -40,13 +40,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     }
     throw ServerException();
   }
-  
+
   @override
-  Future<bool> checkUsername({required String username}) async{
-    String url = "http://192.168.0.105:8000/core/checkUsername/";
+  Future<bool> checkUsername({required String username}) async {
+    String url = "http://192.168.57.112:8000/core/checkUsername/";
     final responseData = await http.post(Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'username': username}));
+    print(responseData.body);
     if (responseData.statusCode == 200 || responseData.statusCode == 201) {
       return true;
     }

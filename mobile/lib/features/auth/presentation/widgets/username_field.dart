@@ -4,12 +4,17 @@ class UsernameField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
   final Widget suffixIcon;
+  final void Function(String)? onChange;
   const UsernameField(
-      {super.key, required this.controller, required this.hintText, required this.suffixIcon});
+      {super.key,
+      required this.controller,
+      required this.hintText,
+      required this.suffixIcon, this.onChange});
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      onChanged: onChange,
       controller: controller,
       style: TextStyle(
         fontSize: 16,

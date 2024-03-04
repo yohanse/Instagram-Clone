@@ -7,16 +7,11 @@ import '../widgets/username_field.dart';
 // ignore: must_be_immutable
 class UserNamePage extends StatelessWidget {
   UserNamePage({super.key});
-  TextEditingController nameController = TextEditingController();
+  TextEditingController usernameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<CheckUsernameBloc, CheckUsernameState>(
-      listener: (context, state) {
-        if (state is CheckUsernameLoaded && state.isValid) {
-          context
-              .go('/signup/confirmation/password/birthday/name/username/final');
-        }
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         Icon icon = Icon(
           Icons.check_circle,
@@ -59,17 +54,35 @@ class UserNamePage extends StatelessWidget {
                         height: 15,
                       ),
                       UsernameField(
-                        controller: nameController,
-                        suffixIcon: state is CheckUsernameLoading ? icon: CircularProgressIndicator(
-                            color: Colors.white,
-                          ),
-                        hintText: "Username",
-                      ),
+                          controller: usernameController,
+                          suffixIcon: state is CheckUsernameLoading
+                              ? SizedBox(
+                                width: 10.0,
+                                height: 10.0,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 1,
+                                  color: Colors.white,
+                                ),
+                              )
+                              : icon,
+                          hintText: "Username",
+                          onChange: (username) {
+                            BlocProvider.of<CheckUsernameBloc>(context).add(
+                              CheckUsernameEven(
+                                username: username,
+                              ),
+                            );
+                          }),
                       SizedBox(
                         height: 15,
                       ),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          if (state is CheckUsernameLoaded && state.isValid) {
+                            context.go(
+                                '/signup/confirmation/password/birthday/name/username/final');
+                          }
+                        },
                         child: Text(
                           "Next",
                           style: TextStyle(
