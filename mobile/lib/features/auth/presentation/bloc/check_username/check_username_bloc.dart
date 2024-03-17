@@ -10,8 +10,8 @@ class CheckUsernameBloc extends Bloc<CheckUsernameEvent, CheckUsernameState> {
   CheckUsernameBloc({required this.checkUsernameUsecase})
       : super(CheckUsernameInitial()) {
     on<CheckUsernameEven>((event, emit) async {
+      print("yohanse before");
       emit(CheckUsernameLoading());
-      Future.delayed(Duration(minutes: 1), () {});
       print("yohanse");
       var result =
           await checkUsernameUsecase(Params3(username: event.username));

@@ -8,4 +8,5 @@ router.register('checkCode', views.CheckConfirmationView, basename='checkCode')
 router.register('checkUsername', views.CheckUsernameView, basename='checkUsername')
 
 
+
 urlpatterns = router.urls

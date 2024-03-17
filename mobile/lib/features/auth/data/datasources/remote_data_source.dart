@@ -13,7 +13,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<bool> checkConfirmation(
       {required String email, required String confimationCode}) async {
-    String url = "http://192.168.0.106:8000/core/checkCode/";
+    String url = "http://127.0.0.1:8000/core/checkCode/";
     final responseData = await http.post(Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
         body:
@@ -28,7 +28,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<bool> checkEmail({required String email}) async {
-    String url = "http://192.168.0.106:8000/core/checkEmail/";
+    String url = "http://127.0.0.1:8000/core/checkEmail/";
     final responseData = await http.post(Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'email': email}));
@@ -43,7 +43,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<bool> checkUsername({required String username}) async {
-    String url = "http://192.168.57.112:8000/core/checkUsername/";
+    String url = "http://127.0.0.1:8000/core/checkUsername/";
+    print("remote");
+
     final responseData = await http.post(Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'username': username}));

@@ -77,6 +77,7 @@ class EmailPage extends StatelessWidget {
                         onPressed: state is CheckEmailLoading
                             ? null
                             : () {
+                                print("change ouccured");
                                 BlocProvider.of<CheckEmailBloc>(context).add(
                                   CheckEmailEven(
                                     email: emailController.text,
@@ -84,7 +85,7 @@ class EmailPage extends StatelessWidget {
                                 );
                               },
                         child: Text(
-                          state is CheckEmailLoading ? " . . . .":"Next",
+                          state is CheckEmailLoading ? " . . . ." : "Next",
                           style: TextStyle(
                             color: Color.fromARGB(255, 255, 255, 255),
                             fontSize: 13,

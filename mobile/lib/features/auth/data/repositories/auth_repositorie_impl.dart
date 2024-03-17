@@ -56,7 +56,9 @@ class AuthRepositorieImpl implements AuthRepository {
   @override
   Future<Either<Failure, bool>> checkUsername(
       {required String username}) async {
+    print("repository");
     if (await networkInfo.isConnected) {
+      print("have network");
       try {
         final ans =
             await authRemoteDataSource.checkUsername(username: username);

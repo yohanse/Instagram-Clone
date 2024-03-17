@@ -6,6 +6,8 @@ from rest_framework import status
 from . import utiles
 from . import models
 
+from djoser.views import UserViewSet as DjoserUserViewSet
+
 class CheckEmailView(CreateModelMixin, GenericViewSet):
     serializer_class = serializers.ConfirmationSerializer
     def create(self, request, *args, **kwargs):
@@ -61,4 +63,3 @@ class CheckUsernameView(CreateModelMixin, GenericViewSet):
             return Response({'valid': False}, status=status.HTTP_200_OK)
         except models.User.DoesNotExist:
             return Response({'valid': True}, status=status.HTTP_200_OK)
-
