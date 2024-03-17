@@ -4,6 +4,8 @@ import 'package:mobile/core/error/failures.dart';
 import 'package:mobile/core/network/network_info.dart';
 import 'package:mobile/features/auth/data/datasources/local_data_source.dart';
 import 'package:mobile/features/auth/data/datasources/remote_data_source.dart';
+import 'package:mobile/features/auth/data/models/auth_model.dart';
+import 'package:mobile/features/auth/domain/entities/auth_entitie.dart';
 import 'package:mobile/features/auth/domain/repository/auth_repository.dart';
 
 class AuthRepositorieImpl implements AuthRepository {
@@ -75,4 +77,61 @@ class AuthRepositorieImpl implements AuthRepository {
       return const Left(NetworkFailure("Network error."));
     }
   }
+
+  @override
+  Future<Either<Failure, bool>> singUp({required AuthEntitie user}) async {
+    if (await networkInfo.isConnected) {
+      AuthModel authModel = new AuthModel(
+        email: user.email,
+        password: user.password,
+        fullName: user.fullName,
+        userName: user.userName,
+        birthDate: user.birthDate,
+      );
+      try {
+        final ans =
+            await authRemoteDataSource.signUp(user: authModel);
+        return Right(ans);
+      } on ServerException {
+        return const Left(ServerFailure("Server not working properly."));
+      } 
+    } else {
+      return const Left(NetworkFailure("Network error."));
+    }
+  }
 }
+
+
+
+// @override
+//   Future<Either<Failure, bool>> signup(
+//       {required AuthEntitie authEntitie}) async {
+//     try {
+//       AuthEntitieModel authEntitieModel = AuthEntitieModel(
+//         email: authEntitie.email,
+//         password: authEntitie.password,
+//         fullName: authEntitie.fullName,
+//         bio: authEntitie.bio,
+//         expertise: authEntitie.expertise,
+//       );
+//       await authRemoteDataSource.signup(authEntitieModel: authEntitieModel);
+//       return const Right(true);
+//     } on EmailAndPasswordNotMatchException {
+//       return const Left(EmailAndPasswordNotMatchFailure(
+//         message: "your email and password does not match",
+//         statusCode: 400,
+//       ));
+//     } on ServerException catch (e) {
+//       return Left(
+//         ServerFailure(
+//           message: "the server does not work know",
+//           statusCode: e.statusCode,
+//         ),
+//       );
+//     } on NetworkConnectionException {
+//       return const Left(NetworkConnectionFailure(
+//         message: "there is no connection",
+//         statusCode: 400,
+//       ));
+//     }
+//   }
