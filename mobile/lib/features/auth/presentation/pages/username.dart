@@ -57,8 +57,8 @@ class UserNamePage extends StatelessWidget {
                           controller: usernameController,
                           suffixIcon: state is CheckUsernameLoading
                               ? SizedBox(
-                                width: 10.0,
-                                height: 10.0,
+                                width: 5.0,
+                                height: 5.0,
                                 child: CircularProgressIndicator(
                                   strokeWidth: 1,
                                   color: Colors.white,

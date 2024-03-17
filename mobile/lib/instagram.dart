@@ -44,12 +44,12 @@ class InstagramApp extends StatelessWidget {
         //   path: '/signup/confirmation/password/birthday/name',
         //   builder: (context, state) => NamePage(),
         // ),
+        // GoRoute(
+        //   path: '/',
+        //   builder: (context, state) => UserNamePage(),
+        // ),
         GoRoute(
           path: '/',
-          builder: (context, state) => UserNamePage(),
-        ),
-        GoRoute(
-          path: '/signup/confirmation/password/birthday/name/username/final',
           builder: (context, state) => const FinalConfirmationPage(),
         ),
       ],
