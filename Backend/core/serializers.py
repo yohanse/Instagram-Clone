@@ -5,16 +5,17 @@ from . import models
 class UserCreateSerializer(BaseUserCreateSerializer):
     class Meta(BaseUserCreateSerializer.Meta):
         model = models.User
+        fields = ['email', 'password', 'birth_date', 'first_name', 'username']
 
     def perform_create(self, validated_data):
-        user = super().perform_create(validated_data)
-        email = user.email
+        email = validated_data['email']
 
         try:
-            confirmation = models.Confirmation.objects.get(email=email, is_confirmed=True)
+            models.Confirmation.objects.get(email=email, is_confirmed=True)
         except models.Confirmation.DoesNotExist:
             raise serializers.ValidationError({'error': 'Email not confirmed. Please confirm your email to proceed.'})
-
+            
+        user = super().perform_create(validated_data)
         return user
 
 class ConfirmationSerializer(serializers.ModelSerializer):

@@ -10,8 +10,10 @@ import 'package:mobile/features/auth/presentation/pages/finalConfirmation.dart';
 import 'package:mobile/features/auth/presentation/pages/name.dart';
 import 'package:mobile/injection.dart';
 
+import 'features/auth/presentation/bloc/signup/singup_bloc.dart';
 import 'features/auth/presentation/pages/code.dart';
 import 'features/auth/presentation/pages/email.dart';
+import 'features/auth/presentation/pages/login.dart';
 import 'features/auth/presentation/pages/username.dart';
 
 class InstagramApp extends StatelessWidget {
@@ -34,23 +36,38 @@ class InstagramApp extends StatelessWidget {
         // ),
         // GoRoute(
         //   path: '/signup/confirmation/password',
-        //   builder: (context, state) => CreatePasswordPage(),
+        //   builder: (context, state) => CreatePasswordPage(
+        //     email:  state.extra! as String,
+        //   ),
         // ),
         // GoRoute(
         //   path: '/signup/confirmation/password/birthday',
-        //   builder: (context, state) => BirthDatePage(),
+        //   builder: (context, state) => BirthDatePage(
+        //     extra: state.extra! as ExtraPassword,
+        //   ),
         // ),
         // GoRoute(
         //   path: '/signup/confirmation/password/birthday/name',
-        //   builder: (context, state) => NamePage(),
+        //   builder: (context, state) => NamePage(
+        //     extra: state.extra! as ExtraBirthDate,
+        //   ),
         // ),
         // GoRoute(
-        //   path: '/',
-        //   builder: (context, state) => UserNamePage(),
+        //   path: "/signup/confirmation/password/birthday/name/username",
+        //   builder: (context, state) => UserNamePage(
+        //     extra: state.extra! as ExtraName,
+        //   ),
         // ),
+        // GoRoute(
+        //   path: "/signup/confirmation/password/birthday/name/username/finalConfirmation",
+        //   builder: (context, state) => FinalConfirmationPage(
+        //     extra: state.extra! as ExtraUserName,
+        //   ),
+        // ),
+
         GoRoute(
           path: '/',
-          builder: (context, state) => const FinalConfirmationPage(),
+          builder: (context, state) => const LoginPage(),
         ),
       ],
     );
@@ -64,6 +81,9 @@ class InstagramApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => sl<CheckUsernameBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => sl<SingupBloc>(),
         ),
       ],
       child: MaterialApp.router(

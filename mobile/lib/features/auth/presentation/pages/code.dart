@@ -25,7 +25,7 @@ class CodePage extends StatelessWidget {
         }
         if (state is CheckConfirmationLoaded) {
           if (state.isValid) {
-            context.go("/signup/confirmation/password/birthday");
+            context.go("/signup/confirmation/password", extra: email);
           } else {
             openDialog(context, "Incorrect.");
           }

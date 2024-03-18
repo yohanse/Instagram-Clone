@@ -8,7 +8,7 @@ part 'singup_state.dart';
 
 class SingupBloc extends Bloc<SingupEvent, SingupState> {
   final SignUpUsecase signUpUsecase;
-  SingupBloc(this.signUpUsecase) : super(SingupInitial()) {
+  SingupBloc({required this.signUpUsecase}) : super(SingupInitial()) {
     on<SignUpEven>((event, emit) async {
       emit(SignUpLoading());
       var result = await signUpUsecase(

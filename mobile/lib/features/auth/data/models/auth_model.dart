@@ -19,11 +19,11 @@ class AuthModel extends AuthEntitie {
 
   Map<String, dynamic> tojson() {
     return {
-      'email': email,
-      'password': password,
-      'fullName': fullName,
-      'username': userName,
-      'birthDate': birthDate,
+      "email": email,
+      "password": password,
+      "birth_date": birthDate.toString().substring(0, 10),
+      "first_name": fullName,
+      "username": userName,
     };
   }
 }

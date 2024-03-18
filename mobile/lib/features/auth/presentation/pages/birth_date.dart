@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mobile/features/auth/presentation/pages/create_password.dart';
 import 'package:mobile/features/auth/presentation/widgets/date.dart';
 
 import '../widgets/dialog.dart';
 
 // ignore: must_be_immutable
 class BirthDatePage extends StatelessWidget {
-  BirthDatePage({super.key});
+  final ExtraPassword extra;
+  BirthDatePage({
+    super.key,
+    required this.extra,
+  });
   TextEditingController dateController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -52,8 +57,14 @@ class BirthDatePage extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       if (dateController.text.isNotEmpty) {
-                        context
-                            .go("/signup/confirmation/password/birthday/name");
+                        context.go(
+                          "/signup/confirmation/password/birthday/name",
+                          extra: ExtraBirthDate(
+                            email: extra.email,
+                            password: extra.password,
+                            date: DateTime.parse(dateController.text),
+                          ),
+                        );
                       } else {
                         openDialog(context, "Please fill your birthday.");
                       }
@@ -89,4 +100,12 @@ class BirthDatePage extends StatelessWidget {
       ),
     );
   }
+}
+
+class ExtraBirthDate {
+  final String email, password;
+  final DateTime date;
+
+  ExtraBirthDate(
+      {required this.email, required this.password, required this.date});
 }

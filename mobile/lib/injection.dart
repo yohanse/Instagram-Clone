@@ -8,9 +8,11 @@ import 'package:mobile/features/auth/domain/repository/auth_repository.dart';
 import 'package:mobile/features/auth/domain/usecases/check_confirmation.dart';
 import 'package:mobile/features/auth/domain/usecases/check_email_auth.dart';
 import 'package:mobile/features/auth/domain/usecases/check_username.dart';
+import 'package:mobile/features/auth/domain/usecases/signup.dart';
 import 'package:mobile/features/auth/presentation/bloc/check_email/check_email_bloc.dart';
 import 'package:mobile/features/auth/presentation/bloc/check_confirmation/check_confirmation_bloc.dart';
 import 'package:mobile/features/auth/presentation/bloc/check_username/check_username_bloc.dart';
+import 'package:mobile/features/auth/presentation/bloc/signup/singup_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final sl = GetIt.instance;
@@ -24,6 +26,7 @@ Future<void> init() async {
   );
   sl.registerFactory(() => CheckConfirmationBloc(checkConfirmation: sl()));
   sl.registerFactory(() => CheckUsernameBloc(checkUsernameUsecase: sl()));
+  sl.registerFactory(() => SingupBloc(signUpUsecase: sl()));
 
   //use case
   sl.registerLazySingleton(() => CheckEmailUsecase(authRepository: sl()));
@@ -37,6 +40,7 @@ Future<void> init() async {
       networkInfo: sl(),
     ),
   );
+  sl.registerLazySingleton(() => SignUpUsecase(authRepository: sl(),),);
 
   //Respository
   sl.registerLazySingleton<AuthRemoteDataSource>(

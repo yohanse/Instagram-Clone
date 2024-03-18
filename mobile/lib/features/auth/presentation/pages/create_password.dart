@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../widgets/password_field.dart';
 
 // ignore: must_be_immutable
 class CreatePasswordPage extends StatelessWidget {
-  CreatePasswordPage({super.key});
-  TextEditingController emailController = TextEditingController();
+  final String email;
+  CreatePasswordPage({super.key, required this.email});
   TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -45,12 +46,19 @@ class CreatePasswordPage extends StatelessWidget {
                   CustomPasswordField(
                     passwordController: passwordController,
                   ),
-                  
                   SizedBox(
                     height: 10,
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      context.go(
+                        "/signup/confirmation/password/birthday",
+                        extra: ExtraPassword(
+                          email: email,
+                          password: passwordController.text,
+                        ),
+                      );
+                    },
                     child: Text(
                       "Next",
                       style: TextStyle(
@@ -82,4 +90,10 @@ class CreatePasswordPage extends StatelessWidget {
       ),
     );
   }
+}
+
+class ExtraPassword {
+  final String email, password;
+
+  ExtraPassword({required this.email, required this.password});
 }

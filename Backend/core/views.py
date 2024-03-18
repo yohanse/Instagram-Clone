@@ -45,7 +45,8 @@ class CheckConfirmationView(CreateModelMixin, GenericViewSet):
         confirmation_code = serializer.validated_data['confirmation_code']
         try:
             confirmation = models.Confirmation.objects.get(email=email, confirmation_code=confirmation_code)
-            confirmation.delete()
+            confirmation.is_confirmed = True
+            confirmation.save()
             return Response({'valid': True}, status=status.HTTP_200_OK)
         except models.Confirmation.DoesNotExist:
             return Response({'valid': False}, status=status.HTTP_200_OK)

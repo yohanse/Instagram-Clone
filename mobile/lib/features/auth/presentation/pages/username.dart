@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile/features/auth/presentation/bloc/check_username/check_username_bloc.dart';
+import 'package:mobile/features/auth/presentation/pages/name.dart';
 import '../widgets/username_field.dart';
 
 // ignore: must_be_immutable
 class UserNamePage extends StatelessWidget {
-  UserNamePage({super.key});
+  final ExtraName extra;
+  UserNamePage({super.key, required this.extra});
   TextEditingController usernameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -57,13 +59,13 @@ class UserNamePage extends StatelessWidget {
                           controller: usernameController,
                           suffixIcon: state is CheckUsernameLoading
                               ? SizedBox(
-                                width: 5.0,
-                                height: 5.0,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 1,
-                                  color: Colors.white,
-                                ),
-                              )
+                                  width: 5.0,
+                                  height: 5.0,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 1,
+                                    color: Colors.white,
+                                  ),
+                                )
                               : icon,
                           hintText: "Username",
                           onChange: (username) {
@@ -80,7 +82,14 @@ class UserNamePage extends StatelessWidget {
                         onPressed: () {
                           if (state is CheckUsernameLoaded && state.isValid) {
                             context.go(
-                                '/signup/confirmation/password/birthday/name/username/final');
+                              '/signup/confirmation/password/birthday/name/username/finalConfirmation',
+                              extra: ExtraUserName(
+                                  userName: usernameController.text,
+                                  email: extra.email,
+                                  password: extra.password,
+                                  name: extra.name,
+                                  date: extra.date),
+                            );
                           }
                         },
                         child: Text(
@@ -116,4 +125,16 @@ class UserNamePage extends StatelessWidget {
       },
     );
   }
+}
+
+class ExtraUserName {
+  final String email, password, name, userName;
+  final DateTime date;
+
+  ExtraUserName(
+      {required this.userName,
+      required this.email,
+      required this.password,
+      required this.name,
+      required this.date});
 }

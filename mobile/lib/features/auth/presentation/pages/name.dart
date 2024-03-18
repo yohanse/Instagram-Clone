@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mobile/features/auth/presentation/pages/birth_date.dart';
 import '../widgets/TextField.dart';
 import '../widgets/dialog.dart';
 
 // ignore: must_be_immutable
 class NamePage extends StatelessWidget {
-  NamePage({super.key});
+  final ExtraBirthDate extra;
+  NamePage({super.key, required this.extra});
   TextEditingController nameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -45,10 +47,10 @@ class NamePage extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       if (nameController.text.isNotEmpty) {
-                        context
-                            .go("/signup/confirmation/password/birthday/name/username");
+                        context.go(
+                            "/signup/confirmation/password/birthday/name/username", extra: ExtraName(name: nameController.text, email: extra.email, password: extra.password, date: extra.date),);
                       } else {
-                        openDialog(context, "Please fill your birthday.");
+                        openDialog(context, "Please fill your full name.");
                       }
                     },
                     child: Text(
@@ -82,4 +84,15 @@ class NamePage extends StatelessWidget {
       ),
     );
   }
+}
+
+class ExtraName {
+  final String name, email, password;
+  final DateTime date;
+
+  ExtraName(
+      {required this.name,
+      required this.email,
+      required this.password,
+      required this.date});
 }
