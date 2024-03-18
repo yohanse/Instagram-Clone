@@ -67,7 +67,7 @@ class InstagramApp extends StatelessWidget {
 
         GoRoute(
           path: '/',
-          builder: (context, state) => const LoginPage(),
+          builder: (context, state) => LoginPage(),
         ),
       ],
     );
