@@ -7,5 +7,6 @@ abstract class AuthRepository {
   Future<Either<Failure, bool>> checkConfirmation({required String email, required String confimationCode});
   Future<Either<Failure, bool>> checkUsername({required String username});
   Future<Either<Failure, bool>> singUp({required AuthEntitie user});
+  Future<Either<Failure, bool>> logIn({required String username, required String password});
 
 }

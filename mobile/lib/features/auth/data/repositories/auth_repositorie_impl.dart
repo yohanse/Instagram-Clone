@@ -2,19 +2,17 @@ import 'package:dartz/dartz.dart';
 import 'package:mobile/core/error/exception.dart';
 import 'package:mobile/core/error/failures.dart';
 import 'package:mobile/core/network/network_info.dart';
-import 'package:mobile/features/auth/data/datasources/local_data_source.dart';
 import 'package:mobile/features/auth/data/datasources/remote_data_source.dart';
 import 'package:mobile/features/auth/data/models/auth_model.dart';
 import 'package:mobile/features/auth/domain/entities/auth_entitie.dart';
 import 'package:mobile/features/auth/domain/repository/auth_repository.dart';
 
 class AuthRepositorieImpl implements AuthRepository {
-  final AuthLocalDataSource authLocalDataSource;
   final AuthRemoteDataSource authRemoteDataSource;
   final NetworkInfo networkInfo;
 
   AuthRepositorieImpl(
-      {required this.authLocalDataSource,
+      {
       required this.authRemoteDataSource,
       required this.networkInfo});
 
@@ -91,6 +89,21 @@ class AuthRepositorieImpl implements AuthRepository {
       try {
         final ans =
             await authRemoteDataSource.signUp(user: authModel);
+        return Right(ans);
+      } on ServerException {
+        return const Left(ServerFailure("Server not working properly."));
+      } 
+    } else {
+      return const Left(NetworkFailure("Network error."));
+    }
+  }
+  
+  @override
+  Future<Either<Failure, bool>> logIn({required String username, required String password}) async{
+    if (await networkInfo.isConnected) {
+      try {
+        final ans =
+            await authRemoteDataSource.logIn(username: username, password: password);
         return Right(ans);
       } on ServerException {
         return const Left(ServerFailure("Server not working properly."));

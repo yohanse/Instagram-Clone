@@ -3,14 +3,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class AuthLocalDataSource {
   SharedPreferences get prefs;
-  Future<bool> cacheToken({required String token});
+  Future<bool> cacheToken( {required String accessToken, required String refreshToken});
 }
 
 class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   @override
-  Future<bool> cacheToken({required String token}) async {
+  Future<bool> cacheToken(
+      {required String accessToken, required String refreshToken}) async {
     try {
-      await prefs.setString('token', token);
+      await prefs.setString('accessToken', accessToken);
+      await prefs.setString('refreshToken', refreshToken);
       return true;
     } catch (e) {
       throw CacheException();

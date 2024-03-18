@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:mobile/features/auth/presentation/bloc/check_email/check_email_bloc.dart';
 import 'package:mobile/features/auth/presentation/bloc/check_confirmation/check_confirmation_bloc.dart';
 import 'package:mobile/features/auth/presentation/bloc/check_username/check_username_bloc.dart';
+import 'package:mobile/features/auth/presentation/bloc/login/login_bloc.dart';
+import 'package:mobile/features/auth/presentation/pages/Finally.dart';
 import 'package:mobile/features/auth/presentation/pages/birth_date.dart';
 import 'package:mobile/features/auth/presentation/pages/create_password.dart';
 import 'package:mobile/features/auth/presentation/pages/finalConfirmation.dart';
@@ -69,6 +71,11 @@ class InstagramApp extends StatelessWidget {
           path: '/',
           builder: (context, state) => LoginPage(),
         ),
+
+        GoRoute(
+          path: '/finally',
+          builder: (context, state) => const Finally(),
+        ),
       ],
     );
     return MultiBlocProvider(
@@ -84,6 +91,9 @@ class InstagramApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => sl<SingupBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => sl<LoginBloc>(),
         ),
       ],
       child: MaterialApp.router(

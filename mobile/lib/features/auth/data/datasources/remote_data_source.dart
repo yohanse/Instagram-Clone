@@ -1,17 +1,25 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:mobile/core/error/exception.dart';
+import 'package:mobile/features/auth/data/datasources/local_data_source.dart';
 import 'package:mobile/features/auth/data/models/auth_model.dart';
 
 abstract class AuthRemoteDataSource {
+  AuthLocalDataSource get authLocalDataSource;
   Future<bool> checkConfirmation(
       {required String email, required String confimationCode});
   Future<bool> checkEmail({required String email});
   Future<bool> checkUsername({required String username});
   Future<bool> signUp({required AuthModel user});
+  Future<bool> logIn({required String username, required String password});
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
+  @override
+  final AuthLocalDataSource authLocalDataSource;
+
+  AuthRemoteDataSourceImpl({required this.authLocalDataSource});
+
   @override
   Future<bool> checkConfirmation(
       {required String email, required String confimationCode}) async {
@@ -60,9 +68,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     }
     throw ServerException();
   }
-  
+
   @override
-  Future<bool> signUp({required AuthModel user}) async{
+  Future<bool> signUp({required AuthModel user}) async {
     String url = "http://127.0.0.1:8000/auth/users/";
     print("remote");
 
@@ -71,6 +79,25 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         body: jsonEncode(user.tojson()));
     print(responseData.body);
     if (responseData.statusCode == 200 || responseData.statusCode == 201) {
+      return true;
+    }
+    throw ServerException();
+  }
+
+  @override
+  Future<bool> logIn(
+      {required String username, required String password}) async {
+    String url = "http://127.0.0.1:8000/auth/jwt/create/";
+    print("remote");
+
+    final responseData = await http.post(Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'username': username, 'password': password}));
+    print(responseData.body);
+    if (responseData.statusCode == 200 || responseData.statusCode == 201) {
+      authLocalDataSource.cacheToken(
+          accessToken: jsonDecode(responseData.body)["access"],
+          refreshToken: jsonDecode(responseData.body)["refresh"]);
       return true;
     }
     throw ServerException();
