@@ -19,7 +19,7 @@ class FinalConfirmationPage extends StatelessWidget {
         }
 
         if (state is SignUpLoaded) {
-          context.go('/login');
+          context.go('/finally');
         }
       },
       builder: (context, state) {
@@ -107,7 +107,9 @@ class FinalConfirmationPage extends StatelessWidget {
                     ],
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      context.go("/");
+                    },
                     child: Text(
                       "Already have an account?",
                       style: TextStyle(

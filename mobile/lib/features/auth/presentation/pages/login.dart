@@ -61,7 +61,7 @@ class LoginPage extends StatelessWidget {
                     CustomTextInput(
                       readOnly: false,
                       controller: usernameController,
-                      hintText: "Email",
+                      hintText: "Username",
                     ),
                     SizedBox(
                       height: 10,
@@ -115,7 +115,9 @@ class LoginPage extends StatelessWidget {
                   child: SizedBox(),
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    context.go("/signup");
+                  },
                   child: Text(
                     'Create new account',
                     style: TextStyle(

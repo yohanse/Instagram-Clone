@@ -109,7 +109,9 @@ class UserNamePage extends StatelessWidget {
                     ],
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      context.go("/");
+                    },
                     child: Text(
                       "Already have an account?",
                       style: TextStyle(
