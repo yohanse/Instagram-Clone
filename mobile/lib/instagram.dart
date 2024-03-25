@@ -26,10 +26,10 @@ class InstagramApp extends StatelessWidget {
     final GoRouter _router = GoRouter(
       navigatorKey: GlobalKey<NavigatorState>(),
       routes: [
-        GoRoute(
-          path: '/',
-          builder: (context, state) => LoginPage(),
-        ),
+        // GoRoute(
+        //   path: '/',
+        //   builder: (context, state) => LoginPage(),
+        // ),
         GoRoute(
           path: '/signup',
           builder: (context, state) => EmailPage(),
@@ -71,7 +71,7 @@ class InstagramApp extends StatelessWidget {
           ),
         ),
         GoRoute(
-          path: '/finally',
+          path: '/',
           builder: (context, state) => const Finally(),
         ),
       ],

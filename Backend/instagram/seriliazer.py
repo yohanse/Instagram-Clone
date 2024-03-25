@@ -38,10 +38,14 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
-    author = UserProfileSerializer(read_only=True)  
+    author = UserProfileSerializer(read_only=True)
+    upload_images =  serializers.ListField(
+        child=serializers.ImageField(allow_empty_file=False, use_url=False),
+        write_only=True
+    )
     images = ImageSerializer(many=True, read_only=True)
     videos = VideoSerializer(many=True, read_only=True)
 
     class Meta:
         model = models.Post
-        fields = ('id', 'author', 'text', 'created_at', 'images', 'videos')
+        fields = ('id', 'author', 'text', 'created_at', 'images', 'videos', "upload_images")
