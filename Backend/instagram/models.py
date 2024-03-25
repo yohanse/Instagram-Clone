@@ -5,6 +5,7 @@ from django.contrib.contenttypes.models import ContentType
 
 
 class UserProfile(models.Model):
+    profile_image = models.ImageField(upload_to="profile/images", default=None)
     bio = models.CharField(max_length=200)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,primary_key=True)
 

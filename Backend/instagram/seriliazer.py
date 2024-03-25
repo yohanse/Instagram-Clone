@@ -11,7 +11,10 @@ class UserProfileSerializer(serializers.ModelSerializer):
         validated_data['user_id'] = self.context['request'].user.id
         return super().create(validated_data)
 
-
+class UserProfileShortSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.UserProfile
+        fields = ['user_id','bio', 'profile_image']
 
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -26,9 +29,10 @@ class VideoSerializer(serializers.ModelSerializer):
         fields = ('id', 'video')
 
 class LikeSerializer(serializers.ModelSerializer):
+    user = UserProfileShortSerializer(read_only=True)
     class Meta:
         model = models.Like
-        fields = ('id', 'created_at')
+        fields = ("user", 'id', 'created_at')
     
     def create(self, validated_data):
         validated_data["user_id"] = self.context["user_id"]
@@ -36,10 +40,10 @@ class LikeSerializer(serializers.ModelSerializer):
         return super().create(validated_data)
 
 class CommentSerializer(serializers.ModelSerializer):
-
+    user = UserProfileShortSerializer(read_only=True)
     class Meta:
         model = models.Comment
-        fields = ('id', 'content', 'created_at')
+        fields = ("user", 'id', 'content', 'created_at')
 
     def create(self, validated_data):
         validated_data["user_id"] = self.context["user_id"]
@@ -56,11 +60,12 @@ class PostSerializer(serializers.ModelSerializer):
     images = ImageSerializer(many=True, read_only=True)
     videos = VideoSerializer(many=True, read_only=True)
     comments = CommentSerializer(many=True, read_only=True)
-    likes = LikeSerializer(many=True, read_only=True)
+    numberOfLike = serializers.SerializerMethodField()
+    isILiked = serializers.SerializerMethodField()
 
     class Meta:
         model = models.Post
-        fields = ('id', 'author', 'text', 'created_at', 'images', 'videos', "upload_images", "comments", "likes")
+        fields = ('id', 'author', 'text', 'created_at', 'images', 'videos', "upload_images", "numberOfLike", "comments", "isILiked")
     
     def create(self, validated_data):
         upload_images = validated_data.pop("upload_images")
@@ -72,3 +77,9 @@ class PostSerializer(serializers.ModelSerializer):
             post.images.add(image_instance)
 
         return post
+    
+    def get_numberOfLike(self, post):
+        return models.Like.objects.filter(post_id=post.id).count()
+    
+    def get_isILiked(self, post):
+        return bool(models.Like.objects.filter(post_id=post.id, user_id=self.context["request"].user.id).count())
