@@ -63,17 +63,16 @@ class _FinallyState extends State<Finally> {
     final request = http.MultipartRequest('POST', Uri.parse(url));
 
     request.headers.addAll(headers);
-    // request.fields['text'] = "yohanse";
     request.fields['text'] = "yohanse";
+
     request.files.add(await http.MultipartFile.fromPath(
-      'images',
+      'upload_images',
       _selected!.path,
-      filename: 'image'
     ));
+
     request.files.add(await http.MultipartFile.fromPath(
-      'images',
+      'upload_images',
       _selected!.path,
-      filename: "image",
     ));
     print(request.files);
     final response = await request.send();

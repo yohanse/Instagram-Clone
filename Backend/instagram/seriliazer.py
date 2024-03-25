@@ -49,3 +49,14 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Post
         fields = ('id', 'author', 'text', 'created_at', 'images', 'videos', "upload_images")
+    
+    def create(self, validated_data):
+        upload_images = validated_data.pop("upload_images")
+        validated_data["author_id"] = self.context["request"].user.id
+        post = models.Post.objects.create(**validated_data)
+
+        for image_data in upload_images:
+            image_instance = models.Image.objects.create(image=image_data)
+            post.images.add(image_instance)
+
+        return post
