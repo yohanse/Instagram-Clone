@@ -28,13 +28,23 @@ class VideoSerializer(serializers.ModelSerializer):
 class LikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Like
-        fields = ('id', 'user', 'post', 'created_at')
-
+        fields = ('id', 'created_at')
+    
+    def create(self, validated_data):
+        validated_data["user_id"] = self.context["user_id"]
+        validated_data["post_id"] = self.context["post_id"]
+        return super().create(validated_data)
 
 class CommentSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = models.Comment
-        fields = ('id', 'user', 'post', 'content', 'created_at')
+        fields = ('id', 'content', 'created_at')
+
+    def create(self, validated_data):
+        validated_data["user_id"] = self.context["user_id"]
+        validated_data["post_id"] = self.context["post_id"]
+        return super().create(validated_data)
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -45,10 +55,12 @@ class PostSerializer(serializers.ModelSerializer):
     )
     images = ImageSerializer(many=True, read_only=True)
     videos = VideoSerializer(many=True, read_only=True)
+    comments = CommentSerializer(many=True, read_only=True)
+    likes = LikeSerializer(many=True, read_only=True)
 
     class Meta:
         model = models.Post
-        fields = ('id', 'author', 'text', 'created_at', 'images', 'videos', "upload_images")
+        fields = ('id', 'author', 'text', 'created_at', 'images', 'videos', "upload_images", "comments", "likes")
     
     def create(self, validated_data):
         upload_images = validated_data.pop("upload_images")

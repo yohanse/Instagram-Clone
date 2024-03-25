@@ -1,10 +1,13 @@
 from . import views
-from rest_framework.routers import DefaultRouter
+from rest_framework_nested.routers import DefaultRouter, NestedDefaultRouter
 
 router = DefaultRouter()
 
-router.register('post', views.PostView, basename='post')
+router.register('posts', views.PostView, basename='post')
 router.register('user', views.ProfileView, basename='user')
 
+post_router = NestedDefaultRouter(router, "posts", lookup="post")
+post_router.register("comments", views.CommentView, basename="posts-comments")
+post_router.register("likes", views.LikeView, basename="posts-likes")
 
-urlpatterns = router.urls
+urlpatterns = router.urls + post_router.urls

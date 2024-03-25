@@ -14,6 +14,7 @@ python-dotenv = "*"
 django-cors-headers = "*"
 django-templated-mail = "*"
 pillow = "*"
+drf-nested-routers = "*"
 
 [dev-packages]
 
