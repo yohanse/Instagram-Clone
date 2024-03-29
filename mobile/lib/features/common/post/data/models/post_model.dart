@@ -14,15 +14,21 @@ class PostModel extends PostEntite {
   });
 
   factory PostModel.fromJson(Map<String, dynamic> json) {
+    List<String> imageUrls = [];
+    for (int i = 0; i < json["images"].length; i++) {
+      imageUrls.add(json["images"][i]["image"] as String);
+    }
     return PostModel(
       id: json['id'],
+      author: ProfileModel.fromJson(json['author']),
       text: json['text'],
       created_at: DateTime.parse(json['created_at']),
-      images: json['images'], 
-      videos: json['videos'],
+      images: imageUrls,
+      videos: const [],
       numberOfLike: json['numberOfLike'],
-      author: ProfileModel.fromJson(json['author']),
-      comments: (json['comments'] as List).map((comment) => CommentModel.fromJson(comment)).toList(), // Handle null or non-list 'comments'
+      comments: (json['comments'] as List)
+          .map((comment) => CommentModel.fromJson(comment))
+          .toList(),
       isILiked: json['isILiked'],
     );
   }

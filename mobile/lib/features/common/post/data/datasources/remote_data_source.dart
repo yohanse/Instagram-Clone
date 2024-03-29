@@ -18,17 +18,21 @@ class PostRemoteDataSourceImpl implements PostRemoteDataSource {
   @override
   Future<List<PostModel>> getAllPost() async {
     String url = "http://127.0.0.1:8000/instagram/posts/";
-    final responseData = await http.post(
+    print("yohanse");
+    final responseData = await http.get(
       Uri.parse(url),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': postLocalDataSource.getAccessToken()
       },
     );
+
     if (responseData.statusCode == 200) {
-      List<dynamic> response = jsonDecode(responseData.body)["data"];
-      List<PostModel> result =
-          response.map((post) => PostModel.fromJson(post)).toList();
+      final response = jsonDecode(responseData.body);
+      List<PostModel> result = [];
+      for (int i = 0; i < response.length; i++) {
+        result.add(PostModel.fromJson(response[i]));
+      }
       return result;
     }
     throw ServerException();

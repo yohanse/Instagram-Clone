@@ -10,6 +10,7 @@ import 'package:mobile/features/auth/presentation/pages/birth_date.dart';
 import 'package:mobile/features/auth/presentation/pages/create_password.dart';
 import 'package:mobile/features/auth/presentation/pages/finalConfirmation.dart';
 import 'package:mobile/features/auth/presentation/pages/name.dart';
+import 'package:mobile/features/common/presentation/bloc/post/post_bloc.dart';
 import 'package:mobile/injection.dart';
 
 import 'features/auth/presentation/bloc/signup/singup_bloc.dart';
@@ -17,6 +18,7 @@ import 'features/auth/presentation/pages/code.dart';
 import 'features/auth/presentation/pages/email.dart';
 import 'features/auth/presentation/pages/login.dart';
 import 'features/auth/presentation/pages/username.dart';
+import 'features/common/presentation/page/listPost.dart';
 
 class InstagramApp extends StatelessWidget {
   const InstagramApp({super.key});
@@ -43,7 +45,7 @@ class InstagramApp extends StatelessWidget {
         GoRoute(
           path: '/signup/confirmation/password',
           builder: (context, state) => CreatePasswordPage(
-            email:  state.extra! as String,
+            email: state.extra! as String,
           ),
         ),
         GoRoute(
@@ -65,14 +67,19 @@ class InstagramApp extends StatelessWidget {
           ),
         ),
         GoRoute(
-          path: "/signup/confirmation/password/birthday/name/username/finalConfirmation",
+          path:
+              "/signup/confirmation/password/birthday/name/username/finalConfirmation",
           builder: (context, state) => FinalConfirmationPage(
             extra: state.extra! as ExtraUserName,
           ),
         ),
+        // GoRoute(
+        //   path: '/',
+        //   builder: (context, state) => const Finally(),
+        // ),
         GoRoute(
           path: '/',
-          builder: (context, state) => const Finally(),
+          builder: (context, state) => const ListOfPost(),
         ),
       ],
     );
@@ -92,6 +99,9 @@ class InstagramApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => sl<LoginBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => sl<PostBloc>(),
         ),
       ],
       child: MaterialApp.router(
