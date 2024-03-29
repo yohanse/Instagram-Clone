@@ -40,3 +40,9 @@ class EmailAlreadyExistFaliure extends Failure {
   @override
   List<Object?> get props => [];
 }
+
+class NoTokenFailure extends Failure {
+  const NoTokenFailure(super.message);
+  @override
+  List<Object?> get props => [];
+}

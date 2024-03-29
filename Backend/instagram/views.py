@@ -15,7 +15,7 @@ class ProfileView(GenericViewSet, CreateModelMixin, RetrieveModelMixin):
 
 
 class PostView(ModelViewSet):
-    permission_classes = [CanDeletePost]
+    # permission_classes = [CanDeletePost]
     queryset = models.Post.objects.all()
     serializer_class = seriliazer.PostSerializer
 

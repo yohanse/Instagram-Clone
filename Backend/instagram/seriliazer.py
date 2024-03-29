@@ -11,10 +11,15 @@ class UserProfileSerializer(serializers.ModelSerializer):
         validated_data['user_id'] = self.context['request'].user.id
         return super().create(validated_data)
 
+
 class UserProfileShortSerializer(serializers.ModelSerializer):
+    name = serializers.SerializerMethodField()
     class Meta:
         model = models.UserProfile
-        fields = ['user_id','bio', 'profile_image']
+        fields = ['user_id', "name", 'profile_image',]
+    
+    def get_name(self, obj):
+        return obj.user.first_name
 
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -52,7 +57,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
-    author = UserProfileSerializer(read_only=True)
+    author = UserProfileShortSerializer(read_only=True)
     upload_images =  serializers.ListField(
         child=serializers.ImageField(allow_empty_file=False, use_url=False),
         write_only=True

@@ -9,3 +9,5 @@ class EmailAlreadyExistException implements Exception {}
 class EmailDoesNotExistException implements Exception {}
 
 class UsernameAlreadyExistException implements Exception {}
+
+class NoTokenException implements Exception {}
