@@ -1,16 +1,17 @@
 import '../../domain/entities/post_entitie.dart';
 
 class PostModel extends PostEntite {
+  @override
   const PostModel({
-    required super.id,
+    super.id,
     required super.text,
-    required super.created_at,
+    super.created_at,
     required super.images,
-    required super.videos,
-    required super.numberOfLike,
-    required super.author,
-    required super.comments,
-    required super.isILiked,
+    super.videos,
+    super.numberOfLike,
+    super.author,
+    super.comments,
+    super.isILiked,
   });
 
   factory PostModel.fromJson(Map<String, dynamic> json) {
@@ -32,6 +33,14 @@ class PostModel extends PostEntite {
       isILiked: json['isILiked'],
     );
   }
+
+  Map<String, dynamic> tojson() {
+    return {
+      "text": text,
+      "upload_images": images,
+      // "videos": videos,
+    };
+  }
 }
 
 class ProfileModel extends Profile {
@@ -47,6 +56,10 @@ class ProfileModel extends Profile {
       name: json['name'],
       profile_image: json['profile_image'],
     );
+  }
+
+  Map<String, dynamic> tojson() {
+    return {};
   }
 }
 
@@ -65,5 +78,9 @@ class CommentModel extends Comment {
       created_at: DateTime.parse(json['created_at']),
       user: ProfileModel.fromJson(json['user']),
     );
+  }
+
+  Map<String, dynamic> tojson() {
+    return {};
   }
 }

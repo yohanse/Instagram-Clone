@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:mobile/core/error/exception.dart';
 import 'package:mobile/core/error/failures.dart';
 import 'package:mobile/core/network/network_info.dart';
+import 'package:mobile/features/common/post/data/models/post_model.dart';
 import 'package:mobile/features/common/post/domain/entities/post_entitie.dart';
 
 import '../../domain/repository/post_repository.dart';
@@ -19,6 +20,26 @@ class PostRepositorieImpl implements PostRepository {
     if (await networkInfo.isConnected) {
       try {
         final ans = await postRemoteDataSource.getAllPost();
+        return Right(ans);
+      } on ServerException {
+        return const Left(ServerFailure("Server not working properly."));
+      } on EmailNotCorrectException {
+        return const Left(EmailNotCorrectFailure("Email not correct"));
+      }
+    } else {
+      return const Left(NetworkFailure("Netwrok error."));
+    }
+  }
+
+  @override
+  Future<Either<Failure, PostEntite>> addPost(PostEntite postEntite) async {
+    if (await networkInfo.isConnected) {
+      final PostModel postModel = PostModel(
+          text: postEntite.text,
+          images: postEntite.images,
+      );
+      try {
+        final ans = await postRemoteDataSource.addPost(postModel);
         return Right(ans);
       } on ServerException {
         return const Left(ServerFailure("Server not working properly."));

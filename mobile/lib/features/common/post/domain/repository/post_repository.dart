@@ -4,6 +4,8 @@ import 'package:mobile/features/common/post/domain/entities/post_entitie.dart';
 
 abstract class PostRepository {
   Future<Either<Failure, List<PostEntite>>> getAllPost();
+  Future<Either<Failure, PostEntite>> addPost(PostEntite postEntite);
+
   // Future<Either<Failure, bool>> getPost({required String email, required String confimationCode});
   // Future<Either<Failure, bool>> deletePost({required String email, required String confimationCode});
   // Future<Either<Failure, bool>> updatePost({required String email, required String confimationCode});

@@ -7,6 +7,7 @@ import 'package:mobile/features/common/post/data/models/post_model.dart';
 abstract class PostRemoteDataSource {
   PostLocalDataSource get postLocalDataSource;
   Future<List<PostModel>> getAllPost();
+  Future<PostModel> addPost(PostModel postModel);
 }
 
 class PostRemoteDataSourceImpl implements PostRemoteDataSource {
@@ -34,6 +35,26 @@ class PostRemoteDataSourceImpl implements PostRemoteDataSource {
         result.add(PostModel.fromJson(response[i]));
       }
       return result;
+    }
+    throw ServerException();
+  }
+  
+  @override
+  Future<PostModel> addPost(PostModel postModel) async {
+    String url = "http://127.0.0.1:8000/instagram/posts/";
+    print("yohanse");
+    final responseData = await http.post(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': postLocalDataSource.getAccessToken()
+      },
+      body: postModel.tojson(),
+    );
+
+    if (responseData.statusCode == 200) {
+      final response = jsonDecode(responseData.body);
+      return PostModel.fromJson(response);
     }
     throw ServerException();
   }

@@ -1,24 +1,26 @@
 import 'package:equatable/equatable.dart';
 
 class PostEntite extends Equatable {
-  final int id;
+  final int? id;
   final String text;
-  final DateTime created_at;
-  final int numberOfLike;
-  final List<String> images, videos;
-  final Profile author;
-  final List<Comment> comments;
-  final bool isILiked;
+  final DateTime? created_at;
+  final int? numberOfLike;
+  final List<String> images;
+  final List<String>? videos;
+
+  final Profile? author;
+  final List<Comment>? comments;
+  final bool? isILiked;
   const PostEntite(
-      {required this.author,
-      required this.comments,
-      required this.isILiked,
-      required this.id,
+      {this.author,
+      this.comments,
+      this.isILiked,
+      this.id,
       required this.text,
-      required this.created_at,
+      this.created_at,
       required this.images,
-      required this.videos,
-      required this.numberOfLike});
+      this.videos,
+      this.numberOfLike});
   @override
   List<Object?> get props => [];
 }

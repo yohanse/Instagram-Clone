@@ -18,7 +18,7 @@ import 'features/auth/presentation/pages/code.dart';
 import 'features/auth/presentation/pages/email.dart';
 import 'features/auth/presentation/pages/login.dart';
 import 'features/auth/presentation/pages/username.dart';
-import 'features/common/presentation/page/listPost.dart';
+import 'features/common/presentation/page/ListPostPage.dart';
 
 class InstagramApp extends StatelessWidget {
   const InstagramApp({super.key});
@@ -79,7 +79,7 @@ class InstagramApp extends StatelessWidget {
         // ),
         GoRoute(
           path: '/',
-          builder: (context, state) => const ListOfPost(),
+          builder: (context, state) => const ListPostPage(),
         ),
       ],
     );
