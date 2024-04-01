@@ -17,55 +17,43 @@ class ListPostPage extends StatelessWidget {
       ),
       body: Container(
         color: Colors.black,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              BlocConsumer<PostBloc, PostState>(
-                  builder: (context, state) {
-                    print("State ----->");
-                    print(state);
-                    if (state is PostError) {
-                      return Text(state.message);
-                    } else if (state is PostLoading) {
-                      return Text("Loading ......");
-                    } else if (state is PostLoaded) {
-                      return SingleChildScrollView(
-                        child: Column(
-                          children: displayPosts(state.post),
-                        ),
-                      );
-                    }
-                    BlocProvider.of<PostBloc>(context).add(
-                      GetAllPostsEvent(),
-                    );
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            BlocConsumer<PostBloc, PostState>(
+                builder: (context, state) {
+                  print("State ----->");
+                  print(state);
+                  if (state is PostError) {
+                    return Text(state.message);
+                  } else if (state is PostLoading) {
                     return Text("Loading ......");
-                  },
-                  listener: (context, state) {}),
-            ],
-          ),
+                  } else if (state is PostLoaded) {
+                    return ListView.builder(
+                        itemCount: state.post.length,
+                        itemBuilder: (BuildContext context, int i) {
+                          return SignlePostWidget(
+                            numberOfComment: state.post[i].comments!.length,
+                            numberOfLike: state.post[i].numberOfLike!,
+                            time: state.post[i].created_at!,
+                            text: state.post[i].text,
+                            imageUrl: state.post[i].images[1],
+                            authName: state.post[i].author!.name,
+                            profileImageUrl:
+                                state.post[i].author!.profile_image,
+                          );
+                        });
+                  }
+                  BlocProvider.of<PostBloc>(context).add(
+                    GetAllPostsEvent(),
+                  );
+                  return Text("Loading ......");
+                },
+                listener: (context, state) {}),
+          ],
         ),
       ),
     );
-  }
-
-  List<Widget> displayPosts(List<PostEntite> posts) {
-    final List<Widget> result = [];
-    for (int i = 0; i < posts.length; i++) {
-      result.add(SignlePostWidget(
-        numberOfComment: posts[i].comments!.length,
-        numberOfLike: posts[i].numberOfLike!,
-        time: posts[i].created_at!,
-        text: posts[i].text,
-        imageUrl: posts[i].images[1],
-        authName: posts[i].author!.name,
-        profileImageUrl: posts[i].author!.profile_image,
-      ));
-      result.add(SizedBox(
-        height: 20,
-      ));
-    }
-    return result;
   }
 }
 

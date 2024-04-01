@@ -11,6 +11,8 @@ import 'package:mobile/features/auth/presentation/pages/create_password.dart';
 import 'package:mobile/features/auth/presentation/pages/finalConfirmation.dart';
 import 'package:mobile/features/auth/presentation/pages/name.dart';
 import 'package:mobile/features/common/presentation/bloc/post/post_bloc.dart';
+import 'package:mobile/features/common/presentation/page/media_picker.dart';
+import 'package:mobile/features/common/presentation/page/test_image_picker.dart';
 import 'package:mobile/injection.dart';
 
 import 'features/auth/presentation/bloc/signup/singup_bloc.dart';
@@ -79,7 +81,7 @@ class InstagramApp extends StatelessWidget {
         // ),
         GoRoute(
           path: '/',
-          builder: (context, state) => const ListPostPage(),
+          builder: (context, state) => const ImagePicker(),
         ),
       ],
     );
