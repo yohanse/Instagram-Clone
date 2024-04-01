@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mobile/features/auth/presentation/bloc/check_email/check_email_bloc.dart';
 import 'package:mobile/features/auth/presentation/bloc/check_confirmation/check_confirmation_bloc.dart';
 import 'package:mobile/features/auth/presentation/bloc/check_username/check_username_bloc.dart';
@@ -10,9 +11,9 @@ import 'package:mobile/features/auth/presentation/pages/birth_date.dart';
 import 'package:mobile/features/auth/presentation/pages/create_password.dart';
 import 'package:mobile/features/auth/presentation/pages/finalConfirmation.dart';
 import 'package:mobile/features/auth/presentation/pages/name.dart';
+import 'package:mobile/features/common/presentation/bloc/Image/image_manager_bloc.dart';
 import 'package:mobile/features/common/presentation/bloc/post/post_bloc.dart';
-import 'package:mobile/features/common/presentation/page/media_picker.dart';
-import 'package:mobile/features/common/presentation/page/test_image_picker.dart';
+import 'package:mobile/features/common/presentation/page/ImagePickerPage.dart';
 import 'package:mobile/injection.dart';
 
 import 'features/auth/presentation/bloc/signup/singup_bloc.dart';
@@ -81,7 +82,7 @@ class InstagramApp extends StatelessWidget {
         // ),
         GoRoute(
           path: '/',
-          builder: (context, state) => const ImagePicker(),
+          builder: (context, state) => const ImagePickerPage(),
         ),
       ],
     );
@@ -105,6 +106,9 @@ class InstagramApp extends StatelessWidget {
         BlocProvider(
           create: (context) => sl<PostBloc>(),
         ),
+        BlocProvider(
+          create: (context) => sl<ImageManagerBloc>(),
+        )
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
