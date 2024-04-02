@@ -21,6 +21,7 @@ import 'package:mobile/features/common/post/data/repositories/post_repositorie_i
 import 'package:mobile/features/common/post/domain/repository/post_repository.dart';
 import 'package:mobile/features/common/post/domain/usecases/get_all_post.dart';
 import 'package:mobile/features/common/presentation/bloc/Image/image_manager_bloc.dart';
+import 'package:mobile/features/common/presentation/bloc/IsMultipleSelected/is_multiple_selected_bloc.dart';
 import 'package:mobile/features/common/presentation/bloc/post/post_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -39,6 +40,7 @@ Future<void> init() async {
   sl.registerFactory(() => LoginBloc(logInUsecase: sl()));
   sl.registerFactory(() => PostBloc(getAllPostUseCase: sl()));
   sl.registerFactory(() => ImageManagerBloc());
+  sl.registerFactory(() => IsMultipleSelectedBloc());
 
   //use case
   sl.registerLazySingleton(() => CheckEmailUsecase(authRepository: sl()));

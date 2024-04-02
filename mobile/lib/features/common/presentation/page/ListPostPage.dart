@@ -23,8 +23,6 @@ class ListPostPage extends StatelessWidget {
         color: Colors.black,
         child: BlocConsumer<PostBloc, PostState>(
             builder: (context, state) {
-              print("State ----->");
-              print(state);
               if (state is PostError) {
                 return Text(state.message);
               } else if (state is PostLoading) {

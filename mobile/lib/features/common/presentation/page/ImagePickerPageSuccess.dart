@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile/features/common/presentation/bloc/Image/image_manager_bloc.dart';
+import 'package:mobile/features/common/presentation/bloc/IsMultipleSelected/is_multiple_selected_bloc.dart';
 import 'package:mobile/features/common/presentation/widget/CustomSelectMultipleWidget.dart';
 import 'package:mobile/features/common/presentation/widget/CustomTabBarScrollable.dart';
 import 'package:photo_manager/photo_manager.dart';
@@ -32,7 +34,9 @@ class ImagePickerSuccessPage extends StatelessWidget {
           ),
           actions: [
             TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.go("/post", extra: state.selectedMedias.toList());
+                },
                 child: Text(
                   "Next",
                   style: TextStyle(color: Colors.blue),
@@ -40,99 +44,151 @@ class ImagePickerSuccessPage extends StatelessWidget {
           ],
           backgroundColor: Colors.black,
         ),
-        body: Container(
-          color: Colors.black,
-          padding: const EdgeInsets.symmetric(horizontal: 14.0),
-          child: Column(
-            children: [
-              Expanded(
-                flex: 40,
-                child: FadeInImage(
-                  image: AssetEntityImageProvider(state.selectedMedias.last),
-                  placeholder: MemoryImage(kTransparentImage),
-                ),
-              ),
-              Expanded(
-                flex: 5,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    DropdownButtonHideUnderline(
-                      child: DropdownButton<AssetPathEntity>(
-                        dropdownColor: Colors.black,
-                        value: state.currentAlbum,
-                        items: state.albums
-                            .map(
-                              (album) => DropdownMenuItem(
-                                child: Text(
-                                  album.name,
-                                  style: TextStyle(
-                                    color: Colors.white,
+        body: BlocConsumer<IsMultipleSelectedBloc, IsMultipleSelectedState>(
+          listener: (context, stateNew) {},
+          builder: (context, stateNew) {
+            return Container(
+              color: Colors.black,
+              padding: const EdgeInsets.symmetric(horizontal: 14.0),
+              child: Column(
+                children: [
+                  Expanded(
+                    flex: 40,
+                    child: state.selectedMedias.isNotEmpty
+                        ? FadeInImage(
+                            image: AssetEntityImageProvider(
+                                state.selectedMedias.last),
+                            placeholder: MemoryImage(kTransparentImage),
+                          )
+                        : Container(
+                            color: Colors.grey,
+                          ),
+                  ),
+                  Expanded(
+                    flex: 5,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        DropdownButtonHideUnderline(
+                          child: DropdownButton<AssetPathEntity>(
+                            dropdownColor: Colors.black,
+                            value: state.currentAlbum,
+                            items: state.albums
+                                .map(
+                                  (album) => DropdownMenuItem(
+                                    child: Text(
+                                      album.name,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    value: album,
+                                  ),
+                                )
+                                .toList(),
+                            onChanged: (album) {
+                              BlocProvider.of<ImageManagerBloc>(context).add(
+                                LoadMedias(
+                                  currentAlbum: album as AssetPathEntity,
+                                  albums: state.albums,
+                                  selectedMedias: state.selectedMedias,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                BlocProvider.of<IsMultipleSelectedBloc>(context)
+                                    .add(
+                                  ChangeIsSelected(
+                                      isSelected: stateNew is Selected),
+                                );
+                                BlocProvider.of<ImageManagerBloc>(context).add(
+                                  SelecteMedia(
+                                    medias: state.medias,
+                                    currentAlbum: state.currentAlbum,
+                                    albums: state.albums,
+                                    selectedMedias: {state.selectedMedias.last},
+                                  ),
+                                );
+                              },
+                              child: CustomSelectMultipleWidget(
+                                isSelected: stateNew is Selected,
+                              ),
+                            ),
+                            SizedBox(width: 5),
+                            const OpenCameraWidget(),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    flex: 60,
+                    child: GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 4,
+                        mainAxisSpacing: 2,
+                        crossAxisSpacing: 2,
+                      ),
+                      itemCount: state.medias.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                            onTap: () {
+                              Set<AssetEntity> updatedSelectedMedias =
+                                  Set.from(state.selectedMedias);
+
+                              if (stateNew is Selected) {
+                                if (updatedSelectedMedias
+                                    .contains(state.medias[index])) {
+                                  updatedSelectedMedias
+                                      .remove(state.medias[index]);
+                                } else {
+                                  updatedSelectedMedias
+                                      .add(state.medias[index]);
+                                }
+                              } else {
+                                updatedSelectedMedias = {state.medias[index]};
+                              }
+
+                              BlocProvider.of<ImageManagerBloc>(context).add(
+                                SelecteMedia(
+                                  medias: state.medias,
+                                  currentAlbum: state.currentAlbum,
+                                  albums: state.albums,
+                                  selectedMedias: updatedSelectedMedias,
+                                ),
+                              );
+                            },
+                            child: Stack(
+                              children: [
+                                FadeInImage(
+                                  image: AssetEntityImageProvider(
+                                      state.medias[index]), // Placeholder image
+                                  placeholder: MemoryImage(kTransparentImage),
+                                  fit: BoxFit.fill,
+                                ),
+                                Visibility(
+                                  visible: state.selectedMedias
+                                      .contains(state.medias[index]),
+                                  child: Container(
+                                    color: Colors.grey.withOpacity(
+                                        0.6), // Semi-transparent black overlay
                                   ),
                                 ),
-                                value: album,
-                              ),
-                            )
-                            .toList(),
-                        onChanged: (album) {
-                          BlocProvider.of<ImageManagerBloc>(context).add(
-                            LoadMedias(
-                              currentAlbum: album as AssetPathEntity,
-                              albums: state.albums,
-                              selectedMedias: state.selectedMedias,
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        const CustomSelectMultipleWidget(),
-                        SizedBox(width: 5),
-                        const OpenCameraWidget(),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-              Expanded(
-                flex: 60,
-                child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 4,
-                  ),
-                  itemCount: state.medias.length,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Set<AssetEntity> updatedSelectedMedias =
-                            Set.from(state.selectedMedias);
-                        if (updatedSelectedMedias
-                            .contains(state.medias[index])) {
-                          updatedSelectedMedias.remove(state.medias[index]);
-                        } else {
-                          updatedSelectedMedias.add(state.medias[index]);
-                        }
-
-                        BlocProvider.of<ImageManagerBloc>(context).add(
-                          SelecteMedia(
-                            medias: state.medias,
-                            currentAlbum: state.currentAlbum,
-                            albums: state.albums,
-                            selectedMedias: updatedSelectedMedias,
-                          ),
-                        );
+                              ],
+                            ));
                       },
-                      child: FadeInImage(
-                        image: AssetEntityImageProvider(state.medias[index]),
-                        placeholder: MemoryImage(kTransparentImage),
-                      ),
-                    );
-                  },
-                ),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            );
+          },
         ),
         floatingActionButton: CustomTabBar(),
       ),

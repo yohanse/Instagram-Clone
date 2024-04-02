@@ -12,15 +12,18 @@ import 'package:mobile/features/auth/presentation/pages/create_password.dart';
 import 'package:mobile/features/auth/presentation/pages/finalConfirmation.dart';
 import 'package:mobile/features/auth/presentation/pages/name.dart';
 import 'package:mobile/features/common/presentation/bloc/Image/image_manager_bloc.dart';
+import 'package:mobile/features/common/presentation/bloc/IsMultipleSelected/is_multiple_selected_bloc.dart';
 import 'package:mobile/features/common/presentation/bloc/post/post_bloc.dart';
 import 'package:mobile/features/common/presentation/page/ImagePickerPage.dart';
 import 'package:mobile/injection.dart';
+import 'package:photo_manager/photo_manager.dart';
 
 import 'features/auth/presentation/bloc/signup/singup_bloc.dart';
 import 'features/auth/presentation/pages/code.dart';
 import 'features/auth/presentation/pages/email.dart';
 import 'features/auth/presentation/pages/login.dart';
 import 'features/auth/presentation/pages/username.dart';
+import 'features/common/presentation/page/AfterImagePicke.dart';
 import 'features/common/presentation/page/ListPostPage.dart';
 
 class InstagramApp extends StatelessWidget {
@@ -77,12 +80,18 @@ class InstagramApp extends StatelessWidget {
           ),
         ),
         GoRoute(
-          path: '/',
+          path: '/main',
           builder: (context, state) => const ListPostPage(),
         ),
         GoRoute(
-          path: '/post',
+          path: '/',
           builder: (context, state) => const ImagePickerPage(),
+        ),
+        GoRoute(
+          path: '/post',
+          builder: (context, state) => AfterImagwPickerPage(
+            medias: state.extra as List<AssetEntity>,
+          ),
         ),
       ],
     );
@@ -108,6 +117,9 @@ class InstagramApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => sl<ImageManagerBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => sl<IsMultipleSelectedBloc>(),
         )
       ],
       child: MaterialApp.router(
