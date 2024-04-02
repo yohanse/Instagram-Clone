@@ -10,7 +10,8 @@ class PostLocalDataSourceImpl implements PostLocalDataSource {
   @override
   String getAccessToken() {
     if (prefs.getString("accessToken") == null) {
-      throw NoTokenException();
+      // throw NoTokenException();
+      return "";
     }
     return prefs.getString("accessToken")!;
   }

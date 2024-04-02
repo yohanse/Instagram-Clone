@@ -18,7 +18,7 @@ class PostRemoteDataSourceImpl implements PostRemoteDataSource {
 
   @override
   Future<List<PostModel>> getAllPost() async {
-    String url = "http://127.0.0.1:8000/instagram/posts/";
+    String url = "http://192.168.43.57:8000/instagram/posts/";
     print("yohanse");
     final responseData = await http.get(
       Uri.parse(url),
@@ -41,7 +41,7 @@ class PostRemoteDataSourceImpl implements PostRemoteDataSource {
   
   @override
   Future<PostModel> addPost(PostModel postModel) async {
-    String url = "http://127.0.0.1:8000/instagram/posts/";
+    String url = "http://192.168.43.57:8000/instagram/posts/";
     print("yohanse");
     final responseData = await http.post(
       Uri.parse(url),

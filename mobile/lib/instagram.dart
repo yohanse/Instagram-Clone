@@ -76,12 +76,12 @@ class InstagramApp extends StatelessWidget {
             extra: state.extra! as ExtraUserName,
           ),
         ),
-        // GoRoute(
-        //   path: '/',
-        //   builder: (context, state) => const Finally(),
-        // ),
         GoRoute(
           path: '/',
+          builder: (context, state) => const ListPostPage(),
+        ),
+        GoRoute(
+          path: '/post',
           builder: (context, state) => const ImagePickerPage(),
         ),
       ],

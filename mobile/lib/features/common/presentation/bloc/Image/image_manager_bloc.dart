@@ -76,12 +76,12 @@ class ImageManagerBloc extends Bloc<ImageManagerEvent, ImageManagerState> {
         List<AssetPathEntity> albums = await fetchAlbums();
         if (albums != []) {
           List<AssetEntity> medias =
-              await fetchMedias(album: albums[2], page: 100);
+              await fetchMedias(album: albums[0], page: 100);
           emit(ImageManagerSuccessState(
             currentAlbum: albums[0],
             albums: albums,
             medias: medias,
-            selectedMedias: const {},
+            selectedMedias: {medias[2]},
           ));
         }
         emit(const ImageManagerSuccessState(

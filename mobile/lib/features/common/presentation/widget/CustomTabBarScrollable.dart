@@ -26,7 +26,7 @@ class _CustomTabBarState extends State<CustomTabBar> {
       child: Stack(
         children: [
           Positioned(
-              // Centered horizontally
+              bottom: 0,
               right: checkXoffset(_xOffset),
               child: CustomTabBarComponent(selectedIndex: selectedIndex),),
         ],

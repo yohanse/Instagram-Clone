@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mobile/features/common/post/domain/entities/post_entitie.dart';
 import 'package:mobile/features/common/presentation/bloc/post/post_bloc.dart';
 
@@ -10,48 +11,42 @@ class ListPostPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<PostBloc>(context).add(
+      GetAllPostsEvent(),
+    );
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         profileImageUrl:
-            "http://127.0.0.1:8000/media/profile/images/profile.webp",
+            "http://192.168.43.57:8000/media/profile/images/profile.webp",
       ),
       body: Container(
         color: Colors.black,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            BlocConsumer<PostBloc, PostState>(
-                builder: (context, state) {
-                  print("State ----->");
-                  print(state);
-                  if (state is PostError) {
-                    return Text(state.message);
-                  } else if (state is PostLoading) {
-                    return Text("Loading ......");
-                  } else if (state is PostLoaded) {
-                    return ListView.builder(
-                        itemCount: state.post.length,
-                        itemBuilder: (BuildContext context, int i) {
-                          return SignlePostWidget(
-                            numberOfComment: state.post[i].comments!.length,
-                            numberOfLike: state.post[i].numberOfLike!,
-                            time: state.post[i].created_at!,
-                            text: state.post[i].text,
-                            imageUrl: state.post[i].images[1],
-                            authName: state.post[i].author!.name,
-                            profileImageUrl:
-                                state.post[i].author!.profile_image,
-                          );
-                        });
-                  }
-                  BlocProvider.of<PostBloc>(context).add(
-                    GetAllPostsEvent(),
-                  );
-                  return Text("Loading ......");
-                },
-                listener: (context, state) {}),
-          ],
-        ),
+        child: BlocConsumer<PostBloc, PostState>(
+            builder: (context, state) {
+              print("State ----->");
+              print(state);
+              if (state is PostError) {
+                return Text(state.message);
+              } else if (state is PostLoading) {
+                return Text("Loading ......");
+              } else if (state is PostLoaded) {
+                return ListView.builder(
+                    itemCount: state.post.length,
+                    itemBuilder: (BuildContext context, int i) {
+                      return SignlePostWidget(
+                        numberOfComment: state.post[i].comments!.length,
+                        numberOfLike: state.post[i].numberOfLike!,
+                        time: state.post[i].created_at!,
+                        text: state.post[i].text,
+                        imageUrl: state.post[i].images[1],
+                        authName: state.post[i].author!.name,
+                        profileImageUrl: state.post[i].author!.profile_image,
+                      );
+                    });
+              }
+              return Text("Loading ......");
+            },
+            listener: (context, state) {}),
       ),
     );
   }
@@ -77,9 +72,12 @@ class BottomNavigationBar extends StatelessWidget {
             Icons.search,
             color: Colors.white,
           ),
-          Icon(
-            Icons.add_circle_outline,
+          IconButton(
+            icon: Icon(Icons.add_circle_outline),
             color: Colors.white,
+            onPressed: () {
+              context.go("/post");
+            },
           ),
           Icon(
             Icons.video_collection_outlined,
