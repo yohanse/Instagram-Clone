@@ -6,6 +6,8 @@ import 'package:photo_manager/photo_manager.dart';
 import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
 import 'package:transparent_image/transparent_image.dart';
 
+import '../widget/CustomTabBarScrollable.dart';
+
 class ImagePickerPage extends StatelessWidget {
   const ImagePickerPage({super.key});
 
@@ -139,26 +141,16 @@ class ImagePickerPage extends StatelessWidget {
                 StaggeredGridTile.count(
                   crossAxisCellCount: 3,
                   mainAxisCellCount: 0.4,
-                  child: DefaultTabController(
-                    length: 4,
-                    child: TabBar(
-                      tabs: [
-                        Tab(child: Text("POST"),),
-                        Tab(child: Text("POST"),),
-                        Tab(child: Text("POST"),),
-                        Tab(child: Text("POST"),),
-                      ],
-                    ),
-                  ),
+                  child: CustomTabBar(),
                 ),
               ],
             ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                BlocProvider.of<ImageManagerBloc>(context).add(LoadAlbums());
-              },
-              child: Icon(Icons.browse_gallery),
-            ),
+            // floatingActionButton: FloatingActionButton(
+            //   onPressed: () {
+            //     BlocProvider.of<ImageManagerBloc>(context).add(LoadAlbums());
+            //   },
+            //   child: Icon(Icons.browse_gallery),
+            // ),
           ),
         );
       },
