@@ -20,6 +20,7 @@ import 'package:mobile/features/common/post/data/datasources/remote_data_source.
 import 'package:mobile/features/common/post/data/repositories/post_repositorie_impl.dart';
 import 'package:mobile/features/common/post/domain/repository/post_repository.dart';
 import 'package:mobile/features/common/post/domain/usecases/get_all_post.dart';
+import 'package:mobile/features/common/presentation/bloc/Image/image_manager_bloc.dart';
 import 'package:mobile/features/common/presentation/bloc/post/post_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -37,13 +38,14 @@ Future<void> init() async {
   sl.registerFactory(() => SingupBloc(signUpUsecase: sl()));
   sl.registerFactory(() => LoginBloc(logInUsecase: sl()));
   sl.registerFactory(() => PostBloc(getAllPostUseCase: sl()));
+  sl.registerFactory(() => ImageManagerBloc());
 
   //use case
   sl.registerLazySingleton(() => CheckEmailUsecase(authRepository: sl()));
   sl.registerLazySingleton(
       () => CheckConfirmationUsecase(authRepository: sl()));
   sl.registerLazySingleton(() => CheckUsernameUsecase(authRepository: sl()));
-  
+
   sl.registerLazySingleton(
     () => SignUpUsecase(
       authRepository: sl(),
@@ -76,14 +78,13 @@ Future<void> init() async {
   // Repository
   sl.registerLazySingleton<PostRepository>(
       () => PostRepositorieImpl(postRemoteDataSource: sl(), networkInfo: sl()));
-      
+
   sl.registerLazySingleton<AuthRepository>(
     () => AuthRepositorieImpl(
       authRemoteDataSource: sl(),
       networkInfo: sl(),
     ),
   );
-
 
   //Core
   sl.registerLazySingleton<NetworkInfo>(

@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile/utility/services/fetch_albums.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:photo_manager/photo_manager.dart';
 
@@ -22,7 +21,6 @@ class ImageManagerBloc extends Bloc<ImageManagerEvent, ImageManagerState> {
             Permission.videos,
             Permission.photos,
           ].request();
-
           // If permissions are permanently denied, open app settings
           if (statuses[Permission.videos] ==
                   PermissionStatus.permanentlyDenied ||
@@ -44,7 +42,7 @@ class ImageManagerBloc extends Bloc<ImageManagerEvent, ImageManagerState> {
         await grantPermissions();
 
         // Fetch the list of asset paths (albums)
-        List<AssetPathEntity> albums = await PhotoManager.getAssetPathList();
+        final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList();
 
         return albums;
       } catch (e) {
@@ -63,14 +61,8 @@ class ImageManagerBloc extends Bloc<ImageManagerEvent, ImageManagerState> {
       try {
         // Get a list of asset entities from the specified album and page
         final List<AssetEntity> entities =
-            await album.getAssetListPaged(page: page, size: 30);
-
-        // Loop through each asset entity and create corresponding Media objects
-        for (AssetEntity entity in entities) {
-          // Add the created Media object to the list
-          medias.add(entity);
-        }
-        return medias;
+            await album.getAssetListRange(start: 0, end: 80);
+        return entities;
       } catch (e) {
         // Handle any exceptions that occur during fetching
         debugPrint('Error fetching media: $e');
@@ -79,29 +71,54 @@ class ImageManagerBloc extends Bloc<ImageManagerEvent, ImageManagerState> {
     }
 
     on<LoadAlbums>((event, emit) async {
-      emit(LoadAlbumsLoadingState());
+      emit(ImageManagerLoadingState());
       try {
         List<AssetPathEntity> albums = await fetchAlbums();
-        emit(LoadAlbumsSuccessState(albums: albums));
+        if (albums != []) {
+          List<AssetEntity> medias =
+              await fetchMedias(album: albums[2], page: 100);
+          emit(ImageManagerSuccessState(
+            currentAlbum: albums[0],
+            albums: albums,
+            medias: medias,
+            selectedMedias: const {},
+          ));
+        }
+        emit(const ImageManagerSuccessState(
+          currentAlbum: null,
+          albums: [],
+          medias: [],
+          selectedMedias: {},
+        ));
       } catch (e) {
-        emit(LoadAlbumsErrorState(message: e.toString()));
+        emit(ImageManagerErrorState(message: e.toString()));
       }
     });
 
     on<LoadMedias>((event, emit) async {
-      emit(LoadMediasLoadingState());
+      emit(ImageManagerLoadingState());
       try {
         List<AssetEntity> medias =
             await fetchMedias(album: event.currentAlbum, page: 1);
-        emit(LoadMediasSuccessState(medias: medias));
+        emit(ImageManagerSuccessState(
+          currentAlbum: event.currentAlbum,
+          medias: medias,
+          albums: event.albums,
+          selectedMedias: event.selectedMedias,
+        ));
       } catch (e) {
-        emit(LoadAlbumsErrorState(message: e.toString()));
+        emit(ImageManagerErrorState(message: e.toString()));
       }
     });
 
     on<SelecteMedia>((event, emit) {
-      emit(SelectMediasLoadingState());
-      emit(SelectMediasSuccessState(selectedMedias: event.selectedmedias));
+      emit(ImageManagerLoadingState());
+      emit(ImageManagerSuccessState(
+        currentAlbum: event.currentAlbum,
+        medias: event.medias,
+        albums: event.albums,
+        selectedMedias: event.selectedMedias,
+      ));
     });
   }
 }

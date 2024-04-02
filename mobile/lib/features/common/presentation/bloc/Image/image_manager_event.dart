@@ -13,11 +13,22 @@ class LoadAlbums extends ImageManagerEvent {}
 
 class LoadMedias extends ImageManagerEvent {
   final AssetPathEntity currentAlbum;
-  const LoadMedias({required this.currentAlbum});
+  final List<AssetPathEntity> albums;
+  final Set<AssetEntity> selectedMedias;
+  const LoadMedias(
+      {required this.albums, required this.currentAlbum, required this.selectedMedias,});
 }
 
 class SelecteMedia extends ImageManagerEvent {
-  final List<AssetEntity> selectedmedias;
+  final AssetPathEntity? currentAlbum;
+  final List<AssetPathEntity> albums;
+  final Set<AssetEntity> selectedMedias;
+  final List<AssetEntity> medias;
 
-  const SelecteMedia({required this.selectedmedias});
+  const SelecteMedia({
+    required this.medias,
+    required this.currentAlbum,
+    required this.albums,
+    required this.selectedMedias,
+  });
 }

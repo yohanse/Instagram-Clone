@@ -9,46 +9,25 @@ sealed class ImageManagerState extends Equatable {
 
 final class ImageManagerInitial extends ImageManagerState {}
 
-// Load Albums
-
-class LoadAlbumsSuccessState extends ImageManagerState {
+class ImageManagerSuccessState extends ImageManagerState {
+  final AssetPathEntity? currentAlbum;
   final List<AssetPathEntity> albums;
-  const LoadAlbumsSuccessState({required this.albums});
-}
-
-class LoadAlbumsLoadingState extends ImageManagerState {}
-
-class LoadAlbumsErrorState extends ImageManagerState {
-  final String message;
-  const LoadAlbumsErrorState({required this.message});
-}
-
-
-// Load Medias
-
-class LoadMediasSuccessState extends ImageManagerState {
   final List<AssetEntity> medias;
-  const LoadMediasSuccessState({required this.medias});
+  final Set<AssetEntity> selectedMedias;
+
+  const ImageManagerSuccessState(
+      {required this.currentAlbum,
+      required this.albums,
+      required this.medias,
+      required this.selectedMedias});
 }
 
-class LoadMediasLoadingState extends ImageManagerState {}
 
-class LoadMediasErrorState extends ImageManagerState {
+
+class ImageManagerLoadingState extends ImageManagerState {}
+
+class ImageManagerErrorState extends ImageManagerState {
   final String message;
-  const LoadMediasErrorState({required this.message});
-}
 
-
-// Select Image
-
-class SelectMediasSuccessState extends ImageManagerState {
-  final List<AssetEntity> selectedMedias;
-  const SelectMediasSuccessState({required this.selectedMedias});
-}
-
-class SelectMediasLoadingState extends ImageManagerState {}
-
-class SelectMediasErrorState extends ImageManagerState {
-  final String message;
-  const SelectMediasErrorState({required this.message});
+  const ImageManagerErrorState({required  this.message});
 }
