@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import '../../../../profile/Domain/Entite/profile_entitie.dart';
+
 class PostEntite extends Equatable {
   final int? id;
   final String text;
@@ -7,7 +9,7 @@ class PostEntite extends Equatable {
   final int? numberOfLike;
   final List<String> images;
   final List<String>? videos;
-  final Profile? author;
+  final ProfileEntitie? author;
   final List<Comment>? comments;
   final bool? isILiked;
   const PostEntite(
@@ -24,20 +26,11 @@ class PostEntite extends Equatable {
   List<Object?> get props => [];
 }
 
-class Profile extends Equatable {
-  final int user_id;
-  final String name, profile_image;
-  const Profile(
-      {required this.user_id, required this.name, required this.profile_image});
-  @override
-  List<Object?> get props => [];
-}
-
 class Comment extends Equatable {
   final int id;
   final String content;
   final DateTime created_at;
-  final Profile user;
+  final ProfileEntitie user;
   const Comment(
       {required this.id,
       required this.content,

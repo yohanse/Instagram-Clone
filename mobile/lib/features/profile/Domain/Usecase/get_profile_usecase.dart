@@ -2,8 +2,9 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:mobile/core/error/failures.dart';
 import 'package:mobile/core/usecase/usecase.dart';
-import 'package:mobile/features/profile/Domain/Entite/ProfileEntitie.dart';
 import 'package:mobile/features/profile/Domain/Repository/profile_repository.dart';
+
+import '../Entite/profile_entitie.dart';
 
 class GetProfileUsecase implements Usecase<ProfileEntitie, ParamsGetProfile> {
   final ProfileRepository profileRepository;

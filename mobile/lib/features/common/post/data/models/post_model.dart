@@ -1,3 +1,4 @@
+import '../../../../profile/Data/model/profile_model.dart';
 import '../../domain/entities/post_entitie.dart';
 
 class PostModel extends PostEntite {
@@ -40,26 +41,6 @@ class PostModel extends PostEntite {
       "upload_images": images,
       // "videos": videos,
     };
-  }
-}
-
-class ProfileModel extends Profile {
-  const ProfileModel({
-    required super.user_id,
-    required super.name,
-    required super.profile_image,
-  });
-
-  factory ProfileModel.fromJson(Map<String, dynamic> json) {
-    return ProfileModel(
-      user_id: json['user_id'],
-      name: json['name'],
-      profile_image: json['profile_image'],
-    );
-  }
-
-  Map<String, dynamic> tojson() {
-    return {};
   }
 }
 
