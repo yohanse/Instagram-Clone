@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/features/profile/presentation/bloc/profile/profile_bloc.dart';
 import 'package:mobile/features/profile/presentation/widget/custom_score.dart';
+import 'package:mobile/features/profile/presentation/widget/custom_user_dispaly.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -46,7 +47,47 @@ class ProfilePage extends StatelessWidget {
                         CustomScore(score: "2", field: "posts"),
                       ],
                     ),
-                  )
+                  ),
+                  Expanded(
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            child: Text("Edit profile"),
+                            onPressed: () {},
+                          ),
+                        ),
+                        Expanded(
+                          child: ElevatedButton(
+                            child: Text("Share profile"),
+                            onPressed: () {},
+                          ),
+                        ),
+                        Expanded(
+                          child: IconButton(
+                            icon: Icon(Icons.person_2_rounded),
+                            onPressed: () {},
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: ListTile(
+                      leading: Text("Discover people"),
+                      trailing: Text("Discover people"),
+                    ),
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: 10,
+                      itemBuilder: (context, index) {
+                        return CustomUserDisplay(
+                            image: state.profileImage, name: "Yohanse");
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),

@@ -25,6 +25,11 @@ import 'package:mobile/features/common/presentation/bloc/AddingPost/adding_post_
 import 'package:mobile/features/common/presentation/bloc/Image/image_manager_bloc.dart';
 import 'package:mobile/features/common/presentation/bloc/IsMultipleSelected/is_multiple_selected_bloc.dart';
 import 'package:mobile/features/common/presentation/bloc/post/post_bloc.dart';
+import 'package:mobile/features/profile/Data/data_source/remote_data_source.dart';
+import 'package:mobile/features/profile/Data/repository/profile_repository_impl.dart';
+import 'package:mobile/features/profile/Domain/Repository/profile_repository.dart';
+import 'package:mobile/features/profile/Domain/Usecase/get_profile_usecase.dart';
+import 'package:mobile/features/profile/presentation/bloc/profile/profile_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final sl = GetIt.instance;
@@ -44,6 +49,7 @@ Future<void> init() async {
   sl.registerFactory(() => ImageManagerBloc());
   sl.registerFactory(() => IsMultipleSelectedBloc());
   sl.registerFactory(() => AddingPostBloc(addPostUseCase: sl()));
+  sl.registerFactory(() => ProfileBloc(getProfileUsecase: sl()));
 
   //use case
   sl.registerLazySingleton(() => CheckEmailUsecase(authRepository: sl()));
@@ -63,6 +69,7 @@ Future<void> init() async {
   );
   sl.registerLazySingleton(() => GetAllPostUseCase(postRepository: sl()));
   sl.registerLazySingleton(() => AddPostUseCase(postRepository: sl()));
+  sl.registerLazySingleton(() => GetProfileUsecase(profileRepository: sl()));
 
   //Remote Data Source
   sl.registerLazySingleton<AuthRemoteDataSource>(
@@ -73,6 +80,8 @@ Future<void> init() async {
 
   sl.registerLazySingleton<PostRemoteDataSource>(
       () => PostRemoteDataSourceImpl(postLocalDataSource: sl()));
+  sl.registerLazySingleton<ProfileRemoteDataSource>(
+      () => ProfileRemoteDataSourceImpl());
 
   // Local Data Source
   sl.registerLazySingleton<AuthLocalDataSource>(
@@ -91,6 +100,8 @@ Future<void> init() async {
       networkInfo: sl(),
     ),
   );
+  sl.registerLazySingleton<ProfileRepository>(
+      () => ProfileREpositoryImplementation(remoteDataSource: sl()));
 
   //Core
   sl.registerLazySingleton<NetworkInfo>(

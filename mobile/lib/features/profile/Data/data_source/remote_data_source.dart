@@ -9,9 +9,9 @@ abstract class ProfileRemoteDataSource {
   Future<ProfileModel> getProfile();
 }
 
-class PostRemoteDataSourceImpl implements ProfileRemoteDataSource {
+class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
 
-  PostRemoteDataSourceImpl();
+  ProfileRemoteDataSourceImpl();
   
   @override
   Future<ProfileModel> getProfile() async {

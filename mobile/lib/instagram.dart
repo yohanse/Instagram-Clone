@@ -16,6 +16,8 @@ import 'package:mobile/features/common/presentation/bloc/Image/image_manager_blo
 import 'package:mobile/features/common/presentation/bloc/IsMultipleSelected/is_multiple_selected_bloc.dart';
 import 'package:mobile/features/common/presentation/bloc/post/post_bloc.dart';
 import 'package:mobile/features/common/presentation/page/ImagePickerPage.dart';
+import 'package:mobile/features/profile/presentation/bloc/profile/profile_bloc.dart';
+import 'package:mobile/features/profile/presentation/page/profile_page.dart';
 import 'package:mobile/injection.dart';
 import 'package:photo_manager/photo_manager.dart';
 
@@ -39,62 +41,62 @@ class InstagramApp extends StatelessWidget {
         //   path: '/',
         //   builder: (context, state) => LoginPage(),
         // ),
-        GoRoute(
-          path: '/signup',
-          builder: (context, state) => EmailPage(),
-        ),
-        GoRoute(
-          path: '/signup/confirmation',
-          builder: (context, state) => CodePage(
-            email: state.extra! as String,
-          ),
-        ),
-        GoRoute(
-          path: '/signup/confirmation/password',
-          builder: (context, state) => CreatePasswordPage(
-            email: state.extra! as String,
-          ),
-        ),
-        GoRoute(
-          path: '/signup/confirmation/password/birthday',
-          builder: (context, state) => BirthDatePage(
-            extra: state.extra! as ExtraPassword,
-          ),
-        ),
-        GoRoute(
-          path: '/signup/confirmation/password/birthday/name',
-          builder: (context, state) => NamePage(
-            extra: state.extra! as ExtraBirthDate,
-          ),
-        ),
-        GoRoute(
-          path: "/signup/confirmation/password/birthday/name/username",
-          builder: (context, state) => UserNamePage(
-            extra: state.extra! as ExtraName,
-          ),
-        ),
-        GoRoute(
-          path:
-              "/signup/confirmation/password/birthday/name/username/finalConfirmation",
-          builder: (context, state) => FinalConfirmationPage(
-            extra: state.extra! as ExtraUserName,
-          ),
-        ),
-        GoRoute(
-          path: '/',
-          builder: (context, state) => const ListPostPage(),
-        ),
-        GoRoute(
-          path: '/pickImage',
-          builder: (context, state) => const ImagePickerPage(),
-        ),
-        GoRoute(
-          path: '/pickImage/post',
-          builder: (context, state) => AfterImagwPickerPage(
-            medias: state.extra as List<AssetEntity>,
-          ),
-          
-        ),
+        // GoRoute(
+        //   path: '/signup',
+        //   builder: (context, state) => EmailPage(),
+        // ),
+        // GoRoute(
+        //   path: '/signup/confirmation',
+        //   builder: (context, state) => CodePage(
+        //     email: state.extra! as String,
+        //   ),
+        // ),
+        // GoRoute(
+        //   path: '/signup/confirmation/password',
+        //   builder: (context, state) => CreatePasswordPage(
+        //     email: state.extra! as String,
+        //   ),
+        // ),
+        // GoRoute(
+        //   path: '/signup/confirmation/password/birthday',
+        //   builder: (context, state) => BirthDatePage(
+        //     extra: state.extra! as ExtraPassword,
+        //   ),
+        // ),
+        // GoRoute(
+        //   path: '/signup/confirmation/password/birthday/name',
+        //   builder: (context, state) => NamePage(
+        //     extra: state.extra! as ExtraBirthDate,
+        //   ),
+        // ),
+        // GoRoute(
+        //   path: "/signup/confirmation/password/birthday/name/username",
+        //   builder: (context, state) => UserNamePage(
+        //     extra: state.extra! as ExtraName,
+        //   ),
+        // ),
+        // GoRoute(
+        //   path:
+        //       "/signup/confirmation/password/birthday/name/username/finalConfirmation",
+        //   builder: (context, state) => FinalConfirmationPage(
+        //     extra: state.extra! as ExtraUserName,
+        //   ),
+        // ),
+        // GoRoute(
+        //   path: '/',
+        //   builder: (context, state) => const ListPostPage(),
+        // ),
+        // GoRoute(
+        //   path: '/pickImage',
+        //   builder: (context, state) => const ImagePickerPage(),
+        // ),
+        // GoRoute(
+        //   path: '/pickImage/post',
+        //   builder: (context, state) => AfterImagwPickerPage(
+        //     medias: state.extra as List<AssetEntity>,
+        //   ),
+        // ),
+        GoRoute(path: "/", builder: (context, state) => const ProfilePage(),)
       ],
     );
     return MultiBlocProvider(
@@ -125,6 +127,9 @@ class InstagramApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => sl<AddingPostBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => sl<ProfileBloc>(),
         ),
       ],
       child: MaterialApp.router(
