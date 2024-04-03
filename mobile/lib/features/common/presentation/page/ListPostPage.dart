@@ -36,7 +36,7 @@ class ListPostPage extends StatelessWidget {
                         numberOfLike: state.post[i].numberOfLike!,
                         time: state.post[i].created_at!,
                         text: state.post[i].text,
-                        imageUrl: state.post[i].images[1],
+                        imageUrl: state.post[i].images[0],
                         authName: state.post[i].author!.name,
                         profileImageUrl: state.post[i].author!.profile_image,
                       );
@@ -58,32 +58,40 @@ class BottomNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.black,
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Icon(
             Icons.home,
             color: Colors.white,
+            size: 30,
           ),
           Icon(
             Icons.search,
             color: Colors.white,
+            size: 30,
           ),
           IconButton(
-            icon: Icon(Icons.add_circle_outline),
+            
+            icon: Icon(
+              Icons.add_circle_outline,
+              size: 40,
+              ),
             color: Colors.white,
             onPressed: () {
               context.go("/pickImage");
             },
+            
           ),
           Icon(
             Icons.video_collection_outlined,
             color: Colors.white,
+            size: 30,
           ),
           CircleAvatar(
             backgroundImage: NetworkImage(profileImageUrl),
-            radius: 12,
+            radius: 15,
           ),
         ],
       ),

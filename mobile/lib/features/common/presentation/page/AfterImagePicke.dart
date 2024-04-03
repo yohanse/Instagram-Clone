@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mobile/features/common/presentation/bloc/AddingPost/adding_post_bloc.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -40,8 +42,7 @@ class AfterImagwPickerPage extends StatelessWidget {
                   return Row(
                     children: [
                       FadeInImage(
-                        image: AssetEntityImageProvider(
-                            medias[index]), 
+                        image: AssetEntityImageProvider(medias[index]),
                         placeholder: MemoryImage(kTransparentImage),
                         fit: BoxFit.fill,
                       ),
@@ -75,14 +76,49 @@ class AfterImagwPickerPage extends StatelessWidget {
       bottomNavigationBar: Container(
         color: Colors.black,
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () async {
+            List<String> images = [];
+            for (int i = 0; i < medias.length; i++) {
+              final file = await medias[i].file;
+              if (file != null) {
+                images.add(file.path);
+              }
+            }
+            BlocProvider.of<AddingPostBloc>(context).add(
+              AddPostEvent(
+                text: captionController.text,
+                images: images,
+              ),
+            );
+          },
           style: ElevatedButton.styleFrom(
             splashFactory: InkRipple.splashFactory,
             backgroundColor: Colors.blue,
           ),
-          child: Text(
-            "Share",
-            style: TextStyle(color: Colors.white, fontSize: 16),
+          child: BlocConsumer<AddingPostBloc, AddingPostState>(
+            listener: (context, state) {
+              if (state is AddingPostSuccessState) {
+                context.go("/");
+              }
+            },
+            builder: (context, state) {
+              if (state is AddingPostLoadingState) {
+                return Text(
+                  "Loading",
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                );
+              }
+              if (state is AddingPostErrorState) {
+                return Text(
+                  "Error",
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                );
+              }
+              return Text(
+                "Share",
+                style: TextStyle(color: Colors.white, fontSize: 16),
+              );
+            },
           ),
         ),
       ),

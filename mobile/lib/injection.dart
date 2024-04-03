@@ -19,7 +19,9 @@ import 'package:mobile/features/common/post/data/datasources/local_data_source.d
 import 'package:mobile/features/common/post/data/datasources/remote_data_source.dart';
 import 'package:mobile/features/common/post/data/repositories/post_repositorie_impl.dart';
 import 'package:mobile/features/common/post/domain/repository/post_repository.dart';
+import 'package:mobile/features/common/post/domain/usecases/add_post.dart';
 import 'package:mobile/features/common/post/domain/usecases/get_all_post.dart';
+import 'package:mobile/features/common/presentation/bloc/AddingPost/adding_post_bloc.dart';
 import 'package:mobile/features/common/presentation/bloc/Image/image_manager_bloc.dart';
 import 'package:mobile/features/common/presentation/bloc/IsMultipleSelected/is_multiple_selected_bloc.dart';
 import 'package:mobile/features/common/presentation/bloc/post/post_bloc.dart';
@@ -41,6 +43,7 @@ Future<void> init() async {
   sl.registerFactory(() => PostBloc(getAllPostUseCase: sl()));
   sl.registerFactory(() => ImageManagerBloc());
   sl.registerFactory(() => IsMultipleSelectedBloc());
+  sl.registerFactory(() => AddingPostBloc(addPostUseCase: sl()));
 
   //use case
   sl.registerLazySingleton(() => CheckEmailUsecase(authRepository: sl()));
@@ -59,6 +62,7 @@ Future<void> init() async {
     ),
   );
   sl.registerLazySingleton(() => GetAllPostUseCase(postRepository: sl()));
+  sl.registerLazySingleton(() => AddPostUseCase(postRepository: sl()));
 
   //Remote Data Source
   sl.registerLazySingleton<AuthRemoteDataSource>(

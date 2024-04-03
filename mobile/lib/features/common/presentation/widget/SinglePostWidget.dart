@@ -26,7 +26,7 @@ class SignlePostWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(15),
               child: Image.network(
                 imageUrl,
-                height: 400,
+                height: 700,
                 width: double.infinity,
                 fit: BoxFit.cover,
               ),

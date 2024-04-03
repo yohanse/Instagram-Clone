@@ -11,6 +11,7 @@ import 'package:mobile/features/auth/presentation/pages/birth_date.dart';
 import 'package:mobile/features/auth/presentation/pages/create_password.dart';
 import 'package:mobile/features/auth/presentation/pages/finalConfirmation.dart';
 import 'package:mobile/features/auth/presentation/pages/name.dart';
+import 'package:mobile/features/common/presentation/bloc/AddingPost/adding_post_bloc.dart';
 import 'package:mobile/features/common/presentation/bloc/Image/image_manager_bloc.dart';
 import 'package:mobile/features/common/presentation/bloc/IsMultipleSelected/is_multiple_selected_bloc.dart';
 import 'package:mobile/features/common/presentation/bloc/post/post_bloc.dart';
@@ -92,6 +93,7 @@ class InstagramApp extends StatelessWidget {
           builder: (context, state) => AfterImagwPickerPage(
             medias: state.extra as List<AssetEntity>,
           ),
+          
         ),
       ],
     );
@@ -120,7 +122,10 @@ class InstagramApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => sl<IsMultipleSelectedBloc>(),
-        )
+        ),
+        BlocProvider(
+          create: (context) => sl<AddingPostBloc>(),
+        ),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
