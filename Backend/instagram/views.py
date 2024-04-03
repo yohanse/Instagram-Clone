@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from rest_framework.response import Response
 
 from instagram.permissions import CanDeletePost
 from . import models
@@ -8,10 +9,17 @@ from rest_framework.mixins import CreateModelMixin, ListModelMixin, UpdateModelM
 from rest_framework.permissions import IsAuthenticated
 
 
-class ProfileView(GenericViewSet, CreateModelMixin, RetrieveModelMixin):
-    permission_classes = [CanDeletePost]
+class ProfileView(GenericViewSet, CreateModelMixin, ListModelMixin):
+    # permission_classes = [CanDeletePost]
     queryset = models.UserProfile.objects.all()
-    serializer_class = seriliazer.UserProfileSerializer
+    serializer_class = seriliazer.UserProfileShortSerializer
+    
+    def list(self, request, *args, **kwargs):
+        user = self.queryset.get(user_id=request.user.id)
+        serializer = self.get_serializer(user)
+        return Response(serializer.data)
+    
+    
 
 
 class PostView(ModelViewSet):
