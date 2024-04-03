@@ -18,59 +18,72 @@ class AfterImagwPickerPage extends StatelessWidget {
           icon: Icon(Icons.close_rounded),
           color: Colors.white,
           onPressed: () {
-            context.go("/post");
+            context.go("/pickImage");
           },
         ),
         title: Text(
           "New post",
           style: TextStyle(color: Colors.white),
         ),
-        actions: [
-          TextButton(
-              onPressed: () {},
-              child: Text(
-                "Next",
-                style: TextStyle(color: Colors.blue),
-              ))
-        ],
         backgroundColor: Colors.black,
       ),
-      body: Column(
-        children: [
-          Expanded(
-            flex: 25,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: medias.length,
-              itemBuilder: (context, index) {
-                return FadeInImage(
-                  image: AssetEntityImageProvider(
-                      medias[index]), // Placeholder image
-                  placeholder: MemoryImage(kTransparentImage),
-                  fit: BoxFit.fill,
-                );
-              },
-            ),
-          ),
-          Expanded(
-            child: TextField(
-              controller: captionController,
-              decoration: InputDecoration(
-                hintText: "Write a caption or add a poll...",
-                hintStyle: TextStyle(color: Colors.white10),
+      body: Container(
+        color: Colors.black,
+        child: Column(
+          children: [
+            Expanded(
+              flex: 25,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: medias.length,
+                itemBuilder: (context, index) {
+                  return Row(
+                    children: [
+                      FadeInImage(
+                        image: AssetEntityImageProvider(
+                            medias[index]), 
+                        placeholder: MemoryImage(kTransparentImage),
+                        fit: BoxFit.fill,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                    ],
+                  );
+                },
               ),
             ),
-          ),
-        ],
-      ),
-      bottomNavigationBar: ElevatedButton(
-        onPressed: () {},
-        style: ElevatedButton.styleFrom(
-          splashFactory: InkRipple.splashFactory, // Or MaterialRipple.circular
+            Expanded(
+              flex: 75,
+              child: Column(
+                children: [
+                  TextField(
+                    controller: captionController,
+                    style: TextStyle(color: Colors.white),
+                    decoration: InputDecoration(
+                      hintText: "Write a caption or add a poll...",
+                      hintStyle: TextStyle(
+                          color: const Color.fromRGBO(255, 255, 255, 0.7)),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
-        child: Text(
-          "Share",
-          style: TextStyle(color: Colors.white),
+      ),
+      bottomNavigationBar: Container(
+        color: Colors.black,
+        child: ElevatedButton(
+          onPressed: () {},
+          style: ElevatedButton.styleFrom(
+            splashFactory: InkRipple.splashFactory,
+            backgroundColor: Colors.blue,
+          ),
+          child: Text(
+            "Share",
+            style: TextStyle(color: Colors.white, fontSize: 16),
+          ),
         ),
       ),
     );

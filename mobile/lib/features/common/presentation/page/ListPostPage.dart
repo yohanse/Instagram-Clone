@@ -74,7 +74,7 @@ class BottomNavigationBar extends StatelessWidget {
             icon: Icon(Icons.add_circle_outline),
             color: Colors.white,
             onPressed: () {
-              context.go("/post");
+              context.go("/pickImage");
             },
           ),
           Icon(

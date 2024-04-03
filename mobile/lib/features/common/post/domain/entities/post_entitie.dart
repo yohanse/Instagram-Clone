@@ -7,7 +7,6 @@ class PostEntite extends Equatable {
   final int? numberOfLike;
   final List<String> images;
   final List<String>? videos;
-
   final Profile? author;
   final List<Comment>? comments;
   final bool? isILiked;

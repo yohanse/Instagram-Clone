@@ -80,15 +80,15 @@ class InstagramApp extends StatelessWidget {
           ),
         ),
         GoRoute(
-          path: '/main',
+          path: '/',
           builder: (context, state) => const ListPostPage(),
         ),
         GoRoute(
-          path: '/',
+          path: '/pickImage',
           builder: (context, state) => const ImagePickerPage(),
         ),
         GoRoute(
-          path: '/post',
+          path: '/pickImage/post',
           builder: (context, state) => AfterImagwPickerPage(
             medias: state.extra as List<AssetEntity>,
           ),

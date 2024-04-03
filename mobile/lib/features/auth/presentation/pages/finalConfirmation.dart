@@ -19,7 +19,7 @@ class FinalConfirmationPage extends StatelessWidget {
         }
 
         if (state is SignUpLoaded) {
-          context.go('/finally');
+          context.go('/posts');
         }
       },
       builder: (context, state) {
