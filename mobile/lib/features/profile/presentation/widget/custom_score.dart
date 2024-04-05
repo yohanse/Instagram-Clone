@@ -7,6 +7,7 @@ class CustomScore extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           score,
@@ -17,7 +18,7 @@ class CustomScore extends StatelessWidget {
           ),
         ),
         Text(
-          score,
+          field,
           style: TextStyle(
             color: Colors.white,
           ),

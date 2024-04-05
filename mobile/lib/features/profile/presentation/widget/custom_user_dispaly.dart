@@ -6,39 +6,62 @@ class CustomUserDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: const Color(0xFF000000),
-          width: 1.0,
-          style: BorderStyle.solid,
+    return Stack(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Color.fromARGB(50, 255, 255, 255),
+              width: 1.0,
+              style: BorderStyle.solid,
+            ),
+            borderRadius: BorderRadius.circular(2),
+          ),
+          padding: EdgeInsets.all(10),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CircleAvatar(
+                  child: Image(
+                    image: NetworkImage(image),
+                  ),
+                ),
+                Text(
+                  name,
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                ),
+                Text(
+                  "Suggested for you",
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                ),
+                ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                      Colors.blue,
+                    ),
+                  ),
+                  onPressed: () {},
+                  child: Text(
+                    "Follow",
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
-        borderRadius: BorderRadius.circular(2),
-      ),
-      child: Column(
-        children: [
-          CircleAvatar(
-            child: Image(
-              image: NetworkImage(image),
+        Positioned(
+          top: 0,
+          right: 0,
+          child: IconButton(
+            icon: Icon(
+              Icons.close_rounded,
             ),
-          ),
-          Text(
-            name,
-            style: TextStyle(color: Colors.white, fontSize: 16),
-          ),
-          Text(
-            "Suggested for you",
-            style: TextStyle(color: Colors.white, fontSize: 16),
-          ),
-          ElevatedButton(
             onPressed: () {},
-            child: Text(
-              "Follow",
-              style: TextStyle(color: Colors.white, fontSize: 16),
-            ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

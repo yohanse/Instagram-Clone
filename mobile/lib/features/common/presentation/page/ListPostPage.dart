@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile/features/common/post/domain/entities/post_entitie.dart';
@@ -15,7 +16,7 @@ class ListPostPage extends StatelessWidget {
       GetAllPostsEvent(),
     );
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: CustomBottomNavigationBar(
         profileImageUrl:
             "http://192.168.43.57:8000/media/profile/images/profile.webp",
       ),
@@ -50,9 +51,9 @@ class ListPostPage extends StatelessWidget {
   }
 }
 
-class BottomNavigationBar extends StatelessWidget {
+class CustomBottomNavigationBar extends StatelessWidget {
   final String profileImageUrl;
-  const BottomNavigationBar({super.key, required this.profileImageUrl});
+  const CustomBottomNavigationBar({super.key, required this.profileImageUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -62,10 +63,15 @@ class BottomNavigationBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Icon(
-            Icons.home,
-            color: Colors.white,
-            size: 30,
+          IconButton(
+            onPressed: () {
+              context.go("/posts");
+            },
+            icon: Icon(
+              Icons.home,
+              color: Colors.white,
+              size: 30,
+            ),
           ),
           Icon(
             Icons.search,
@@ -73,25 +79,28 @@ class BottomNavigationBar extends StatelessWidget {
             size: 30,
           ),
           IconButton(
-            
             icon: Icon(
               Icons.add_circle_outline,
               size: 40,
-              ),
+            ),
             color: Colors.white,
             onPressed: () {
               context.go("/pickImage");
             },
-            
           ),
           Icon(
             Icons.video_collection_outlined,
             color: Colors.white,
             size: 30,
           ),
-          CircleAvatar(
-            backgroundImage: NetworkImage(profileImageUrl),
-            radius: 15,
+          GestureDetector(
+            onTap: () {
+              context.go("/");
+            },
+            child: CircleAvatar(
+              backgroundImage: NetworkImage(profileImageUrl),
+              radius: 15,
+            ),
           ),
         ],
       ),
