@@ -34,7 +34,6 @@ class ReelView(ModelViewSet):
     serializer_class = seriliazer.ReelSerializer
 
 class CommentView(ModelViewSet):
-    queryset = models.Comment.objects.all()
     serializer_class = seriliazer.CommentSerializer
 
     def get_queryset(self):
@@ -57,10 +56,22 @@ class CommentView(ModelViewSet):
 
 
 class LikeView(ModelViewSet):
-    queryset = models.Like.objects.all()
     serializer_class = seriliazer.LikeSerializer
 
+    def get_queryset(self):
+        return models.Like.objects.filter(content_type=self.get_content_type(), object_id=self.get_pk())
+    
     def get_serializer_context(self):
-        return {"post_id": self.kwargs["post_pk"],
-                "user_id":self.request.user.id,
-                }
+        return {
+            "content_type": self.get_content_type(),
+            "object_id": self.get_pk(),
+            "user_id": self.request.user.id,
+        }
+    
+    def get_content_type(self):
+        if "post_pk" in self.kwargs:
+            return ContentType.objects.get_for_model(models.Post)
+        return ContentType.objects.get_for_model(models.Reel)
+    
+    def get_pk(self):
+        return self.kwargs.get("post_pk") or self.kwargs.get("reel_pk")

@@ -44,10 +44,11 @@ class LikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Like
         fields = ("user", 'id', 'created_at')
-    
+
     def create(self, validated_data):
         validated_data["user_id"] = self.context["user_id"]
-        validated_data["post_id"] = self.context["post_id"]
+        validated_data["object_id"] = self.context["object_id"]
+        validated_data["content_type"] = self.context["content_type"]
         return super().create(validated_data)
 
 class CommentSerializer(serializers.ModelSerializer):

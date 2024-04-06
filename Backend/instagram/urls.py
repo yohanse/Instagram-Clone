@@ -11,8 +11,8 @@ post_router = NestedDefaultRouter(router, "posts", lookup="post")
 post_router.register("comments", views.CommentView, basename="posts-comments")
 post_router.register("likes", views.LikeView, basename="posts-likes")
 
-
 reel_router = NestedDefaultRouter(router, "reels", lookup="reel")
 reel_router.register("comments", views.CommentView, basename="reels-comments")
+reel_router.register("likes", views.LikeView, basename="reels-likes")
 
 urlpatterns = router.urls + post_router.urls + reel_router.urls
