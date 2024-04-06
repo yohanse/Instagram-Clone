@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.conf import settings
 from django.db import models
 from django.contrib.contenttypes.fields import GenericForeignKey
@@ -56,7 +57,7 @@ class Comment(models.Model):
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
-    
+
     # Content Type for Polymorphic Relationships
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, related_name="likes")
     object_id = models.PositiveIntegerField()
