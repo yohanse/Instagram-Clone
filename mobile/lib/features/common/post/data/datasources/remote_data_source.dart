@@ -25,10 +25,10 @@ class PostRemoteDataSourceImpl implements PostRemoteDataSource {
       headers: {
         'Content-Type': 'application/json',
         'Authorization':
-            "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE2OTA4MTc5LCJpYXQiOjE3MTE3MjQxNzksImp0aSI6Ijk4ZTIzNDZhZTc4YTRmYTQ5MTA2OTgzYTliMzEzNWZmIiwidXNlcl9pZCI6MX0.Wo_mbQQMV4cNPYbTKtWCrOCzBsHSJ0BCYMRgx8ajl3k",
+            "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3NTY3OTcxLCJpYXQiOjE3MTIzODM5NzEsImp0aSI6ImM0NTY2YjgxZTMxODRlYjE5ZDlmOWI2YmJiNzQ2ZDlmIiwidXNlcl9pZCI6MX0.y7M19fO4EcaKgPXI-LLrOjGzFCz98gEWld3kcWDp4os",
       },
     );
-
+    print(responseData.body);
     if (responseData.statusCode == 200) {
       final response = jsonDecode(responseData.body);
       List<PostModel> result = [];
@@ -46,7 +46,7 @@ class PostRemoteDataSourceImpl implements PostRemoteDataSource {
     final Map<String, String> headers = {
       'Content-Type': 'multipart/form-data',
       'Authorization':
-          "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE2OTA4MTc5LCJpYXQiOjE3MTE3MjQxNzksImp0aSI6Ijk4ZTIzNDZhZTc4YTRmYTQ5MTA2OTgzYTliMzEzNWZmIiwidXNlcl9pZCI6MX0.Wo_mbQQMV4cNPYbTKtWCrOCzBsHSJ0BCYMRgx8ajl3k",
+          "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3NTY3OTcxLCJpYXQiOjE3MTIzODM5NzEsImp0aSI6ImM0NTY2YjgxZTMxODRlYjE5ZDlmOWI2YmJiNzQ2ZDlmIiwidXNlcl9pZCI6MX0.y7M19fO4EcaKgPXI-LLrOjGzFCz98gEWld3kcWDp4os",
     };
     final request = http.MultipartRequest('POST', Uri.parse(url));
 

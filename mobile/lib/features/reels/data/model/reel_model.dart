@@ -1,32 +1,25 @@
-import '../../../../profile/Data/model/profile_model.dart';
-import '../../domain/entities/post_entitie.dart';
+import 'package:mobile/features/reels/domain/Entitie/reel_entitie.dart';
 
-class PostModel extends PostEntite {
+import '../../../profile/Data/model/profile_model.dart';
+
+class ReelModel extends ReelEntite {
   @override
-  const PostModel({
+  const ReelModel({
     super.id,
-    required super.text,
     super.created_at,
-    required super.images,
-    super.videos,
+    required super.video,
     super.numberOfLike,
     super.author,
     super.comments,
     super.isILiked,
   });
 
-  factory PostModel.fromJson(Map<String, dynamic> json) {
-    List<String> imageUrls = [];
-    for (int i = 0; i < json["images"].length; i++) {
-      imageUrls.add(json["images"][i]["image"] as String);
-    }
-    return PostModel(
+  factory ReelModel.fromJson(Map<String, dynamic> json) {
+    return ReelModel(
       id: json['id'],
       author: ProfileModel.fromJson(json['user']),
-      text: json['text'],
       created_at: DateTime.parse(json['created_at']),
-      images: imageUrls,
-      videos: const [],
+      video: json['video'],
       numberOfLike: json['numberOfLike'],
       comments: (json['comments'] as List)
           .map((comment) => CommentModel.fromJson(comment))
@@ -37,9 +30,7 @@ class PostModel extends PostEntite {
 
   Map<String, dynamic> tojson() {
     return {
-      "text": text,
-      "upload_images": images,
-      // "videos": videos,
+      "video": video
     };
   }
 }

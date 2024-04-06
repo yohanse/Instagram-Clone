@@ -12,7 +12,7 @@ from rest_framework.permissions import IsAuthenticated
 class ProfileView(GenericViewSet, CreateModelMixin, ListModelMixin):
     # permission_classes = [CanDeletePost]
     queryset = models.User.objects.all()
-    serializer_class = seriliazer.UserProfileSerializer
+    serializer_class = seriliazer.UserProfileShortSerializer
     
     def list(self, request, *args, **kwargs):
         user = self.queryset.get(user_id=request.user.id)
