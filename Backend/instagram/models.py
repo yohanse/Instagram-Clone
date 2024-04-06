@@ -3,7 +3,6 @@ from django.db import models
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
-
 class User(models.Model):
     profile_image = models.ImageField(upload_to="profile/images", default="profile/images/profile.webp")
     bio = models.CharField(max_length=200)
@@ -47,9 +46,9 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     # Content Type for Polymorphic Relationships
-    content_type = models.ForeignKey(to='contenttypes.ContentType', on_delete=models.CASCADE)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, related_name="comments")
     object_id = models.PositiveIntegerField()
-    content_object = models.ForeignKey(to='models.Model', on_delete=models.CASCADE, related_name='comments')
+    content_object = GenericForeignKey('content_type','object_id')
 
     class Meta:
         ordering = ['-created_at']  # Order comments by creation date (descending)
@@ -58,10 +57,8 @@ class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     # Content Type for Polymorphic Relationships
-    content_type = models.ForeignKey(to='contenttypes.ContentType', on_delete=models.CASCADE)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, related_name="likes")
     object_id = models.PositiveIntegerField()
-    content_object = models.ForeignKey(to='models.Model', on_delete=models.CASCADE, related_name='likes')
-
+    content_object = GenericForeignKey('content_type','object_id')
     class Meta:
         unique_together = [('user', 'content_type', 'object_id')]
-
