@@ -15,30 +15,91 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
   @override
   void initState() {
     super.initState();
-   
+
     _controller = VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl))
       ..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         setState(() {});
       });
-       _controller.play();
+    _controller.play();
   }
 
   @override
   void dispose() {
     super.dispose();
-    _controller.dispose(); // Dispose the VideoPlayerController to release resources.
+    _controller
+        .dispose(); // Dispose the VideoPlayerController to release resources.
   }
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: _controller.value.isInitialized
-          ? AspectRatio(
-              aspectRatio: _controller.value.aspectRatio,
-              child: VideoPlayer(_controller),
-            )
-          : Container(),
+    return Stack(
+      children: [
+        Center(
+          child: _controller.value.isInitialized
+              ? AspectRatio(
+                  aspectRatio: _controller.value.aspectRatio,
+                  child: VideoPlayer(_controller),
+                )
+              : Container(),
+        ),
+        Positioned(
+          child: Column(
+            children: [
+              Column(
+                children: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.favorite_outline_rounded,
+                      color: Colors.white,
+                      size: 30,
+                    ),
+                  ),
+                  Text(
+                    "608K",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.favorite_outline_rounded,
+                      size: 30,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Text(
+                    "608K",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.favorite_outline_rounded,
+                      size: 30,
+                      color: Colors.white,
+                    ),
+                  ),
+                  Text(
+                    "608K",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          right: 20,
+          bottom: 90,
+        ),
+      ],
     );
   }
 }
