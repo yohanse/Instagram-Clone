@@ -38,6 +38,9 @@ import 'package:mobile/features/reels/domain/usecase/get_all_reels_usecase.dart'
 import 'package:mobile/features/reels/presentation/bloc/get%20all%20reel/get_all_reel_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'features/reels/domain/usecase/like_reel_usecase.dart';
+import 'features/reels/presentation/bloc/like reel/like_reel_bloc.dart';
+
 final sl = GetIt.instance;
 
 Future<void> init() async {
@@ -57,6 +60,7 @@ Future<void> init() async {
   sl.registerFactory(() => AddingPostBloc(addPostUseCase: sl()));
   sl.registerFactory(() => ProfileBloc(getProfileUsecase: sl()));
   sl.registerFactory(() => GetAllReelBloc(getAllReelUseCase: sl()));
+  sl.registerFactory(() => LikeReelBloc(likeReelUseCase: sl()));
 
   //use case
   sl.registerLazySingleton(() => CheckEmailUsecase(authRepository: sl()));
@@ -78,6 +82,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => AddPostUseCase(postRepository: sl()));
   sl.registerLazySingleton(() => GetProfileUsecase(profileRepository: sl()));
   sl.registerLazySingleton(() => GetAllReelUseCase(reelRepository: sl()));
+  sl.registerLazySingleton(() => LikeReelUseCase(reelRepository: sl()));
 
   //Remote Data Source
   sl.registerLazySingleton<AuthRemoteDataSource>(
@@ -114,7 +119,8 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<ProfileRepository>(
       () => ProfileREpositoryImplementation(remoteDataSource: sl()));
-  sl.registerLazySingleton<ReelRepository>(() => ReelRepositoryImpl(networkInfo: sl(), reelRemoteDataSource: sl()));
+  sl.registerLazySingleton<ReelRepository>(
+      () => ReelRepositoryImpl(networkInfo: sl(), reelRemoteDataSource: sl()));
 
   //Core
   sl.registerLazySingleton<NetworkInfo>(

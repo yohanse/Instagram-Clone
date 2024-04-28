@@ -27,6 +27,7 @@ class ReelPage extends StatelessWidget {
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
                     return CustomVideoPlayer(
+                      reelId: "${state.reels[index].id}",
                       videoUrl: state.reels[index].video,
                       profileImageurl: state.reels[index].author!.profile_image,
                       authorName: state.reels[index].author!.name,

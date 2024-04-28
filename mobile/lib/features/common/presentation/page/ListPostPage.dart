@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:mobile/features/common/post/domain/entities/post_entitie.dart';
 import 'package:mobile/features/common/presentation/bloc/post/post_bloc.dart';
 
 import '../../../profile/presentation/widget/custom_bottom_bar_navigation.dart';
