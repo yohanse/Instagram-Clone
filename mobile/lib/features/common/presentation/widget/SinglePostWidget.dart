@@ -148,7 +148,7 @@ class BottomBarButtons extends StatelessWidget {
                 angle: -45 * 3.141592653589793 / 180,
                 child: Icon(
                   Icons.send_outlined,
-                  color: Colors.white, // Adjust color as needed
+                  color: Colors.white,
                 ),
               ),
               SizedBox(

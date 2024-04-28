@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/features/reels/presentation/bloc/get%20all%20reel/get_all_reel_bloc.dart';
 
-
 import '../../../profile/presentation/widget/custom_bottom_bar_navigation.dart';
 import '../widget/single_reel_.dart';
 
@@ -27,7 +26,11 @@ class ReelPage extends StatelessWidget {
                   itemCount: state.reels.length,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
-                    return CustomVideoPlayer(videoUrl: state.reels[index].video);
+                    return CustomVideoPlayer(
+                      videoUrl: state.reels[index].video,
+                      profileImageurl: state.reels[index].author!.profile_image,
+                      authorName: state.reels[index].author!.name,
+                    );
                   });
             } else if (state is GetAllReelLoadingState) {
               return Text("Loading");
