@@ -8,3 +8,12 @@ sealed class GetAllReelEvent extends Equatable {
 }
 
 class GetAllReelsEvent extends GetAllReelEvent {}
+
+class GetAllLikeReelEvent extends GetAllReelEvent {
+  final String reelId;
+
+  const GetAllLikeReelEvent({required this.reelId});
+
+  @override
+  List<Object> get props => [reelId];
+}

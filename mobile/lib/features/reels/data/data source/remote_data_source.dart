@@ -8,7 +8,9 @@ import 'local_data_source.dart';
 abstract class ReelRemoteDataSource {
   ReelLocalDataSource get reelLocalDataSource;
   Future<List<ReelModel>> getAllReel();
+  Future<ReelModel> getReel(String reelId);
   Future<bool> likeReel(String reelId);
+  Future<bool> unlikeReel(String reelId);
 }
 
 class ReelRemoteDataSourceImpl implements ReelRemoteDataSource {
@@ -17,11 +19,9 @@ class ReelRemoteDataSourceImpl implements ReelRemoteDataSource {
 
   ReelRemoteDataSourceImpl({required this.reelLocalDataSource});
 
-  
   @override
   Future<List<ReelModel>> getAllReel() async {
     String url = "http://192.168.43.57:8000/instagram/reels/";
-    print("yohanse");
     final responseData = await http.get(
       Uri.parse(url),
       headers: {
@@ -30,7 +30,6 @@ class ReelRemoteDataSourceImpl implements ReelRemoteDataSource {
             "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3NTY3OTcxLCJpYXQiOjE3MTIzODM5NzEsImp0aSI6ImM0NTY2YjgxZTMxODRlYjE5ZDlmOWI2YmJiNzQ2ZDlmIiwidXNlcl9pZCI6MX0.y7M19fO4EcaKgPXI-LLrOjGzFCz98gEWld3kcWDp4os",
       },
     );
-    print(responseData.body);
     if (responseData.statusCode == 200) {
       final response = jsonDecode(responseData.body);
       List<ReelModel> result = [];
@@ -41,10 +40,27 @@ class ReelRemoteDataSourceImpl implements ReelRemoteDataSource {
     }
     throw ServerException();
   }
-  
+
   @override
   Future<bool> likeReel(String reelId) async {
-     String url = 'http://192.168.43.57:8000/instagram/reels/$reelId/likes/';
+    String url = 'http://192.168.43.57:8000/instagram/reels/$reelId/likes/';
+    final responseData = await http.post(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization':
+            "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3NTY3OTcxLCJpYXQiOjE3MTIzODM5NzEsImp0aSI6ImM0NTY2YjgxZTMxODRlYjE5ZDlmOWI2YmJiNzQ2ZDlmIiwidXNlcl9pZCI6MX0.y7M19fO4EcaKgPXI-LLrOjGzFCz98gEWld3kcWDp4os",
+      },
+    );
+    if (responseData.statusCode == 200 || responseData.statusCode == 201) {
+      return true;
+    }
+    throw ServerException();
+  }
+
+  @override
+  Future<ReelModel> getReel(String reelId) async {
+    String url = "http://192.168.43.57:8000/instagram/reels/$reelId/";
     final responseData = await http.get(
       Uri.parse(url),
       headers: {
@@ -54,8 +70,15 @@ class ReelRemoteDataSourceImpl implements ReelRemoteDataSource {
       },
     );
     if (responseData.statusCode == 200) {
-      return true;
+      final response = jsonDecode(responseData.body);
+      return ReelModel.fromJson(response);
     }
     throw ServerException();
+  }
+
+  @override
+  Future<bool> unlikeReel(String reelId) {
+    // TODO: implement unlikeReel
+    throw UnimplementedError();
   }
 }

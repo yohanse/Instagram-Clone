@@ -8,3 +8,23 @@ sealed class GetSingleReelState extends Equatable {
 }
 
 final class GetSingleReelInitial extends GetSingleReelState {}
+
+class GetSingleReelInProgress extends GetSingleReelState {}
+
+class GetSingleReelSuccess extends GetSingleReelState {
+  final ReelEntite reel;
+
+  const GetSingleReelSuccess({required this.reel});
+
+  @override
+  List<Object> get props => [reel];
+}
+
+class GetSingleReelFailure extends GetSingleReelState {
+  final String message;
+
+  const GetSingleReelFailure({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}

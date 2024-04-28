@@ -6,3 +6,12 @@ sealed class GetSingleReelEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class GetSingleReel extends GetSingleReelEvent {
+  final String reelId;
+
+  const GetSingleReel({required this.reelId});
+
+  @override
+  List<Object> get props => [reelId];
+}

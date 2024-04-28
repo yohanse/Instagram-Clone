@@ -29,8 +29,10 @@ class ReelPage extends StatelessWidget {
                     return CustomVideoPlayer(
                       reelId: "${state.reels[index].id}",
                       videoUrl: state.reels[index].video,
-                      profileImageurl: state.reels[index].author!.profile_image,
                       authorName: state.reels[index].author!.name,
+                      profileImageurl: state.reels[index].author!.profile_image,
+                      isLiked: state.reels[index].isILiked!,
+                      numberOfLike: state.reels[index].numberOfLike!,
                     );
                   });
             } else if (state is GetAllReelLoadingState) {

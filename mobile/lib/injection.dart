@@ -35,10 +35,12 @@ import 'package:mobile/features/reels/data/data%20source/remote_data_source.dart
 import 'package:mobile/features/reels/data/repository/reel_repository_impl.dart';
 import 'package:mobile/features/reels/domain/repository/reel_repository.dart';
 import 'package:mobile/features/reels/domain/usecase/get_all_reels_usecase.dart';
+import 'package:mobile/features/reels/domain/usecase/get_reel.dart';
 import 'package:mobile/features/reels/presentation/bloc/get%20all%20reel/get_all_reel_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'features/reels/domain/usecase/like_reel_usecase.dart';
+import 'features/reels/presentation/bloc/get single reel/get_single_reel_bloc.dart';
 import 'features/reels/presentation/bloc/like reel/like_reel_bloc.dart';
 
 final sl = GetIt.instance;
@@ -50,17 +52,63 @@ Future<void> init() async {
       checkEmail: sl(),
     ),
   );
-  sl.registerFactory(() => CheckConfirmationBloc(checkConfirmation: sl()));
-  sl.registerFactory(() => CheckUsernameBloc(checkUsernameUsecase: sl()));
-  sl.registerFactory(() => SingupBloc(signUpUsecase: sl()));
-  sl.registerFactory(() => LoginBloc(logInUsecase: sl()));
-  sl.registerFactory(() => PostBloc(getAllPostUseCase: sl()));
-  sl.registerFactory(() => ImageManagerBloc());
-  sl.registerFactory(() => IsMultipleSelectedBloc());
-  sl.registerFactory(() => AddingPostBloc(addPostUseCase: sl()));
-  sl.registerFactory(() => ProfileBloc(getProfileUsecase: sl()));
-  sl.registerFactory(() => GetAllReelBloc(getAllReelUseCase: sl()));
-  sl.registerFactory(() => LikeReelBloc(likeReelUseCase: sl()));
+  sl.registerFactory(
+    () => CheckConfirmationBloc(
+      checkConfirmation: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => CheckUsernameBloc(
+      checkUsernameUsecase: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => SingupBloc(
+      signUpUsecase: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => LoginBloc(
+      logInUsecase: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => PostBloc(
+      getAllPostUseCase: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => ImageManagerBloc(),
+  );
+  sl.registerFactory(
+    () => IsMultipleSelectedBloc(),
+  );
+  sl.registerFactory(
+    () => AddingPostBloc(
+      addPostUseCase: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => ProfileBloc(
+      getProfileUsecase: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => GetAllReelBloc(
+      getAllReelUseCase: sl(),
+      likeReelUseCase: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => LikeReelBloc(
+      likeReelUseCase: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => GetSingleReelBloc(
+      getReelUseCase: sl(),
+    ),
+  );
 
   //use case
   sl.registerLazySingleton(() => CheckEmailUsecase(authRepository: sl()));
@@ -83,6 +131,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetProfileUsecase(profileRepository: sl()));
   sl.registerLazySingleton(() => GetAllReelUseCase(reelRepository: sl()));
   sl.registerLazySingleton(() => LikeReelUseCase(reelRepository: sl()));
+  sl.registerLazySingleton(() => GetReelUseCase(reelRepository: sl()));
 
   //Remote Data Source
   sl.registerLazySingleton<AuthRemoteDataSource>(

@@ -12,6 +12,8 @@ final class GetAllReelInitial extends GetAllReelState {}
 class GetAllReelLoadedState extends GetAllReelState {
   final List<ReelEntite> reels;
   const GetAllReelLoadedState({required this.reels});
+  @override
+  List<Object> get props => [reels];
 }
 
 

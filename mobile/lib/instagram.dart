@@ -30,6 +30,7 @@ import 'features/auth/presentation/pages/login.dart';
 import 'features/auth/presentation/pages/username.dart';
 import 'features/common/presentation/page/AfterImagePicke.dart';
 import 'features/common/presentation/page/ListPostPage.dart';
+import 'features/reels/presentation/bloc/get single reel/get_single_reel_bloc.dart';
 import 'features/reels/presentation/bloc/like reel/like_reel_bloc.dart';
 
 class InstagramApp extends StatelessWidget {
@@ -147,6 +148,9 @@ class InstagramApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => sl<LikeReelBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => sl<GetSingleReelBloc>(),
         ),
       ],
       child: MaterialApp.router(

@@ -19,7 +19,7 @@ class ReelEntite extends Equatable {
       required this.video,
       this.numberOfLike});
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [author, comments, id, created_at, video, numberOfLike, isILiked];
 }
 
 class Comment extends Equatable {
@@ -33,5 +33,5 @@ class Comment extends Equatable {
       required this.created_at,
       required this.user});
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [id, content, created_at, user];
 }
