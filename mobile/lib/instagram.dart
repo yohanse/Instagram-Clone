@@ -18,6 +18,8 @@ import 'package:mobile/features/common/presentation/bloc/post/post_bloc.dart';
 import 'package:mobile/features/common/presentation/page/ImagePickerPage.dart';
 import 'package:mobile/features/profile/presentation/bloc/profile/profile_bloc.dart';
 import 'package:mobile/features/profile/presentation/page/profile_page.dart';
+import 'package:mobile/features/reels/presentation/bloc/get%20all%20reel/get_all_reel_bloc.dart';
+import 'package:mobile/features/reels/presentation/page/reel_page.dart';
 import 'package:mobile/injection.dart';
 import 'package:photo_manager/photo_manager.dart';
 
@@ -96,7 +98,15 @@ class InstagramApp extends StatelessWidget {
         //     medias: state.extra as List<AssetEntity>,
         //   ),
         // ),
-        GoRoute(path: "/", builder: (context, state) => const ProfilePage(),)
+        GoRoute(
+          path: "/profile",
+          builder: (context, state) => const ProfilePage(),
+        ),
+
+        GoRoute(
+          path: "/",
+          builder: (context, state) => ReelPage(),
+        ),
       ],
     );
     return MultiBlocProvider(
@@ -131,6 +141,7 @@ class InstagramApp extends StatelessWidget {
         BlocProvider(
           create: (context) => sl<ProfileBloc>(),
         ),
+        BlocProvider(create: (context) => sl<GetAllReelBloc>(),),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

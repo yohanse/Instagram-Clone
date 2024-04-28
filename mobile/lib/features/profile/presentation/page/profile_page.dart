@@ -7,6 +7,7 @@ import 'package:mobile/features/profile/presentation/widget/custom_score.dart';
 import 'package:mobile/features/profile/presentation/widget/custom_user_dispaly.dart';
 
 import '../../../common/presentation/page/ListPostPage.dart';
+import '../widget/custom_bottom_bar_navigation.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -18,10 +19,7 @@ class ProfilePage extends StatelessWidget {
       builder: (context, state) {
         if (state is ProfileLoadedState) {
           return Scaffold(
-            bottomNavigationBar: CustomBottomNavigationBar(
-              profileImageUrl:
-                  "http://192.168.43.57:8000/media/profile/images/profile.webp",
-            ),
+            bottomNavigationBar: CustomBottomNavigationBar(),
             appBar: AppBar(
               title: Text(
                 state.name,

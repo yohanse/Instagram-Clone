@@ -19,7 +19,7 @@ class ReelModel extends ReelEntite {
       id: json['id'],
       author: ProfileModel.fromJson(json['user']),
       created_at: DateTime.parse(json['created_at']),
-      video: json['video'],
+      video: json['video']['video'],
       numberOfLike: json['numberOfLike'],
       comments: (json['comments'] as List)
           .map((comment) => CommentModel.fromJson(comment))

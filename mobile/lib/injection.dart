@@ -30,6 +30,12 @@ import 'package:mobile/features/profile/Data/repository/profile_repository_impl.
 import 'package:mobile/features/profile/Domain/Repository/profile_repository.dart';
 import 'package:mobile/features/profile/Domain/Usecase/get_profile_usecase.dart';
 import 'package:mobile/features/profile/presentation/bloc/profile/profile_bloc.dart';
+import 'package:mobile/features/reels/data/data%20source/local_data_source.dart';
+import 'package:mobile/features/reels/data/data%20source/remote_data_source.dart';
+import 'package:mobile/features/reels/data/repository/reel_repository_impl.dart';
+import 'package:mobile/features/reels/domain/repository/reel_repository.dart';
+import 'package:mobile/features/reels/domain/usecase/get_all_reels_usecase.dart';
+import 'package:mobile/features/reels/presentation/bloc/get%20all%20reel/get_all_reel_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final sl = GetIt.instance;
@@ -50,6 +56,7 @@ Future<void> init() async {
   sl.registerFactory(() => IsMultipleSelectedBloc());
   sl.registerFactory(() => AddingPostBloc(addPostUseCase: sl()));
   sl.registerFactory(() => ProfileBloc(getProfileUsecase: sl()));
+  sl.registerFactory(() => GetAllReelBloc(getAllReelUseCase: sl()));
 
   //use case
   sl.registerLazySingleton(() => CheckEmailUsecase(authRepository: sl()));
@@ -70,6 +77,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetAllPostUseCase(postRepository: sl()));
   sl.registerLazySingleton(() => AddPostUseCase(postRepository: sl()));
   sl.registerLazySingleton(() => GetProfileUsecase(profileRepository: sl()));
+  sl.registerLazySingleton(() => GetAllReelUseCase(reelRepository: sl()));
 
   //Remote Data Source
   sl.registerLazySingleton<AuthRemoteDataSource>(
@@ -82,6 +90,8 @@ Future<void> init() async {
       () => PostRemoteDataSourceImpl(postLocalDataSource: sl()));
   sl.registerLazySingleton<ProfileRemoteDataSource>(
       () => ProfileRemoteDataSourceImpl());
+  sl.registerLazySingleton<ReelRemoteDataSource>(
+      () => ReelRemoteDataSourceImpl(reelLocalDataSource: sl()));
 
   // Local Data Source
   sl.registerLazySingleton<AuthLocalDataSource>(
@@ -89,6 +99,8 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<PostLocalDataSource>(
       () => PostLocalDataSourceImpl(prefs: sl()));
+  sl.registerLazySingleton<ReelLocalDataSource>(
+      () => ReelLocalDataSourceImpl());
 
   // Repository
   sl.registerLazySingleton<PostRepository>(
@@ -102,6 +114,7 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<ProfileRepository>(
       () => ProfileREpositoryImplementation(remoteDataSource: sl()));
+  sl.registerLazySingleton<ReelRepository>(() => ReelRepositoryImpl(networkInfo: sl(), reelRemoteDataSource: sl()));
 
   //Core
   sl.registerLazySingleton<NetworkInfo>(

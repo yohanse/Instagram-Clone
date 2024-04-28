@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mobile/features/common/post/domain/entities/post_entitie.dart';
 import 'package:mobile/features/common/presentation/bloc/post/post_bloc.dart';
 
+import '../../../profile/presentation/widget/custom_bottom_bar_navigation.dart';
 import '../widget/SinglePostWidget.dart';
 
 class ListPostPage extends StatelessWidget {
@@ -16,10 +17,7 @@ class ListPostPage extends StatelessWidget {
       GetAllPostsEvent(),
     );
     return Scaffold(
-      bottomNavigationBar: CustomBottomNavigationBar(
-        profileImageUrl:
-            "http://192.168.43.57:8000/media/profile/images/profile.webp",
-      ),
+      bottomNavigationBar: CustomBottomNavigationBar(),
       body: Container(
         color: Colors.black,
         child: BlocConsumer<PostBloc, PostState>(
@@ -51,59 +49,3 @@ class ListPostPage extends StatelessWidget {
   }
 }
 
-class CustomBottomNavigationBar extends StatelessWidget {
-  final String profileImageUrl;
-  const CustomBottomNavigationBar({super.key, required this.profileImageUrl});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.black,
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          IconButton(
-            onPressed: () {
-              context.go("/posts");
-            },
-            icon: Icon(
-              Icons.home,
-              color: Colors.white,
-              size: 30,
-            ),
-          ),
-          Icon(
-            Icons.search,
-            color: Colors.white,
-            size: 30,
-          ),
-          IconButton(
-            icon: Icon(
-              Icons.add_circle_outline,
-              size: 40,
-            ),
-            color: Colors.white,
-            onPressed: () {
-              context.go("/pickImage");
-            },
-          ),
-          Icon(
-            Icons.video_collection_outlined,
-            color: Colors.white,
-            size: 30,
-          ),
-          GestureDetector(
-            onTap: () {
-              context.go("/");
-            },
-            child: CircleAvatar(
-              backgroundImage: NetworkImage(profileImageUrl),
-              radius: 15,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
