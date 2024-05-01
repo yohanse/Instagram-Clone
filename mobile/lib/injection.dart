@@ -36,6 +36,7 @@ import 'package:mobile/features/reels/data/repository/reel_repository_impl.dart'
 import 'package:mobile/features/reels/domain/repository/reel_repository.dart';
 import 'package:mobile/features/reels/domain/usecase/get_all_reels_usecase.dart';
 import 'package:mobile/features/reels/domain/usecase/get_reel.dart';
+import 'package:mobile/features/reels/domain/usecase/unlike_reel_usecase.dart';
 import 'package:mobile/features/reels/presentation/bloc/get%20all%20reel/get_all_reel_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -99,6 +100,7 @@ Future<void> init() async {
       getAllReelUseCase: sl(),
       likeReelUseCase: sl(),
       commentReelUseCase: sl(),
+      unLikeReelUseCase: sl(),
     ),
   );
   sl.registerFactory(
@@ -128,13 +130,46 @@ Future<void> init() async {
       authRepository: sl(),
     ),
   );
-  sl.registerLazySingleton(() => GetAllPostUseCase(postRepository: sl()));
-  sl.registerLazySingleton(() => AddPostUseCase(postRepository: sl()));
-  sl.registerLazySingleton(() => GetProfileUsecase(profileRepository: sl()));
-  sl.registerLazySingleton(() => GetAllReelUseCase(reelRepository: sl()));
-  sl.registerLazySingleton(() => LikeReelUseCase(reelRepository: sl()));
-  sl.registerLazySingleton(() => GetReelUseCase(reelRepository: sl()));
-  sl.registerLazySingleton(() => CommentReelUseCase(reelRepository: sl()));
+  sl.registerLazySingleton(
+    () => GetAllPostUseCase(
+      postRepository: sl(),
+    ),
+  );
+  sl.registerLazySingleton(
+    () => AddPostUseCase(
+      postRepository: sl(),
+    ),
+  );
+  sl.registerLazySingleton(
+    () => GetProfileUsecase(
+      profileRepository: sl(),
+    ),
+  );
+  sl.registerLazySingleton(
+    () => GetAllReelUseCase(
+      reelRepository: sl(),
+    ),
+  );
+  sl.registerLazySingleton(
+    () => LikeReelUseCase(
+      reelRepository: sl(),
+    ),
+  );
+  sl.registerLazySingleton(
+    () => GetReelUseCase(
+      reelRepository: sl(),
+    ),
+  );
+  sl.registerLazySingleton(
+    () => CommentReelUseCase(
+      reelRepository: sl(),
+    ),
+  );
+  sl.registerLazySingleton(
+    () => UnLikeReelUseCase(
+      reelRepository: sl(),
+    ),
+  );
 
   //Remote Data Source
   sl.registerLazySingleton<AuthRemoteDataSource>(
