@@ -106,13 +106,14 @@ class ReelSerializer(serializers.ModelSerializer):
     user = UserProfileShortSerializer(read_only=True)
     upload_video =  serializers.FileField(allow_empty_file=False, use_url=False, write_only=True)
     video = VideoSerializer(read_only=True)
+    likes = serializers.SerializerMethodField()
     comments = serializers.SerializerMethodField()
     numberOfLike = serializers.SerializerMethodField()
     isILiked = serializers.SerializerMethodField()
 
     class Meta:
         model = models.Reel
-        fields = ['id', 'user', 'created_at', 'video', "comments", "upload_video", "numberOfLike", "isILiked"]
+        fields = ['id', 'user', 'created_at', 'video', "likes", "comments", "upload_video", "numberOfLike", "isILiked"]
     
     def create(self, validated_data):
         validated_data["user_id"] = self.context["request"].user.id
@@ -121,6 +122,10 @@ class ReelSerializer(serializers.ModelSerializer):
         validated_data.pop("upload_video")
         validated_data["video_id"] = video_instance.id
         return super().create(validated_data)
+    
+    def get_likes(self, reel):
+        likes = models.Like.objects.filter(content_type=ContentType.objects.get_for_model(reel), object_id=reel.id)
+        return LikeSerializer(likes, many=True).data
     
     def get_comments(self, reel):
         comments = models.Comment.objects.filter(content_type=ContentType.objects.get_for_model(reel), object_id=reel.id)
