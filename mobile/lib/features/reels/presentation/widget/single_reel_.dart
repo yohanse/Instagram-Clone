@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile/features/reels/presentation/bloc/get%20single%20reel/get_single_reel_bloc.dart';
+
 import 'package:video_player/video_player.dart';
 
 import '../bloc/get all reel/get_all_reel_bloc.dart';
-import '../bloc/like reel/like_reel_bloc.dart';
+
+import 'package:snapping_bottom_sheet/snapping_bottom_sheet.dart';
 
 class CustomVideoPlayer extends StatefulWidget {
   final String videoUrl;
@@ -29,6 +30,7 @@ class CustomVideoPlayer extends StatefulWidget {
 
 class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
   late VideoPlayerController _controller;
+  bool isComment = false;
 
   @override
   void initState() {
@@ -45,6 +47,167 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
   void dispose() {
     super.dispose();
     _controller.dispose();
+  }
+
+  void setCommented() {
+    setState(() {
+      isComment = !isComment;
+    });
+  }
+
+  void test() async {
+    showSnappingBottomSheet(context, builder: (context) {
+      return SnappingBottomSheetDialog(
+        elevation: 8,
+        cornerRadius: 25,
+        color: Color(0xFF262626),
+        snapSpec: const SnapSpec(
+          snap: true,
+          snappings: [0.6, 1],
+        ),
+        builder: (context, state) {
+          return Container(
+            height: 500,
+            child: Center(
+              child: Text(
+                'This is the content of the sheet',
+              ),
+            ),
+          );
+        },
+        headerBuilder: (context, state) {
+          return Container(
+            height: 56,
+            width: double.infinity,
+            padding: EdgeInsets.only(top: 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  height: 4,
+                  width: 40,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Colors.white,
+                  ),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Text(
+                  "Comments",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    decoration: TextDecoration.none,
+                  ),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Container(
+                  height: 1,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+        footerBuilder: (context, state) => Row(
+          children: [
+            CircleAvatar(
+              backgroundImage: NetworkImage(widget.profileImageurl),
+              radius: 20,
+            ),
+            Expanded(
+              child: Card(
+                child: TextField(
+                  onSubmitted: (value) => print(value),
+                  decoration: InputDecoration(
+                    labelStyle: TextStyle(color: Colors.white, fontSize: 14),
+                    hintText: "Add a comment",
+                    hintStyle: TextStyle(color: Colors.white10, fontSize: 14),
+                    suffixIcon: IconButton(
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.send_outlined,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    });
+  }
+
+  void showAsBottomSheet() async {
+    final result = await showSnappingBottomSheet(context, builder: (context) {
+      return SnappingBottomSheetDialog(
+        color: Color(0xFF262626),
+        elevation: 8,
+        cornerRadius: 25,
+        snapSpec: const SnapSpec(
+          snap: true,
+          snappings: [112, 400, double.infinity],
+          positioning: SnapPositioning.pixelOffset,
+        ),
+        headerBuilder: (context, state) => Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                height: 4,
+                width: 60,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              Text(
+                "Comments",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  decoration: TextDecoration.none,
+                ),
+              ),
+            ],
+          ),
+        ),
+        footerBuilder: (context, state) => Text("footer"),
+        builder: (context, state) {
+          return Container(
+            height: 400,
+            child: Center(
+              child: Material(
+                child: InkWell(
+                  onTap: () => Navigator.pop(context, 'This is the result.'),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Text(
+                      'This is the content of the sheet',
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      );
+    });
   }
 
   @override
@@ -85,7 +248,7 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
               Column(
                 children: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () => test(),
                     icon: Icon(
                       Icons.favorite_outline_rounded,
                       size: 30,

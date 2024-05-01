@@ -653,6 +653,22 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  sliding_sheet2:
+    dependency: "direct main"
+    description:
+      name: sliding_sheet2
+      sha256: "6ed6b11c071cfdfa55ab1b3ffaeddad034ef6917955c8dbc2f4ad58563bbec84"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
+  snapping_bottom_sheet:
+    dependency: "direct main"
+    description:
+      name: snapping_bottom_sheet
+      sha256: "32da031444fb97c3c2c7fc1ccad1fe50fc09a57bb9dea12070e8baf27f075553"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.4"
   source_span:
     dependency: transitive
     description:
