@@ -16,15 +16,18 @@ class CustomVideoPlayer extends StatefulWidget {
   final int numberOfLike;
   final bool isLiked;
   final List<Comment> comments;
-  const CustomVideoPlayer(
-      {super.key,
-      required this.videoUrl,
-      required this.profileImageurl,
-      required this.authorName,
-      required this.reelId,
-      required this.numberOfLike,
-      required this.isLiked,
-      required this.comments});
+  final int reelIndex;
+  const CustomVideoPlayer({
+    super.key,
+    required this.videoUrl,
+    required this.profileImageurl,
+    required this.authorName,
+    required this.reelId,
+    required this.numberOfLike,
+    required this.isLiked,
+    required this.comments,
+    required this.reelIndex,
+  });
 
   @override
   State<CustomVideoPlayer> createState() => _CustomVideoPlayerState();
@@ -32,11 +35,12 @@ class CustomVideoPlayer extends StatefulWidget {
 
 class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
   late VideoPlayerController _controller;
+  late TextEditingController _commentController;
 
   @override
   void initState() {
     super.initState();
-
+    _commentController = TextEditingController();
     _controller = VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl))
       ..initialize().then((_) {
         setState(() {});
@@ -61,22 +65,42 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
           snappings: [0.6, 1],
         ),
         builder: (context, state) {
-          return ListView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: widget.comments.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                leading: CircleAvatar(
-                  backgroundImage:
-                      NetworkImage(widget.comments[index].user.profile_image),
-                      radius: 25,
-                ),
-                title: Text(widget.comments[index].user.name),
-                subtitle: Text(widget.comments[index].content),
+          return BlocBuilder<GetAllReelBloc, GetAllReelState>(
+              builder: (context, state) {
+            if (state is GetAllReelLoadedState && state.reels.isNotEmpty) {
+              return ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: widget.comments.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    color: Color(0xFF262626),
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        backgroundImage: NetworkImage(
+                           state.reels[widget.reelIndex].comments![index].user.profile_image),
+                        radius: 25,
+                      ),
+                      title: Text(
+                        state.reels[widget.reelIndex].comments![index].user.name,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      subtitle: Text(state.reels[widget.reelIndex].comments![index].content,
+                          style: TextStyle(color: Colors.white)),
+                    ),
+                  );
+                },
               );
-            },
-          );
+            }
+            return Text(
+              "Loading",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 13,
+                decoration: TextDecoration.none,
+              ),
+            );
+          });
         },
         headerBuilder: (context, state) {
           return Container(
@@ -131,11 +155,13 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
                 child: Container(
                   color: Color(0xFF262626),
                   child: TextField(
+                    controller: _commentController,
                     onSubmitted: (value) {
                       BlocProvider.of<GetAllReelBloc>(context).add(
                         GetAllCommentReelEvent(
                             reelId: widget.reelId, content: value),
                       );
+                      _commentController.clear();
                     },
                     decoration: InputDecoration(
                       hintText: "Add a comment",

@@ -87,7 +87,7 @@ class GetAllReelBloc extends Bloc<GetAllReelEvent, GetAllReelState> {
                   id: reel.id,
                   video: reel.video,
                   author: reel.author,
-                  comments: [...reel.comments!, sucess],
+                  comments: [sucess, ...reel.comments!],
                   isILiked: false,
                   created_at: reel.created_at,
                   numberOfLike: reel.numberOfLike! - 1,
