@@ -35,3 +35,16 @@ class Comment extends Equatable {
   @override
   List<Object?> get props => [id, content, created_at, user];
 }
+
+class Like extends Equatable {
+  final int id;
+  final DateTime created_at;
+  final ProfileEntitie user;
+  const Like(
+      {required this.id,
+      required this.created_at,
+      required this.user});
+  @override
+  List<Object?> get props => [id, created_at, user];
+}
+
