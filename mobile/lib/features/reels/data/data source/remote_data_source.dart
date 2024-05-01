@@ -78,9 +78,20 @@ class ReelRemoteDataSourceImpl implements ReelRemoteDataSource {
   }
 
   @override
-  Future<bool> unlikeReel(String reelId) {
-    // TODO: implement unlikeReel
-    throw UnimplementedError();
+  Future<bool> unlikeReel(String reelId) async{
+    String url = 'http://192.168.43.57:8000/instagram/reels/$reelId/likes/';
+    final responseData = await http.delete(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization':
+            "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3NTY3OTcxLCJpYXQiOjE3MTIzODM5NzEsImp0aSI6ImM0NTY2YjgxZTMxODRlYjE5ZDlmOWI2YmJiNzQ2ZDlmIiwidXNlcl9pZCI6MX0.y7M19fO4EcaKgPXI-LLrOjGzFCz98gEWld3kcWDp4os",
+      },
+    );
+    if (responseData.statusCode == 200 || responseData.statusCode == 201) {
+      return true;
+    }
+    throw ServerException();
   }
 
   @override
