@@ -224,11 +224,16 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
                     IconButton(
                       onPressed: () {
                         BlocProvider.of<GetAllReelBloc>(context).add(
-                          GetAllLikeReelEvent(reelId: widget.reelId),
+                          GetAllLikeReelEvent(
+                            reelId: widget.reelId,
+                            reelIndex: widget.reelIndex,
+                          ),
                         );
                       },
                       icon: Icon(
-                        Icons.favorite_outline_rounded,
+                        widget.isLiked
+                            ? Icons.favorite_rounded
+                            : Icons.favorite_outline_rounded,
                         color: widget.isLiked ? Colors.red : Colors.white,
                         size: 30,
                       ),
@@ -244,13 +249,13 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
                     IconButton(
                       onPressed: () => commentBottomSheet(),
                       icon: Icon(
-                        Icons.favorite_outline_rounded,
+                        Icons.comment_outlined,
                         size: 30,
                         color: Colors.white,
                       ),
                     ),
                     Text(
-                      "608K",
+                      "${widget.comments.length}",
                       style: TextStyle(color: Colors.white),
                     ),
                   ],
@@ -278,6 +283,15 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
             ),
             right: 20,
             bottom: 90,
+          ),
+          isPlaying ? Container() : Positioned(
+            child: Center(
+              child: Icon(
+                Icons.play_circle_outline,
+                size: 120,
+                color: Colors.grey,
+              ),
+            ),
           ),
           Positioned(
             bottom: 0,
@@ -344,35 +358,3 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
     );
   }
 }
-
-// class SingleReel extends StatelessWidget {
-//   final String reelId;
-//   final String videoUrl;
-//   const SingleReel({required this.reelId, required this.videoUrl, super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     print(
-//         "-------------------------${reelId}----------------------------------");
-//     BlocProvider.of<GetSingleReelBloc>(context).add(
-//       GetSingleReel(reelId: reelId),
-//     );
-//     return BlocBuilder<GetSingleReelBloc, GetSingleReelState>(
-//         builder: (context, state) {
-//       if (state is GetSingleReelSuccess) {
-//         return CustomVideoPlayer(
-//           videoUrl: state.reel.video,
-//           profileImageurl: state.reel.author!.profile_image,
-//           authorName: state.reel.author!.name,
-//           reelId: "${state.reel.id}",
-//         );
-//       } else if (state is GetSingleReelInProgress) {
-//         return Text("Loading");
-//       } else if (state is GetSingleReelFailure) {
-//         return Text("${state.message}");
-//       } else {
-//         return Text("Initial State");
-//       }
-//     });
-//   }
-// }

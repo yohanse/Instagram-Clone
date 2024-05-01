@@ -11,8 +11,11 @@ class GetAllReelsEvent extends GetAllReelEvent {}
 
 class GetAllLikeReelEvent extends GetAllReelEvent {
   final String reelId;
-
-  const GetAllLikeReelEvent({required this.reelId});
+  final int reelIndex;
+  const GetAllLikeReelEvent({
+    required this.reelId,
+    required this.reelIndex,
+  });
 
   @override
   List<Object> get props => [reelId];
