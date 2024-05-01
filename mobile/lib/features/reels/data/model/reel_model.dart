@@ -24,6 +24,9 @@ class ReelModel extends ReelEntite {
       comments: (json['comments'] as List)
           .map((comment) => CommentModel.fromJson(comment))
           .toList(),
+      likes: (json['comments'] as List)
+          .map((comment) => CommentModel.fromJson(comment))
+          .toList(),
       isILiked: json['isILiked'],
     );
   }
@@ -47,6 +50,26 @@ class CommentModel extends Comment {
     return CommentModel(
       id: json['id'],
       content: json['content'],
+      created_at: DateTime.parse(json['created_at']),
+      user: ProfileModel.fromJson(json['user']),
+    );
+  }
+
+  Map<String, dynamic> tojson() {
+    return {};
+  }
+}
+
+class LikeModel extends Like {
+  const LikeModel({
+    required super.id,
+    required super.created_at,
+    required super.user,
+  });
+
+  factory LikeModel.fromJson(Map<String, dynamic> json) {
+    return LikeModel(
+      id: json['id'],
       created_at: DateTime.parse(json['created_at']),
       user: ProfileModel.fromJson(json['user']),
     );
