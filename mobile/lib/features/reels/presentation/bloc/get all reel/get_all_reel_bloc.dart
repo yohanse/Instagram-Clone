@@ -29,57 +29,54 @@ class GetAllReelBloc extends Bloc<GetAllReelEvent, GetAllReelState> {
     });
 
     on<GetAllLikeReelEvent>((event, emit) async {
-      if (!(state as GetAllReelLoadedState).reels[event.reelIndex].isILiked!) {
-        var result =
-            await likeReelUseCase(ParamsLikeReel(reelId: event.reelId));
+      var result = await likeReelUseCase(ParamsLikeReel(reelId: event.reelId));
 
-        result.fold((failure) => null, (sucess) {
-          List<ReelEntite> reels = (state as GetAllReelLoadedState).reels;
+      result.fold((failure) => null, (sucess) {
+        List<ReelEntite> reels = (state as GetAllReelLoadedState).reels;
 
-          List<ReelEntite> updatedReels = [...reels];
-          updatedReels[event.reelIndex] = ReelEntite(
-            id: reels[event.reelIndex].id,
-            video: reels[event.reelIndex].video,
-            author: reels[event.reelIndex].author,
-            comments: reels[event.reelIndex].comments!,
-            isILiked: true,
-            created_at: reels[event.reelIndex].created_at,
-            numberOfLike: reels[event.reelIndex].numberOfLike! + 1,
-          );
-          emit(GetAllReelLoadedState(reels: updatedReels));
-        });
-      }
+        List<ReelEntite> updatedReels = [...reels];
+        updatedReels[event.reelIndex] = ReelEntite(
+          id: reels[event.reelIndex].id,
+          video: reels[event.reelIndex].video,
+          author: reels[event.reelIndex].author,
+          comments: reels[event.reelIndex].comments!,
+          isILiked: true,
+          created_at: reels[event.reelIndex].created_at,
+          numberOfLike: reels[event.reelIndex].numberOfLike! + 1,
+        );
+        emit(GetAllReelLoadedState(reels: updatedReels));
+      });
     });
 
-    on<GetAllUnLikeReelEvent>(
-      (event, emit) async {
-        if (!(state as GetAllReelLoadedState)
-            .reels[event.reelIndex]
-            .isILiked!) {
-          var result = await unLikeReelUseCase(
-            ParamsUnLikeReel(
-              reelId: event.reelId,
-            ),
-          );
+    on<GetAllUnLikeReelEvent>((event, emit) async {
+      print(
+          "unlinkeunlinkeunlinkeunlinkeunlinkeunlinkeunlinkeunlinkeunlinkeunlinkeunlinkeunlinkeunlinke");
+      var result = await unLikeReelUseCase(
+        ParamsUnLikeReel(
+          reelId: event.reelId,
+          likeId: event.likeId,
+        ),
+      );
 
-          result.fold((failure) => null, (sucess) {
-            List<ReelEntite> reels = (state as GetAllReelLoadedState).reels;
+      result.fold((failure) {
+      }, (sucess) {
+        print(
+            "unlinkeunlinkeunlinkeunlinkeunlinkeunlinkeunlinkeunlinkeunlinkeunlinkeunlinkeunlinkeunlinke");
+        List<ReelEntite> reels = (state as GetAllReelLoadedState).reels;
 
-            List<ReelEntite> updatedReels = [...reels];
-            updatedReels[event.reelIndex] = ReelEntite(
-              id: reels[event.reelIndex].id,
-              video: reels[event.reelIndex].video,
-              author: reels[event.reelIndex].author,
-              comments: reels[event.reelIndex].comments!,
-              isILiked: false,
-              created_at: reels[event.reelIndex].created_at,
-              numberOfLike: reels[event.reelIndex].numberOfLike! - 1,
-            );
-            emit(GetAllReelLoadedState(reels: updatedReels));
-          });
-        }
-      },
-    );
+        List<ReelEntite> updatedReels = [...reels];
+        updatedReels[event.reelIndex] = ReelEntite(
+          id: reels[event.reelIndex].id,
+          video: reels[event.reelIndex].video,
+          author: reels[event.reelIndex].author,
+          comments: reels[event.reelIndex].comments!,
+          isILiked: false,
+          created_at: reels[event.reelIndex].created_at,
+          numberOfLike: reels[event.reelIndex].numberOfLike! - 1,
+        );
+        emit(GetAllReelLoadedState(reels: updatedReels));
+      });
+    });
 
     on<GetAllCommentReelEvent>((event, emit) async {
       var result = await commentReelUseCase(

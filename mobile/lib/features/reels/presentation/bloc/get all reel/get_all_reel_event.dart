@@ -31,13 +31,14 @@ class GetAllCommentReelEvent extends GetAllReelEvent {
   List<Object> get props => [reelId];
 }
 
-
 class GetAllUnLikeReelEvent extends GetAllReelEvent {
   final String reelId;
   final int reelIndex;
+  final String likeId;
   const GetAllUnLikeReelEvent({
     required this.reelId,
     required this.reelIndex,
+    required this.likeId,
   });
 
   @override

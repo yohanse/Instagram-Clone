@@ -17,6 +17,7 @@ class CustomVideoPlayer extends StatefulWidget {
   final bool isLiked;
   final List<Comment> comments;
   final int reelIndex;
+  final String userId;
   const CustomVideoPlayer({
     super.key,
     required this.videoUrl,
@@ -27,6 +28,7 @@ class CustomVideoPlayer extends StatefulWidget {
     required this.isLiked,
     required this.comments,
     required this.reelIndex,
+    required this.userId,
   });
 
   @override
@@ -223,12 +225,22 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
                   children: [
                     IconButton(
                       onPressed: () {
-                        BlocProvider.of<GetAllReelBloc>(context).add(
-                          GetAllLikeReelEvent(
-                            reelId: widget.reelId,
-                            reelIndex: widget.reelIndex,
-                          ),
-                        );
+                        if (!widget.isLiked) {
+                          BlocProvider.of<GetAllReelBloc>(context).add(
+                            GetAllLikeReelEvent(
+                              reelId: widget.reelId,
+                              reelIndex: widget.reelIndex,
+                            ),
+                          );
+                        } else {
+                          BlocProvider.of<GetAllReelBloc>(context).add(
+                            GetAllUnLikeReelEvent(
+                              reelId: widget.reelId,
+                              reelIndex: widget.reelIndex,
+                              likeId: widget.userId,
+                            ),
+                          );
+                        }
                       },
                       icon: Icon(
                         widget.isLiked
@@ -284,15 +296,17 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
             right: 20,
             bottom: 90,
           ),
-          isPlaying ? Container() : Positioned(
-            child: Center(
-              child: Icon(
-                Icons.play_circle_outline,
-                size: 120,
-                color: Colors.grey,
-              ),
-            ),
-          ),
+          isPlaying
+              ? Container()
+              : Positioned(
+                  child: Center(
+                    child: Icon(
+                      Icons.play_circle_outline,
+                      size: 120,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
           Positioned(
             bottom: 0,
             left: 0,

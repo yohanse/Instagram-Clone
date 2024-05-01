@@ -10,7 +10,7 @@ abstract class ReelRemoteDataSource {
   Future<List<ReelModel>> getAllReel();
   Future<ReelModel> getReel(String reelId);
   Future<bool> likeReel(String reelId);
-  Future<bool> unlikeReel(String reelId);
+  Future<bool> unlikeReel(String reelId, String likeId);
   Future<CommentModel> commentReel(String reelId, String content);
 }
 
@@ -78,8 +78,8 @@ class ReelRemoteDataSourceImpl implements ReelRemoteDataSource {
   }
 
   @override
-  Future<bool> unlikeReel(String reelId) async{
-    String url = 'http://192.168.43.57:8000/instagram/reels/$reelId/likes/';
+  Future<bool> unlikeReel(String reelId, String likeId) async {
+    String url = 'http://192.168.43.57:8000/instagram/reels/$reelId/likes/$likeId';
     final responseData = await http.delete(
       Uri.parse(url),
       headers: {
@@ -88,6 +88,7 @@ class ReelRemoteDataSourceImpl implements ReelRemoteDataSource {
             "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3NTY3OTcxLCJpYXQiOjE3MTIzODM5NzEsImp0aSI6ImM0NTY2YjgxZTMxODRlYjE5ZDlmOWI2YmJiNzQ2ZDlmIiwidXNlcl9pZCI6MX0.y7M19fO4EcaKgPXI-LLrOjGzFCz98gEWld3kcWDp4os",
       },
     );
+    print(jsonDecode(responseData.body));
     if (responseData.statusCode == 200 || responseData.statusCode == 201) {
       return true;
     }

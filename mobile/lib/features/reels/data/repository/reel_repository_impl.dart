@@ -81,11 +81,11 @@ class ReelRepositoryImpl implements ReelRepository {
   }
   
   @override
-  Future<Either<Failure, bool>> unlikeReel(String reelId) async {
+  Future<Either<Failure, bool>> unlikeReel(String reelId, String likeId) async {
     if (await networkInfo.isConnected) {
       
       try {
-        final ans = await reelRemoteDataSource.unlikeReel(reelId);
+        final ans = await reelRemoteDataSource.unlikeReel(reelId, likeId);
         return Right(ans);
       } on ServerException {
         return const Left(ServerFailure("Server not working properly."));
