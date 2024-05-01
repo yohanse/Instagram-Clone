@@ -36,6 +36,7 @@ class CustomVideoPlayer extends StatefulWidget {
 class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
   late VideoPlayerController _controller;
   late TextEditingController _commentController;
+  bool isPlaying = true;
 
   @override
   void initState() {
@@ -45,6 +46,7 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
       ..initialize().then((_) {
         setState(() {});
       });
+    _controller.setLooping(true);
     _controller.play();
   }
 
@@ -77,15 +79,21 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
                     color: Color(0xFF262626),
                     child: ListTile(
                       leading: CircleAvatar(
-                        backgroundImage: NetworkImage(
-                           state.reels[widget.reelIndex].comments![index].user.profile_image),
+                        backgroundImage: NetworkImage(state
+                            .reels[widget.reelIndex]
+                            .comments![index]
+                            .user
+                            .profile_image),
                         radius: 25,
                       ),
                       title: Text(
-                        state.reels[widget.reelIndex].comments![index].user.name,
+                        state
+                            .reels[widget.reelIndex].comments![index].user.name,
                         style: TextStyle(color: Colors.white),
                       ),
-                      subtitle: Text(state.reels[widget.reelIndex].comments![index].content,
+                      subtitle: Text(
+                          state
+                              .reels[widget.reelIndex].comments![index].content,
                           style: TextStyle(color: Colors.white)),
                     ),
                   );
@@ -186,140 +194,153 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Center(
-          child: _controller.value.isInitialized
-              ? AspectRatio(
-                  aspectRatio: _controller.value.aspectRatio,
-                  child: VideoPlayer(_controller),
-                )
-              : Container(),
-        ),
-        Positioned(
-          child: Column(
-            children: [
-              Column(
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      BlocProvider.of<GetAllReelBloc>(context).add(
-                        GetAllLikeReelEvent(reelId: widget.reelId),
-                      );
-                    },
-                    icon: Icon(
-                      Icons.favorite_outline_rounded,
-                      color: widget.isLiked ? Colors.red : Colors.white,
-                      size: 30,
-                    ),
-                  ),
-                  Text(
-                    "${widget.numberOfLike}",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ],
-              ),
-              Column(
-                children: [
-                  IconButton(
-                    onPressed: () => commentBottomSheet(),
-                    icon: Icon(
-                      Icons.favorite_outline_rounded,
-                      size: 30,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Text(
-                    "608K",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ],
-              ),
-              Column(
-                children: [
-                  Transform.rotate(
-                    angle: -45 * 3.141592653589793 / 180,
-                    child: IconButton(
+    return GestureDetector(
+      onTap: () {
+        if (isPlaying) {
+          _controller.pause();
+        } else {
+          _controller.play();
+        }
+
+        setState(() {
+          isPlaying = !isPlaying;
+        });
+      },
+      child: Stack(
+        children: [
+          Center(
+            child: _controller.value.isInitialized
+                ? AspectRatio(
+                    aspectRatio: _controller.value.aspectRatio,
+                    child: VideoPlayer(_controller),
+                  )
+                : Container(),
+          ),
+          Positioned(
+            child: Column(
+              children: [
+                Column(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        BlocProvider.of<GetAllReelBloc>(context).add(
+                          GetAllLikeReelEvent(reelId: widget.reelId),
+                        );
+                      },
                       icon: Icon(
-                        Icons.send_outlined,
-                        color: Colors.white,
+                        Icons.favorite_outline_rounded,
+                        color: widget.isLiked ? Colors.red : Colors.white,
                         size: 30,
                       ),
-                      onPressed: () {}, // Adjust color as needed
                     ),
-                  ),
-                  Text(
-                    "608K",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          right: 20,
-          bottom: 90,
-        ),
-        Positioned(
-          bottom: 0,
-          left: 0,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  CircleAvatar(
-                    backgroundImage: NetworkImage(widget.profileImageurl),
-                    radius: 20,
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Text(
-                    widget.authorName,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
+                    Text(
+                      "${widget.numberOfLike}",
+                      style: TextStyle(color: Colors.white),
                     ),
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  SizedBox(
-                    height: 30,
-                    width: 86,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: Text(
-                        "Follow",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                        ),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.transparent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6.0),
-                          side: BorderSide(color: Colors.white, width: 1.0),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                width: 20,
-              ),
-              Text(
-                "If you think AI can replace you, then may be you are not a good...",
-                style: TextStyle(
-                  color: Colors.white,
+                  ],
                 ),
-              ),
-            ],
+                Column(
+                  children: [
+                    IconButton(
+                      onPressed: () => commentBottomSheet(),
+                      icon: Icon(
+                        Icons.favorite_outline_rounded,
+                        size: 30,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Text(
+                      "608K",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Transform.rotate(
+                      angle: -45 * 3.141592653589793 / 180,
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.send_outlined,
+                          color: Colors.white,
+                          size: 30,
+                        ),
+                        onPressed: () {}, // Adjust color as needed
+                      ),
+                    ),
+                    Text(
+                      "608K",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            right: 20,
+            bottom: 90,
           ),
-        ),
-      ],
+          Positioned(
+            bottom: 0,
+            left: 0,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: NetworkImage(widget.profileImageurl),
+                      radius: 20,
+                    ),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    Text(
+                      widget.authorName,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    SizedBox(
+                      height: 30,
+                      width: 86,
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        child: Text(
+                          "Follow",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6.0),
+                            side: BorderSide(color: Colors.white, width: 1.0),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                Text(
+                  "If you think AI can replace you, then may be you are not a good...",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
