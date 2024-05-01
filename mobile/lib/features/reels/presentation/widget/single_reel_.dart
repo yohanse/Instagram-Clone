@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:video_player/video_player.dart';
 
+import '../../domain/Entitie/reel_entitie.dart';
 import '../bloc/get all reel/get_all_reel_bloc.dart';
 
 import 'package:snapping_bottom_sheet/snapping_bottom_sheet.dart';
@@ -14,15 +15,16 @@ class CustomVideoPlayer extends StatefulWidget {
   final String reelId;
   final int numberOfLike;
   final bool isLiked;
-  const CustomVideoPlayer({
-    super.key,
-    required this.videoUrl,
-    required this.profileImageurl,
-    required this.authorName,
-    required this.reelId,
-    required this.numberOfLike,
-    required this.isLiked,
-  });
+  final List<Comment> comments;
+  const CustomVideoPlayer(
+      {super.key,
+      required this.videoUrl,
+      required this.profileImageurl,
+      required this.authorName,
+      required this.reelId,
+      required this.numberOfLike,
+      required this.isLiked,
+      required this.comments});
 
   @override
   State<CustomVideoPlayer> createState() => _CustomVideoPlayerState();
@@ -30,7 +32,6 @@ class CustomVideoPlayer extends StatefulWidget {
 
 class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
   late VideoPlayerController _controller;
-  bool isComment = false;
 
   @override
   void initState() {
@@ -49,13 +50,7 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
     _controller.dispose();
   }
 
-  void setCommented() {
-    setState(() {
-      isComment = !isComment;
-    });
-  }
-
-  void test() async {
+  void commentBottomSheet() async {
     showSnappingBottomSheet(context, builder: (context) {
       return SnappingBottomSheetDialog(
         elevation: 8,
@@ -66,13 +61,21 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
           snappings: [0.6, 1],
         ),
         builder: (context, state) {
-          return Container(
-            height: 500,
-            child: Center(
-              child: Text(
-                'This is the content of the sheet',
-              ),
-            ),
+          return ListView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: widget.comments.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                leading: CircleAvatar(
+                  backgroundImage:
+                      NetworkImage(widget.comments[index].user.profile_image),
+                      radius: 25,
+                ),
+                title: Text(widget.comments[index].user.name),
+                subtitle: Text(widget.comments[index].content),
+              );
+            },
           );
         },
         headerBuilder: (context, state) {
@@ -88,7 +91,7 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
                   width: 40,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
-                    color: Colors.white,
+                    color: Colors.grey,
                   ),
                 ),
                 SizedBox(
@@ -110,7 +113,7 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
                   width: double.infinity,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
-                    color: Colors.white,
+                    color: Colors.grey,
                   ),
                 ),
               ],
@@ -125,87 +128,32 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
             ),
             Expanded(
               child: Card(
-                child: TextField(
-                  onSubmitted: (value) => print(value),
-                  decoration: InputDecoration(
-                    labelStyle: TextStyle(color: Colors.white, fontSize: 14),
-                    hintText: "Add a comment",
-                    hintStyle: TextStyle(color: Colors.white10, fontSize: 14),
-                    suffixIcon: IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.send_outlined,
-                        color: Colors.white,
+                child: Container(
+                  color: Color(0xFF262626),
+                  child: TextField(
+                    onSubmitted: (value) {
+                      BlocProvider.of<GetAllReelBloc>(context).add(
+                        GetAllCommentReelEvent(
+                            reelId: widget.reelId, content: value),
+                      );
+                    },
+                    decoration: InputDecoration(
+                      hintText: "Add a comment",
+                      hintStyle: TextStyle(color: Colors.white10, fontSize: 14),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey),
                       ),
                     ),
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               ),
             ),
           ],
         ),
-      );
-    });
-  }
-
-  void showAsBottomSheet() async {
-    final result = await showSnappingBottomSheet(context, builder: (context) {
-      return SnappingBottomSheetDialog(
-        color: Color(0xFF262626),
-        elevation: 8,
-        cornerRadius: 25,
-        snapSpec: const SnapSpec(
-          snap: true,
-          snappings: [112, 400, double.infinity],
-          positioning: SnapPositioning.pixelOffset,
-        ),
-        headerBuilder: (context, state) => Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                height: 4,
-                width: 60,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Colors.white,
-                ),
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              Text(
-                "Comments",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  decoration: TextDecoration.none,
-                ),
-              ),
-            ],
-          ),
-        ),
-        footerBuilder: (context, state) => Text("footer"),
-        builder: (context, state) {
-          return Container(
-            height: 400,
-            child: Center(
-              child: Material(
-                child: InkWell(
-                  onTap: () => Navigator.pop(context, 'This is the result.'),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Text(
-                      'This is the content of the sheet',
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          );
-        },
       );
     });
   }
@@ -248,7 +196,7 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
               Column(
                 children: [
                   IconButton(
-                    onPressed: () => test(),
+                    onPressed: () => commentBottomSheet(),
                     icon: Icon(
                       Icons.favorite_outline_rounded,
                       size: 30,

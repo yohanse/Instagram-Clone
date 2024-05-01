@@ -1,9 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:mobile/features/reels/data/model/reel_model.dart';
 import 'package:mobile/features/reels/domain/Entitie/reel_entitie.dart';
 import 'package:mobile/features/reels/domain/usecase/get_all_reels_usecase.dart';
 import 'package:mobile/features/reels/domain/usecase/like_reel_usecase.dart';
+
+import '../../../domain/usecase/comment_reel_usecase.dart';
 
 part 'get_all_reel_event.dart';
 part 'get_all_reel_state.dart';
@@ -11,8 +12,9 @@ part 'get_all_reel_state.dart';
 class GetAllReelBloc extends Bloc<GetAllReelEvent, GetAllReelState> {
   final GetAllReelUseCase getAllReelUseCase;
   final LikeReelUseCase likeReelUseCase;
+  final CommentReelUseCase commentReelUseCase;
   GetAllReelBloc(
-      {required this.getAllReelUseCase, required this.likeReelUseCase})
+      {required this.getAllReelUseCase, required this.likeReelUseCase, required this.commentReelUseCase})
       : super(GetAllReelInitial()) {
     on<GetAllReelsEvent>((event, emit) async {
       emit(GetAllReelLoadingState());
@@ -47,29 +49,55 @@ class GetAllReelBloc extends Bloc<GetAllReelEvent, GetAllReelState> {
       result.fold(
         (failure) {
           if (state is GetAllReelLoadedState) {
-        List<ReelEntite> reels = (state as GetAllReelLoadedState).reels;
-        List<ReelEntite> updatedReels = [];
-        for (var i = 0; i < reels.length; i++) {
-          ReelEntite reel = reels[i];
-          if ("${reel.id}" == event.reelId) {
-            reel = ReelEntite(
-              id: reel.id,
-              video: reel.video,
-              author: reel.author,
-              comments: reel.comments,
-              isILiked: false,
-              created_at: reel.created_at,
-              numberOfLike: reel.numberOfLike! - 1,
-            );
-          }
-          updatedReels.add(reel);
-        }
+            List<ReelEntite> reels = (state as GetAllReelLoadedState).reels;
+            List<ReelEntite> updatedReels = [];
+            for (var i = 0; i < reels.length; i++) {
+              ReelEntite reel = reels[i];
+              if ("${reel.id}" == event.reelId) {
+                reel = ReelEntite(
+                  id: reel.id,
+                  video: reel.video,
+                  author: reel.author,
+                  comments: reel.comments,
+                  isILiked: false,
+                  created_at: reel.created_at,
+                  numberOfLike: reel.numberOfLike! - 1,
+                );
+              }
+              updatedReels.add(reel);
+            }
 
-        emit(GetAllReelLoadedState(reels: updatedReels));
-      }
+            emit(GetAllReelLoadedState(reels: updatedReels));
+          }
         },
         (success) {},
       );
+    });
+
+    on<GetAllCommentReelEvent>((event, emit) async {
+      var result = await commentReelUseCase(
+          ParamsCommentReel(reelId: event.reelId, content: event.content));
+      result.fold((failure) => null, (sucess) {
+        List<ReelEntite> reels = (state as GetAllReelLoadedState).reels;
+            List<ReelEntite> updatedReels = [];
+            for (var i = 0; i < reels.length; i++) {
+              ReelEntite reel = reels[i];
+              if ("${reel.id}" == event.reelId) {
+                reel = ReelEntite(
+                  id: reel.id,
+                  video: reel.video,
+                  author: reel.author,
+                  comments: [...reel.comments!, sucess],
+                  isILiked: false,
+                  created_at: reel.created_at,
+                  numberOfLike: reel.numberOfLike! - 1,
+                );
+              }
+              updatedReels.add(reel);
+            }
+
+            emit(GetAllReelLoadedState(reels: updatedReels));
+      } );
     });
   }
 }

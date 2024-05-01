@@ -39,6 +39,7 @@ import 'package:mobile/features/reels/domain/usecase/get_reel.dart';
 import 'package:mobile/features/reels/presentation/bloc/get%20all%20reel/get_all_reel_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'features/reels/domain/usecase/comment_reel_usecase.dart';
 import 'features/reels/domain/usecase/like_reel_usecase.dart';
 import 'features/reels/presentation/bloc/get single reel/get_single_reel_bloc.dart';
 import 'features/reels/presentation/bloc/like reel/like_reel_bloc.dart';
@@ -97,6 +98,7 @@ Future<void> init() async {
     () => GetAllReelBloc(
       getAllReelUseCase: sl(),
       likeReelUseCase: sl(),
+      commentReelUseCase: sl(),
     ),
   );
   sl.registerFactory(
@@ -132,6 +134,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetAllReelUseCase(reelRepository: sl()));
   sl.registerLazySingleton(() => LikeReelUseCase(reelRepository: sl()));
   sl.registerLazySingleton(() => GetReelUseCase(reelRepository: sl()));
+  sl.registerLazySingleton(() => CommentReelUseCase(reelRepository: sl()));
 
   //Remote Data Source
   sl.registerLazySingleton<AuthRemoteDataSource>(

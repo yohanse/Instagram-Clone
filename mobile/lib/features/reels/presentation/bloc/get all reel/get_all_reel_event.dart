@@ -17,3 +17,13 @@ class GetAllLikeReelEvent extends GetAllReelEvent {
   @override
   List<Object> get props => [reelId];
 }
+
+class GetAllCommentReelEvent extends GetAllReelEvent {
+  final String reelId;
+  final String content;
+
+  const GetAllCommentReelEvent({required this.reelId, required this.content});
+
+  @override
+  List<Object> get props => [reelId];
+}

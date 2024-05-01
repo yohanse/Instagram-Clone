@@ -6,4 +6,5 @@ abstract class ReelRepository {
   Future<Either<Failure, List<ReelEntite>>> getAllReels();
   Future<Either<Failure, ReelEntite>> getReel(String reelId);
   Future<Either<Failure, bool>> likeReel(String reelId);
+  Future<Either<Failure, Comment>> commentReel(String reelId, String content);
 }

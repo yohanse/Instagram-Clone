@@ -63,4 +63,21 @@ class ReelRepositoryImpl implements ReelRepository {
     }
   }
   
+  @override
+  Future<Either<Failure, Comment>> commentReel(String reelId, String content) async {
+     if (await networkInfo.isConnected) {
+      
+      try {
+        final ans = await reelRemoteDataSource.commentReel(reelId, content);
+        return Right(ans);
+      } on ServerException {
+        return const Left(ServerFailure("Server not working properly."));
+      } on EmailNotCorrectException {
+        return const Left(EmailNotCorrectFailure("Email not correct"));
+      }
+    } else {
+      return const Left(NetworkFailure("Netwrok error."));
+    }
+  }
+  
 }

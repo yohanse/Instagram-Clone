@@ -33,6 +33,7 @@ class ReelPage extends StatelessWidget {
                       profileImageurl: state.reels[index].author!.profile_image,
                       isLiked: state.reels[index].isILiked!,
                       numberOfLike: state.reels[index].numberOfLike!,
+                      comments: state.reels[index].comments!,
                     );
                   });
             } else if (state is GetAllReelLoadingState) {
