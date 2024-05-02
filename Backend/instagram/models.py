@@ -37,6 +37,7 @@ class Story(models.Model):
 
 class Reel(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField(default="Reel Content")
     video = models.OneToOneField(Video, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
