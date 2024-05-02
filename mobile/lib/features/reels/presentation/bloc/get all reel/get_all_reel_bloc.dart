@@ -47,6 +47,7 @@ class GetAllReelBloc extends Bloc<GetAllReelEvent, GetAllReelState> {
           created_at: reels[event.reelIndex].created_at,
           numberOfLike: reels[event.reelIndex].numberOfLike! + 1,
           likeIDILike: sucess.id,
+          content: reels[event.reelIndex].content,
         );
         emit(GetAllReelLoadedState(reels: updatedReels));
       });
@@ -72,6 +73,7 @@ class GetAllReelBloc extends Bloc<GetAllReelEvent, GetAllReelState> {
           isILiked: false,
           created_at: reels[event.reelIndex].created_at,
           numberOfLike: reels[event.reelIndex].numberOfLike! - 1,
+          content: reels[event.reelIndex].content,
         );
         emit(GetAllReelLoadedState(reels: updatedReels));
       });
@@ -94,6 +96,7 @@ class GetAllReelBloc extends Bloc<GetAllReelEvent, GetAllReelState> {
               isILiked: false,
               created_at: reel.created_at,
               numberOfLike: reel.numberOfLike! - 1,
+              content: reel.content
             );
           }
           updatedReels.add(reel);

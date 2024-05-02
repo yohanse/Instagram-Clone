@@ -11,20 +11,31 @@ class ReelEntite extends Equatable {
   final bool? isILiked;
   final List<Like>? likes;
   final int? likeIDILike;
-  const ReelEntite(
-      {this.author,
-      this.comments,
-      this.isILiked,
-      this.id,
-      this.created_at,
-      required this.video,
-      this.numberOfLike,
-      this.likes,
-      this.likeIDILike,
-      });
+  final String content;
+  const ReelEntite({
+    this.author,
+    this.comments,
+    this.isILiked,
+    this.id,
+    this.created_at,
+    required this.video,
+    this.numberOfLike,
+    this.likes,
+    this.likeIDILike,
+    required this.content,
+  });
   @override
-  List<Object?> get props =>
-      [author, comments, id, created_at, video, numberOfLike, isILiked, likeIDILike, likes];
+  List<Object?> get props => [
+        author,
+        comments,
+        id,
+        created_at,
+        video,
+        numberOfLike,
+        isILiked,
+        likeIDILike,
+        likes
+      ];
 }
 
 class Comment extends Equatable {

@@ -18,6 +18,7 @@ class CustomVideoPlayer extends StatefulWidget {
   final List<Comment> comments;
   final int reelIndex;
   final int? likeIDILike;
+  final String content;
   const CustomVideoPlayer({
     super.key,
     required this.videoUrl,
@@ -29,6 +30,7 @@ class CustomVideoPlayer extends StatefulWidget {
     required this.comments,
     required this.reelIndex,
     this.likeIDILike,
+    required this.content,
   });
 
   @override
@@ -225,7 +227,6 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
                   children: [
                     IconButton(
                       onPressed: () {
-                        
                         if (!widget.isLiked) {
                           BlocProvider.of<GetAllReelBloc>(context).add(
                             GetAllLikeReelEvent(
@@ -234,8 +235,6 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
                             ),
                           );
                         } else {
-                          print("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
-                        print(widget.likeIDILike);
                           BlocProvider.of<GetAllReelBloc>(context).add(
                             GetAllUnLikeReelEvent(
                               reelId: widget.reelId,
@@ -362,7 +361,7 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
                   width: 20,
                 ),
                 Text(
-                  "If you think AI can replace you, then may be you are not a good...",
+                  widget.content,
                   style: TextStyle(
                     color: Colors.white,
                   ),

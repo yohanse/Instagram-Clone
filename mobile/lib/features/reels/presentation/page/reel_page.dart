@@ -36,6 +36,7 @@ class ReelPage extends StatelessWidget {
                       comments: state.reels[index].comments!,
                       reelIndex: index,
                       likeIDILike: state.reels[index].likeIDILike,
+                      content: state.reels[index].content,
                     );
                   });
             } else if (state is GetAllReelLoadingState) {
