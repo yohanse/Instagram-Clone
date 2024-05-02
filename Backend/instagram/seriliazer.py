@@ -74,6 +74,7 @@ class PostSerializer(serializers.ModelSerializer):
     comments = serializers.SerializerMethodField()
     numberOfLike = serializers.SerializerMethodField()
     isILiked = serializers.SerializerMethodField()
+    
 
     class Meta:
         model = models.Post
@@ -110,10 +111,11 @@ class ReelSerializer(serializers.ModelSerializer):
     comments = serializers.SerializerMethodField()
     numberOfLike = serializers.SerializerMethodField()
     isILiked = serializers.SerializerMethodField()
+    likeIdILike = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = models.Reel
-        fields = ['id', 'user', 'created_at', 'video', "likes", "comments", "upload_video", "numberOfLike", "isILiked"]
+        fields = ['id', 'user', 'created_at', 'video', "likes", "comments", "upload_video", "numberOfLike", "isILiked", "likeIdILike"]
     
     def create(self, validated_data):
         validated_data["user_id"] = self.context["request"].user.id
@@ -137,3 +139,11 @@ class ReelSerializer(serializers.ModelSerializer):
     def get_isILiked(self, reel):
         return bool(models.Like.objects.filter(content_type=ContentType.objects.get_for_model(reel), object_id=reel.id, user_id=self.context["request"].user.id).count())
     
+    def get_likeIdILike(self, reel):
+        try:
+            like = models.Like.objects.get(content_type=ContentType.objects.get_for_model(reel), object_id=reel.id, user_id=self.context["request"].user.id)
+            
+            return like.id
+        except:
+            return None
+        

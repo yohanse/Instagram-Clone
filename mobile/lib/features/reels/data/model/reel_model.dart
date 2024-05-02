@@ -13,6 +13,7 @@ class ReelModel extends ReelEntite {
     super.comments,
     super.isILiked,
     super.likes,
+    super.likeIDILike,
   });
 
   factory ReelModel.fromJson(Map<String, dynamic> json) {
@@ -29,6 +30,7 @@ class ReelModel extends ReelEntite {
           .map((like) => LikeModel.fromJson(like))
           .toList(),
       isILiked: json['isILiked'],
+      likeIDILike: json['likeIdILike'],
     );
   }
 

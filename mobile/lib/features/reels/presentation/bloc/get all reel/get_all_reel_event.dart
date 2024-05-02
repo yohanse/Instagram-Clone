@@ -34,7 +34,7 @@ class GetAllCommentReelEvent extends GetAllReelEvent {
 class GetAllUnLikeReelEvent extends GetAllReelEvent {
   final String reelId;
   final int reelIndex;
-  final String likeId;
+  final int likeId;
   const GetAllUnLikeReelEvent({
     required this.reelId,
     required this.reelIndex,

@@ -24,8 +24,11 @@ class GetAllReelBloc extends Bloc<GetAllReelEvent, GetAllReelState> {
     on<GetAllReelsEvent>((event, emit) async {
       emit(GetAllReelLoadingState());
       var result = await getAllReelUseCase(ParamsGetAllReel());
-      result.fold((l) => emit(GetAllReelErrorState(message: l.message)),
-          (r) => emit(GetAllReelLoadedState(reels: r)));
+      result.fold((l) => emit(GetAllReelErrorState(message: l.message)), (r) {
+        emit(GetAllReelLoadedState(reels: r));
+        print("ALL REAL ALLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLl");
+        print(r);
+      });
     });
 
     on<GetAllLikeReelEvent>((event, emit) async {
@@ -43,25 +46,21 @@ class GetAllReelBloc extends Bloc<GetAllReelEvent, GetAllReelState> {
           isILiked: true,
           created_at: reels[event.reelIndex].created_at,
           numberOfLike: reels[event.reelIndex].numberOfLike! + 1,
+          likeIDILike: sucess.id,
         );
         emit(GetAllReelLoadedState(reels: updatedReels));
       });
     });
 
     on<GetAllUnLikeReelEvent>((event, emit) async {
-      print(
-          "unlinkeunlinkeunlinkeunlinkeunlinkeunlinkeunlinkeunlinkeunlinkeunlinkeunlinkeunlinkeunlinke");
       var result = await unLikeReelUseCase(
         ParamsUnLikeReel(
           reelId: event.reelId,
-          likeId: event.likeId,
+          likeId: "${event.likeId}",
         ),
       );
 
-      result.fold((failure) {
-      }, (sucess) {
-        print(
-            "unlinkeunlinkeunlinkeunlinkeunlinkeunlinkeunlinkeunlinkeunlinkeunlinkeunlinkeunlinkeunlinke");
+      result.fold((failure) {}, (sucess) {
         List<ReelEntite> reels = (state as GetAllReelLoadedState).reels;
 
         List<ReelEntite> updatedReels = [...reels];

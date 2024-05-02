@@ -30,7 +30,7 @@ class ReelRepositoryImpl implements ReelRepository {
   }
   
   @override
-  Future<Either<Failure, bool>> likeReel(String reelId) async {
+  Future<Either<Failure, Like>> likeReel(String reelId) async {
     if (await networkInfo.isConnected) {
       
       try {

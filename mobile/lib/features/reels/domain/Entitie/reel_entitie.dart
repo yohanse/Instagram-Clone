@@ -10,7 +10,7 @@ class ReelEntite extends Equatable {
   final int? numberOfLike;
   final bool? isILiked;
   final List<Like>? likes;
-
+  final int? likeIDILike;
   const ReelEntite(
       {this.author,
       this.comments,
@@ -20,10 +20,11 @@ class ReelEntite extends Equatable {
       required this.video,
       this.numberOfLike,
       this.likes,
+      this.likeIDILike,
       });
   @override
   List<Object?> get props =>
-      [author, comments, id, created_at, video, numberOfLike, isILiked];
+      [author, comments, id, created_at, video, numberOfLike, isILiked, likeIDILike, likes];
 }
 
 class Comment extends Equatable {

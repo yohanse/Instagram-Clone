@@ -17,7 +17,7 @@ class CustomVideoPlayer extends StatefulWidget {
   final bool isLiked;
   final List<Comment> comments;
   final int reelIndex;
-  final String userId;
+  final int? likeIDILike;
   const CustomVideoPlayer({
     super.key,
     required this.videoUrl,
@@ -28,7 +28,7 @@ class CustomVideoPlayer extends StatefulWidget {
     required this.isLiked,
     required this.comments,
     required this.reelIndex,
-    required this.userId,
+    this.likeIDILike,
   });
 
   @override
@@ -225,6 +225,7 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
                   children: [
                     IconButton(
                       onPressed: () {
+                        
                         if (!widget.isLiked) {
                           BlocProvider.of<GetAllReelBloc>(context).add(
                             GetAllLikeReelEvent(
@@ -233,11 +234,13 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
                             ),
                           );
                         } else {
+                          print("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+                        print(widget.likeIDILike);
                           BlocProvider.of<GetAllReelBloc>(context).add(
                             GetAllUnLikeReelEvent(
                               reelId: widget.reelId,
                               reelIndex: widget.reelIndex,
-                              likeId: widget.userId,
+                              likeId: widget.likeIDILike!,
                             ),
                           );
                         }
