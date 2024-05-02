@@ -115,7 +115,7 @@ class ReelSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Reel
-        fields = ['id', 'user', 'created_at', 'video', "likes", "comments", "upload_video", "numberOfLike", "isILiked", "likeIdILike"]
+        fields = ['id', 'user', 'content', 'created_at', 'video', "likes", "comments", "upload_video", "numberOfLike", "isILiked", "likeIdILike"]
     
     def create(self, validated_data):
         validated_data["user_id"] = self.context["request"].user.id
