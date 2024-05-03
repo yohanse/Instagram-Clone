@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile/features/reels/presentation/bloc/real%20manager%20select%20all%20albums/real_manager_fetch_all_albums_bloc.dart';
 import 'package:mobile/features/reels/presentation/bloc/real%20manager%20selected%20album/real_manager_selected_album_bloc.dart';
+import 'package:mobile/features/reels/presentation/bloc/reel%20manger%20selected%20album%20medias/reel_manager_selected_labum_medias_bloc.dart';
+import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class SelectReelVideoPage extends StatelessWidget {
   const SelectReelVideoPage({super.key});
@@ -85,7 +88,6 @@ class SelectReelVideoPage extends StatelessWidget {
                     RealManagerSelectedAlbumState>(
                   builder: ((context, state) {
                     if (state is RealManagerSelectedAlbumSuccessState) {
-                      print("Asked asked");
                       return GestureDetector(
                         child: Row(
                           children: [
@@ -105,21 +107,6 @@ class SelectReelVideoPage extends StatelessWidget {
                         ),
                       );
                     }
-                    if (state is RealManagerSelectedAlbumInitial) {
-                      print(
-                          "====================================================================");
-                      BlocBuilder<RealManagerFetchAllAlbumsBloc,
-                          RealManagerFetchAllAlbumsState>(
-                        builder: (context, state) {
-                          print("inside alll");
-                          if (state is RealManagerFetchAllAlbumsSuccessState) {
-                            print("inside alll;ll;l;l;llllllllllllllllllll");
-                            
-                          }
-                          return Container();
-                        },
-                      );
-                    }
                     return Text(
                       "No Video",
                       style: TextStyle(
@@ -129,6 +116,43 @@ class SelectReelVideoPage extends StatelessWidget {
                     );
                   }),
                 ),
+                Expanded(
+                  child: Expanded(
+                    child: BlocBuilder<ReelManagerSelectedLabumMediasBloc,
+                        ReelManagerSelectedLabumMediasState>(
+                      builder: (context, state) {
+                        if (state
+                            is ReelManagerSelectedAlbumMeidasSuccessState) {
+                          return GridView.builder(
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 4,
+                                mainAxisSpacing: 2,
+                                crossAxisSpacing: 2,
+                              ),
+                              itemCount: state.medias.length,
+                              itemBuilder: (context, index) {
+                                return FadeInImage(
+                                  image: AssetEntityImageProvider(
+                                      state.medias[index]),
+                                  placeholder: MemoryImage(kTransparentImage),
+                                  fit: BoxFit.fill,
+                                );
+                              });
+                        }
+                        return Center(
+                          child: Text(
+                            "No Media",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                )
               ],
             ),
           ),
@@ -228,44 +252,7 @@ class SelectReelVideoPage extends StatelessWidget {
 //                       ],
 //                     ),
 //                   ),
-//                   Expanded(
-//                     flex: 60,
-//                     child: GridView.builder(
-//                       gridDelegate:
-//                           const SliverGridDelegateWithFixedCrossAxisCount(
-//                         crossAxisCount: 4,
-//                         mainAxisSpacing: 2,
-//                         crossAxisSpacing: 2,
-//                       ),
-//                       itemCount: state.medias.length,
-//                       itemBuilder: (context, index) {
-//                         return GestureDetector(
-//                             onTap: () {
-//                               Set<AssetEntity> updatedSelectedMedias =
-//                                   Set.from(state.selectedMedias);
-
-//                               if (stateNew is Selected) {
-//                                 if (updatedSelectedMedias
-//                                     .contains(state.medias[index])) {
-//                                   updatedSelectedMedias
-//                                       .remove(state.medias[index]);
-//                                 } else {
-//                                   updatedSelectedMedias
-//                                       .add(state.medias[index]);
-//                                 }
-//                               } else {
-//                                 updatedSelectedMedias = {state.medias[index]};
-//                               }
-
-//                               BlocProvider.of<ImageManagerBloc>(context).add(
-//                                 SelecteMedia(
-//                                   medias: state.medias,
-//                                   currentAlbum: state.currentAlbum,
-//                                   albums: state.albums,
-//                                   selectedMedias: updatedSelectedMedias,
-//                                 ),
-//                               );
-//                             },
+                  
 //                             child: Stack(
 //                               children: [
 //                                 FadeInImage(
