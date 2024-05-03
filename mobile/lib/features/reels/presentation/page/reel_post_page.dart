@@ -1,17 +1,142 @@
-// import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mobile/features/reels/presentation/bloc/real%20manager%20select%20all%20albums/real_manager_fetch_all_albums_bloc.dart';
+import 'package:mobile/features/reels/presentation/bloc/real%20manager%20selected%20album/real_manager_selected_album_bloc.dart';
 
-// class SelectReelVideoPage extends StatelessWidget {
-//   const SelectReelVideoPage({super.key});
+class SelectReelVideoPage extends StatelessWidget {
+  const SelectReelVideoPage({super.key});
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Column(children: [
-//         Row(children: [],),
-//       ],),
-//     )
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    BlocProvider.of<RealManagerFetchAllAlbumsBloc>(context).add(
+      FetchAllAlbums(context: context),
+    );
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.close_rounded),
+          color: Colors.white,
+          onPressed: () {
+            context.go("/reel");
+          },
+        ),
+        title: Center(
+          child: Text(
+            "New Reel",
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+        ),
+        backgroundColor: Colors.black,
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            flex: 15,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white10,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  padding: EdgeInsets.symmetric(
+                    vertical: 10,
+                    horizontal: 30,
+                  ),
+                  margin: EdgeInsets.all(8),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      IconButton(
+                        icon: Icon(
+                          Icons.camera_alt_outlined,
+                          color: Colors.white,
+                          size: 40,
+                        ),
+                        onPressed: () {},
+                      ),
+                      SizedBox(
+                        height: 3,
+                      ),
+                      Text(
+                        "Camera",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            flex: 85,
+            child: Column(
+              children: [
+                BlocBuilder<RealManagerSelectedAlbumBloc,
+                    RealManagerSelectedAlbumState>(
+                  builder: ((context, state) {
+                    if (state is RealManagerSelectedAlbumSuccessState) {
+                      print("Asked asked");
+                      return GestureDetector(
+                        child: Row(
+                          children: [
+                            Text(
+                              state.selectedAlbum.name,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                              ),
+                            ),
+                            Icon(
+                              Icons.arrow_drop_down_outlined,
+                              color: Colors.white,
+                              size: 30,
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                    if (state is RealManagerSelectedAlbumInitial) {
+                      print(
+                          "====================================================================");
+                      BlocBuilder<RealManagerFetchAllAlbumsBloc,
+                          RealManagerFetchAllAlbumsState>(
+                        builder: (context, state) {
+                          print("inside alll");
+                          if (state is RealManagerFetchAllAlbumsSuccessState) {
+                            print("inside alll;ll;l;l;llllllllllllllllllll");
+                            
+                          }
+                          return Container();
+                        },
+                      );
+                    }
+                    return Text(
+                      "No Video",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                      ),
+                    );
+                  }),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 // class SelectReelVideoPage extends StatelessWidget {
 //   final SelectReelVideoSucessState state;
@@ -21,30 +146,7 @@
 //   Widget build(BuildContext context) {
 //     return SafeArea(
 //       child: Scaffold(
-//         appBar: AppBar(
-//           leading: IconButton(
-//             icon: Icon(Icons.close_rounded),
-//             color: Colors.white,
-//             onPressed: () {
-//               context.go("/");
-//             },
-//           ),
-//           title: Text(
-//             "New post",
-//             style: TextStyle(color: Colors.white),
-//           ),
-//           actions: [
-//             TextButton(
-//                 onPressed: () {
-//                   context.go("/pickImage/post", extra: state.selectedMedias.toList());
-//                 },
-//                 child: Text(
-//                   "Next",
-//                   style: TextStyle(color: Colors.blue),
-//                 ))
-//           ],
-//           backgroundColor: Colors.black,
-//         ),
+
 //         body: BlocBuilder<IsMultipleSelectedBloc, IsMultipleSelectedState>(
 //           builder: (context, stateNew) {
 //             return Container(

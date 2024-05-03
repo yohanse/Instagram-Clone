@@ -9,6 +9,7 @@ class RealManagerSelectedAlbumBloc
     extends Bloc<RealManagerSelectedAlbumEvent, RealManagerSelectedAlbumState> {
   RealManagerSelectedAlbumBloc() : super(RealManagerSelectedAlbumInitial()) {
     on<SelecteReelAlbum>((event, emit) {
+      print("------------------------------------------------------------------");
       emit(RealManagerSelectedAlbumSuccessState(
           selectedAlbum: event.selectedAlbum));
     });

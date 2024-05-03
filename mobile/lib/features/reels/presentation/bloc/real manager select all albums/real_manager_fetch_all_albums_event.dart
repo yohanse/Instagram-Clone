@@ -7,4 +7,7 @@ sealed class RealManagerFetchAllAlbumsEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class FetchAllAlbums extends RealManagerFetchAllAlbumsEvent {}
+class FetchAllAlbums extends RealManagerFetchAllAlbumsEvent {
+  final BuildContext context;
+  const FetchAllAlbums({required this.context});
+}

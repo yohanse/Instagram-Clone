@@ -19,6 +19,9 @@ import 'package:mobile/features/common/presentation/page/ImagePickerPage.dart';
 import 'package:mobile/features/profile/presentation/bloc/profile/profile_bloc.dart';
 import 'package:mobile/features/profile/presentation/page/profile_page.dart';
 import 'package:mobile/features/reels/presentation/bloc/get%20all%20reel/get_all_reel_bloc.dart';
+import 'package:mobile/features/reels/presentation/bloc/real%20manager%20select%20all%20albums/real_manager_fetch_all_albums_bloc.dart';
+import 'package:mobile/features/reels/presentation/bloc/real%20manager%20selected%20album/real_manager_selected_album_bloc.dart';
+import 'package:mobile/features/reels/presentation/bloc/reel%20manger%20selected%20album%20medias/reel_manager_selected_labum_medias_bloc.dart';
 import 'package:mobile/features/reels/presentation/page/reel_page.dart';
 import 'package:mobile/injection.dart';
 import 'package:photo_manager/photo_manager.dart';
@@ -32,6 +35,7 @@ import 'features/common/presentation/page/AfterImagePicke.dart';
 import 'features/common/presentation/page/ListPostPage.dart';
 import 'features/reels/presentation/bloc/get single reel/get_single_reel_bloc.dart';
 import 'features/reels/presentation/bloc/like reel/like_reel_bloc.dart';
+import 'features/reels/presentation/page/reel_post_page.dart';
 
 class InstagramApp extends StatelessWidget {
   const InstagramApp({super.key});
@@ -86,10 +90,10 @@ class InstagramApp extends StatelessWidget {
         //     extra: state.extra! as ExtraUserName,
         //   ),
         // ),
-        GoRoute(
-          path: '/',
-          builder: (context, state) => const ListPostPage(),
-        ),
+        // GoRoute(
+        //   path: '/',
+        //   builder: (context, state) => const ListPostPage(),
+        // ),
         GoRoute(
           path: '/pickImage',
           builder: (context, state) => const ImagePickerPage(),
@@ -108,6 +112,11 @@ class InstagramApp extends StatelessWidget {
         GoRoute(
           path: "/Reel",
           builder: (context, state) => ReelPage(),
+        ),
+
+        GoRoute(
+          path: "/",
+          builder: (context, state) => SelectReelVideoPage(),
         ),
       ],
     );
@@ -151,6 +160,15 @@ class InstagramApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => sl<GetSingleReelBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => sl<RealManagerFetchAllAlbumsBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => sl<ReelManagerSelectedLabumMediasBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => sl<RealManagerSelectedAlbumBloc>(),
         ),
       ],
       child: MaterialApp.router(

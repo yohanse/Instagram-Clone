@@ -36,7 +36,8 @@ class ReelManagerSelectedLabumMediasBloc extends Bloc<
       } catch (e) {
         emit(
           ReelManagerSelectedAlbumMediasErrorState(
-              message: "Can not fetch medias"),
+            message: "Can not fetch medias",
+          ),
         );
       }
     });

@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile/features/reels/presentation/bloc/real%20manager%20selected%20album/real_manager_selected_album_bloc.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:photo_manager/photo_manager.dart';
 
@@ -57,11 +59,21 @@ class RealManagerFetchAllAlbumsBloc extends Bloc<RealManagerFetchAllAlbumsEvent,
     on<FetchAllAlbums>((event, emit) async {
       emit(RealManagerFetchAllAlbumsLoadingState());
       try {
+        print("fetch albums fetch albums fetch albums fetch albumsfetch albumsfetch albums");
         final result = await fetchAlbums();
+        print("fetch albums fetch albums fetch albums fetch albumsfetch albumsfetch albums");
+        print(result);
+        BlocProvider.of<RealManagerSelectedAlbumBloc>(event.context
+                                    )
+                                .add(
+                              SelecteReelAlbum(selectedAlbum: result[0]),
+                            );
         emit(RealManagerFetchAllAlbumsSuccessState(albums: result));
       } catch (e) {
         emit(
-          RealManagerFetchAllAlbumsErrorState(message: "can not fetch albums"),
+          RealManagerFetchAllAlbumsErrorState(
+            message: "can not fetch albums",
+          ),
         );
       }
     });
