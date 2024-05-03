@@ -9,5 +9,9 @@ sealed class RealManagerSelectedAlbumEvent extends Equatable {
 
 class SelecteReelAlbum extends RealManagerSelectedAlbumEvent {
   final AssetPathEntity selectedAlbum;
-  const SelecteReelAlbum({required this.selectedAlbum});
+  final BuildContext context;
+  const SelecteReelAlbum({
+    required this.selectedAlbum,
+    required this.context,
+  });
 }

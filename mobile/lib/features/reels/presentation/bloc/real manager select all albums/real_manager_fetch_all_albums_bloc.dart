@@ -59,14 +59,12 @@ class RealManagerFetchAllAlbumsBloc extends Bloc<RealManagerFetchAllAlbumsEvent,
     on<FetchAllAlbums>((event, emit) async {
       emit(RealManagerFetchAllAlbumsLoadingState());
       try {
-        print("fetch albums fetch albums fetch albums fetch albumsfetch albumsfetch albums");
         final result = await fetchAlbums();
-        print("fetch albums fetch albums fetch albums fetch albumsfetch albumsfetch albums");
-        print(result);
+        
         BlocProvider.of<RealManagerSelectedAlbumBloc>(event.context
                                     )
                                 .add(
-                              SelecteReelAlbum(selectedAlbum: result[0]),
+                              SelecteReelAlbum(selectedAlbum: result[0], context: event.context),
                             );
         emit(RealManagerFetchAllAlbumsSuccessState(albums: result));
       } catch (e) {

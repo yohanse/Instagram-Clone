@@ -20,7 +20,10 @@ class ReelManagerSelectedLabumMediasBloc extends Bloc<
         // Get a list of asset entities from the specified album and page
         final List<AssetEntity> entities =
             await album.getAssetListRange(start: 0, end: 80);
-        return entities;
+
+        final List<AssetEntity> videos = entities.where((entity) => entity.type == AssetType.video).toList();
+        
+        return videos;
       } catch (e) {
         // Handle any exceptions that occur during fetching
         debugPrint('Error fetching media: $e');
@@ -31,7 +34,7 @@ class ReelManagerSelectedLabumMediasBloc extends Bloc<
     on<FetchSlectedAlbumMediasEvent>((event, emit) async {
       emit(ReelManagerSelectedAlbumMediasLoadingState());
       try {
-        final result = await fetchMedias(album: event.currentAlbum, page: 0);
+        final result = await fetchMedias(album: event.currentAlbum, page: 0,);
         emit(ReelManagerSelectedAlbumMeidasSuccessState(medias: result));
       } catch (e) {
         emit(
