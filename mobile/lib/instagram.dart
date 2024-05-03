@@ -22,6 +22,7 @@ import 'package:mobile/features/reels/presentation/bloc/get%20all%20reel/get_all
 import 'package:mobile/features/reels/presentation/bloc/real%20manager%20select%20all%20albums/real_manager_fetch_all_albums_bloc.dart';
 import 'package:mobile/features/reels/presentation/bloc/real%20manager%20selected%20album/real_manager_selected_album_bloc.dart';
 import 'package:mobile/features/reels/presentation/bloc/reel%20manger%20selected%20album%20medias/reel_manager_selected_labum_medias_bloc.dart';
+import 'package:mobile/features/reels/presentation/page/real_post_page_after_select.dart';
 import 'package:mobile/features/reels/presentation/page/reel_page.dart';
 import 'package:mobile/injection.dart';
 import 'package:photo_manager/photo_manager.dart';
@@ -117,6 +118,10 @@ class InstagramApp extends StatelessWidget {
         GoRoute(
           path: "/",
           builder: (context, state) => SelectReelVideoPage(),
+        ),
+        GoRoute(
+          path: "/next",
+          builder: (context, state) => ReelPostPageAfterSelect(),
         ),
       ],
     );

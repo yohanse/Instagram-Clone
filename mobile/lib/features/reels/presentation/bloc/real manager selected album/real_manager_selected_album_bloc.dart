@@ -12,10 +12,13 @@ class RealManagerSelectedAlbumBloc
     extends Bloc<RealManagerSelectedAlbumEvent, RealManagerSelectedAlbumState> {
   RealManagerSelectedAlbumBloc() : super(RealManagerSelectedAlbumInitial()) {
     on<SelecteReelAlbum>((event, emit) {
-      emit(RealManagerSelectedAlbumSuccessState(
-          selectedAlbum: event.selectedAlbum));
-      BlocProvider.of<ReelManagerSelectedLabumMediasBloc>(event.context).add(FetchSlectedAlbumMediasEvent(currentAlbum: event.selectedAlbum));
+      emit(RealManagerSelectedAlbumLoadingState(),);
+      emit(
+        RealManagerSelectedAlbumSuccessState(
+            selectedAlbum: event.selectedAlbum),
+      );
+      BlocProvider.of<ReelManagerSelectedLabumMediasBloc>(event.context)
+          .add(FetchSlectedAlbumMediasEvent(currentAlbum: event.selectedAlbum));
     });
-    
   }
 }

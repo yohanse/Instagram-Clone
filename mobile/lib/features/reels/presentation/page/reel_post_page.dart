@@ -98,7 +98,7 @@ class SelectReelVideoPage extends StatelessWidget {
                               state.selectedAlbum.name,
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 15,
+                                fontSize: 20,
                               ),
                             ),
                             Icon(
@@ -119,41 +119,50 @@ class SelectReelVideoPage extends StatelessWidget {
                     );
                   }),
                 ),
+                SizedBox(
+                  height: 5,
+                ),
                 Expanded(
-                    child: BlocBuilder<ReelManagerSelectedLabumMediasBloc,
-                        ReelManagerSelectedLabumMediasState>(
-                      builder: (context, state) {
-                        if (state
-                            is ReelManagerSelectedAlbumMeidasSuccessState) {
-                          return GridView.builder(
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 4,
-                                mainAxisSpacing: 2,
-                                crossAxisSpacing: 2,
-                              ),
-                              itemCount: state.medias.length,
-                              itemBuilder: (context, index) {
-                                return FadeInImage(
-                                  image: AssetEntityImageProvider(
-                                    state.medias[index],
-                                  ),
-                                  placeholder: MemoryImage(kTransparentImage),
-                                  fit: BoxFit.fill,
-                                );
-                              });
-                        }
-                        return Center(
-                          child: Text(
-                            "No video media",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
+                  child: BlocBuilder<ReelManagerSelectedLabumMediasBloc,
+                      ReelManagerSelectedLabumMediasState>(
+                    builder: (context, state) {
+                      if (state is ReelManagerSelectedAlbumMeidasSuccessState) {
+                        return GridView.builder(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 4,
+                              mainAxisSpacing: 2,
+                              crossAxisSpacing: 2,
                             ),
+                            itemCount: state.medias.length,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () => context.go("/next"),
+                                child: Card(
+                                  
+                                    child: FadeInImage(
+                                      image: AssetEntityImageProvider(
+                                        state.medias[index],
+                                      ),
+                                      placeholder: MemoryImage(kTransparentImage),
+                                      fit: BoxFit.fill,
+                                    ),
+                                  
+                                ),
+                              );
+                            });
+                      }
+                      return Center(
+                        child: Text(
+                          "No video media",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
                           ),
-                        );
-                      },
-                    ),
+                        ),
+                      );
+                    },
+                  ),
                 )
               ],
             ),
