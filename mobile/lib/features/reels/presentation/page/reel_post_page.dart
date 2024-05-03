@@ -7,6 +7,8 @@ import 'package:mobile/features/reels/presentation/bloc/reel%20manger%20selected
 import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
 import 'package:transparent_image/transparent_image.dart';
 
+import '../widget/albums_bottom_sheet.dart';
+
 class SelectReelVideoPage extends StatelessWidget {
   const SelectReelVideoPage({super.key});
 
@@ -89,6 +91,7 @@ class SelectReelVideoPage extends StatelessWidget {
                   builder: ((context, state) {
                     if (state is RealManagerSelectedAlbumSuccessState) {
                       return GestureDetector(
+                        onTap: () => reelAlbumsBottomSheet(context),
                         child: Row(
                           children: [
                             Text(
@@ -108,7 +111,7 @@ class SelectReelVideoPage extends StatelessWidget {
                       );
                     }
                     return Text(
-                      "No Video",
+                      "No folder contain video",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 15,
@@ -117,7 +120,6 @@ class SelectReelVideoPage extends StatelessWidget {
                   }),
                 ),
                 Expanded(
-                  child: Expanded(
                     child: BlocBuilder<ReelManagerSelectedLabumMediasBloc,
                         ReelManagerSelectedLabumMediasState>(
                       builder: (context, state) {
@@ -134,7 +136,8 @@ class SelectReelVideoPage extends StatelessWidget {
                               itemBuilder: (context, index) {
                                 return FadeInImage(
                                   image: AssetEntityImageProvider(
-                                      state.medias[index]),
+                                    state.medias[index],
+                                  ),
                                   placeholder: MemoryImage(kTransparentImage),
                                   fit: BoxFit.fill,
                                 );
@@ -142,7 +145,7 @@ class SelectReelVideoPage extends StatelessWidget {
                         }
                         return Center(
                           child: Text(
-                            "No Media",
+                            "No video media",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 20,
@@ -151,7 +154,6 @@ class SelectReelVideoPage extends StatelessWidget {
                         );
                       },
                     ),
-                  ),
                 )
               ],
             ),

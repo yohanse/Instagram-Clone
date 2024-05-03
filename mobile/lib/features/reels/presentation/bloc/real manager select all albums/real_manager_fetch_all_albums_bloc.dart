@@ -12,6 +12,33 @@ part 'real_manager_fetch_all_albums_state.dart';
 class RealManagerFetchAllAlbumsBloc extends Bloc<RealManagerFetchAllAlbumsEvent,
     RealManagerFetchAllAlbumsState> {
   RealManagerFetchAllAlbumsBloc() : super(RealManagerFetchAllAlbumsInitial()) {
+    Future<List<AssetEntity>> fetchMedias({
+      required List<AssetPathEntity>
+          albums, // The album from which to fetch media
+      required int page, // The page number of media to fetch
+    }) async {
+      List<AssetEntity> videos = []; // List to hold fetched media items
+
+      try {
+        // Get a list of asset entities from the specified album and page
+        for (AssetPathEntity album in albums) {
+          final List<AssetEntity> entities =
+              await album.getAssetListRange(start: 0, end: 80);
+
+          final AssetEntity video = entities
+              .where((entity) => entity.type == AssetType.video)
+              .toList()[0];
+          videos.add(video);
+        }
+
+        return videos;
+      } catch (e) {
+        // Handle any exceptions that occur during fetching
+        debugPrint('Error fetching media: $e');
+        throw Exception();
+      }
+    }
+
     Future<void> grantPermissions() async {
       try {
         // Check if permissions are already granted
@@ -47,8 +74,21 @@ class RealManagerFetchAllAlbumsBloc extends Bloc<RealManagerFetchAllAlbumsEvent,
         // Fetch the list of asset paths (albums)
         final List<AssetPathEntity> albums =
             await PhotoManager.getAssetPathList();
+        final List<AssetPathEntity> newAlbum = [];
 
-        return albums;
+        for (AssetPathEntity album in albums) {
+          final List<AssetEntity> entities =
+              await album.getAssetListRange(start: 0, end: 80);
+
+          final List<AssetEntity> video = entities
+              .where((entity) => entity.type == AssetType.video)
+              .toList();
+          if (video.isNotEmpty) {
+            newAlbum.add(album);
+          }
+          
+        }
+        return newAlbum;
       } catch (e) {
         // Handle any exceptions that occur during album fetching
         debugPrint('Error fetching albums: $e');
@@ -60,13 +100,13 @@ class RealManagerFetchAllAlbumsBloc extends Bloc<RealManagerFetchAllAlbumsEvent,
       emit(RealManagerFetchAllAlbumsLoadingState());
       try {
         final result = await fetchAlbums();
-        
-        BlocProvider.of<RealManagerSelectedAlbumBloc>(event.context
-                                    )
-                                .add(
-                              SelecteReelAlbum(selectedAlbum: result[0], context: event.context),
-                            );
-        emit(RealManagerFetchAllAlbumsSuccessState(albums: result));
+
+        BlocProvider.of<RealManagerSelectedAlbumBloc>(event.context).add(
+          SelecteReelAlbum(selectedAlbum: result[0], context: event.context),
+        );
+        final profiles = await fetchMedias(albums: result, page: 0);
+        emit(RealManagerFetchAllAlbumsSuccessState(
+            albums: result, profiles: profiles));
       } catch (e) {
         emit(
           RealManagerFetchAllAlbumsErrorState(
