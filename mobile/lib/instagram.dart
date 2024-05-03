@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -121,7 +123,9 @@ class InstagramApp extends StatelessWidget {
         ),
         GoRoute(
           path: "/next",
-          builder: (context, state) => ReelPostPageAfterSelect(),
+          builder: (context, state) => ReelPostPageAfterSelect(
+            path: state.extra as File,
+          ),
         ),
       ],
     );

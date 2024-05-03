@@ -137,17 +137,21 @@ class SelectReelVideoPage extends StatelessWidget {
                             itemCount: state.medias.length,
                             itemBuilder: (context, index) {
                               return GestureDetector(
-                                onTap: () => context.go("/next"),
+                                onTap: () async {
+                                  final path = await state.medias[index].file;
+                                  context.go(
+                                    "/next",
+                                    extra: path!,
+                                  );
+                                },
                                 child: Card(
-                                  
-                                    child: FadeInImage(
-                                      image: AssetEntityImageProvider(
-                                        state.medias[index],
-                                      ),
-                                      placeholder: MemoryImage(kTransparentImage),
-                                      fit: BoxFit.fill,
+                                  child: FadeInImage(
+                                    image: AssetEntityImageProvider(
+                                      state.medias[index],
                                     ),
-                                  
+                                    placeholder: MemoryImage(kTransparentImage),
+                                    fit: BoxFit.fill,
+                                  ),
                                 ),
                               );
                             });
