@@ -37,17 +37,23 @@ class CustomBottomNavigationBar extends StatelessWidget {
               context.go("/pickImage");
             },
           ),
-          Icon(
-            Icons.video_collection_outlined,
-            color: Colors.white,
-            size: 30,
+          IconButton(
+            onPressed: () {
+              context.go("/reel");
+            },
+            icon: Icon(
+              Icons.video_collection_outlined,
+              color: Colors.white,
+              size: 30,
+            ),
           ),
           GestureDetector(
             onTap: () {
               context.go("/profile");
             },
             child: const CircleAvatar(
-              backgroundImage: NetworkImage("http://192.168.43.57:8000/media/profile/images/profile.webp"),
+              backgroundImage: NetworkImage(
+                  "http://192.168.43.57:8000/media/profile/images/profile.webp"),
               radius: 15,
             ),
           ),
