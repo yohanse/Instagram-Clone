@@ -6,3 +6,12 @@ sealed class ReelManagerSelectedLabumMediasEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+
+class FetchSlectedAlbumMediasEvent extends ReelManagerSelectedLabumMediasEvent {
+  final AssetPathEntity currentAlbum;
+
+  const FetchSlectedAlbumMediasEvent({
+    required this.currentAlbum,
+  });
+}

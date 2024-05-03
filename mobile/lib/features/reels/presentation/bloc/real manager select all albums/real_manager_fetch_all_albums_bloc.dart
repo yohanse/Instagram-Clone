@@ -7,9 +7,10 @@ import 'package:photo_manager/photo_manager.dart';
 part 'real_manager_fetch_all_albums_event.dart';
 part 'real_manager_fetch_all_albums_state.dart';
 
-class RealManagerFetchAllAlbumsBloc extends Bloc<RealManagerFetchAllAlbumsEvent, RealManagerFetchAllAlbumsState> {
+class RealManagerFetchAllAlbumsBloc extends Bloc<RealManagerFetchAllAlbumsEvent,
+    RealManagerFetchAllAlbumsState> {
   RealManagerFetchAllAlbumsBloc() : super(RealManagerFetchAllAlbumsInitial()) {
-     Future<void> grantPermissions() async {
+    Future<void> grantPermissions() async {
       try {
         // Check if permissions are already granted
         final bool videosGranted = await Permission.videos.isGranted;
@@ -35,14 +36,15 @@ class RealManagerFetchAllAlbumsBloc extends Bloc<RealManagerFetchAllAlbumsEvent,
         debugPrint('Error granting permissions: $e');
       }
     }
-    
+
     Future<List<AssetPathEntity>> fetchAlbums() async {
       try {
         // Ensure permissions are granted before fetching albums
         await grantPermissions();
 
         // Fetch the list of asset paths (albums)
-        final List<AssetPathEntity> albums = await PhotoManager.getAssetPathList();
+        final List<AssetPathEntity> albums =
+            await PhotoManager.getAssetPathList();
 
         return albums;
       } catch (e) {
@@ -51,8 +53,17 @@ class RealManagerFetchAllAlbumsBloc extends Bloc<RealManagerFetchAllAlbumsEvent,
         throw Exception();
       }
     }
-    on<FetchAllAlbums>((event, emit) {
-      
+
+    on<FetchAllAlbums>((event, emit) async {
+      emit(RealManagerFetchAllAlbumsLoadingState());
+      try {
+        final result = await fetchAlbums();
+        emit(RealManagerFetchAllAlbumsSuccessState(albums: result));
+      } catch (e) {
+        emit(
+          RealManagerFetchAllAlbumsErrorState(message: "can not fetch albums"),
+        );
+      }
     });
   }
 }
