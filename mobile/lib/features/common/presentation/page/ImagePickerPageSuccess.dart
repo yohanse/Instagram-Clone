@@ -44,8 +44,7 @@ class ImagePickerSuccessPage extends StatelessWidget {
           ],
           backgroundColor: Colors.black,
         ),
-        body: BlocConsumer<IsMultipleSelectedBloc, IsMultipleSelectedState>(
-          listener: (context, stateNew) {},
+        body: BlocBuilder<IsMultipleSelectedBloc, IsMultipleSelectedState>(
           builder: (context, stateNew) {
             return Container(
               color: Colors.black,

@@ -122,3 +122,4 @@ class ImageManagerBloc extends Bloc<ImageManagerEvent, ImageManagerState> {
     });
   }
 }
+
