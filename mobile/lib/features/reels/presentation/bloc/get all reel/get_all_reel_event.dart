@@ -44,3 +44,12 @@ class GetAllUnLikeReelEvent extends GetAllReelEvent {
   @override
   List<Object> get props => [reelId];
 }
+
+class GetAllAddReelEvent extends GetAllReelEvent {
+  final String filePath;
+  final String content;
+  const GetAllAddReelEvent({
+    required this.content,
+    required this.filePath,
+  });
+}
