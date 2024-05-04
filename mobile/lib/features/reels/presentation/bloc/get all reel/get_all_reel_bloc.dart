@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:mobile/features/reels/domain/Entitie/reel_entitie.dart';
+import 'package:mobile/features/reels/domain/usecase/add_reel_usecase.dart';
 import 'package:mobile/features/reels/domain/usecase/get_all_reels_usecase.dart';
 import 'package:mobile/features/reels/domain/usecase/like_reel_usecase.dart';
 import 'package:mobile/features/reels/domain/usecase/unlike_reel_usecase.dart';
@@ -15,20 +16,19 @@ class GetAllReelBloc extends Bloc<GetAllReelEvent, GetAllReelState> {
   final LikeReelUseCase likeReelUseCase;
   final CommentReelUseCase commentReelUseCase;
   final UnLikeReelUseCase unLikeReelUseCase;
+  final AddReelUseCase addReelUseCase;
   GetAllReelBloc({
     required this.getAllReelUseCase,
     required this.likeReelUseCase,
     required this.commentReelUseCase,
     required this.unLikeReelUseCase,
+    required this.addReelUseCase,
   }) : super(GetAllReelInitial()) {
     on<GetAllReelsEvent>((event, emit) async {
       emit(GetAllReelLoadingState());
       var result = await getAllReelUseCase(ParamsGetAllReel());
       result.fold((l) => emit(GetAllReelErrorState(message: l.message)), (r) {
         emit(GetAllReelLoadedState(reels: r));
-        print(
-            "ALL REAL ALLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLl");
-        print(r);
       });
     });
 
@@ -106,7 +106,20 @@ class GetAllReelBloc extends Bloc<GetAllReelEvent, GetAllReelState> {
       });
     });
     on<GetAllAddReelEvent>((event, emit) async {
-      var result = 
+      var result = await addReelUseCase(
+          ParamsAddReel(content: event.content, filePath: event.filePath));
+      result.fold(
+        (failure) => emit(
+          GetAllReelErrorState(
+            message: failure.message,
+          ),
+        ),
+        (reel) => emit(
+          GetAllReelLoadedState(
+            reels: [reel, ...(state as GetAllReelLoadedState).reels],
+          ),
+        ),
+      );
     });
   }
 }
