@@ -13,6 +13,7 @@ abstract class ReelRemoteDataSource {
   Future<Like> likeReel(String reelId);
   Future<bool> unlikeReel(String reelId, String likeId);
   Future<CommentModel> commentReel(String reelId, String content);
+  Future<ReelModel> addReel(String filePath, String content);
 }
 
 class ReelRemoteDataSourceImpl implements ReelRemoteDataSource {
@@ -110,6 +111,33 @@ class ReelRemoteDataSourceImpl implements ReelRemoteDataSource {
     if (responseData.statusCode == 200 || responseData.statusCode == 201) {
       final response = jsonDecode(responseData.body);
       return CommentModel.fromJson(response);
+    }
+    throw ServerException();
+  }
+
+  @override
+  Future<ReelModel> addReel(String filePath, String content) async {
+    String url = 'http://192.168.43.57:8000/instagram/reels/';
+    final Map<String, String> headers = {
+      'Content-Type': 'multipart/form-data',
+      'Authorization':
+          "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3NTY3OTcxLCJpYXQiOjE3MTIzODM5NzEsImp0aSI6ImM0NTY2YjgxZTMxODRlYjE5ZDlmOWI2YmJiNzQ2ZDlmIiwidXNlcl9pZCI6MX0.y7M19fO4EcaKgPXI-LLrOjGzFCz98gEWld3kcWDp4os",
+    };
+    final request = http.MultipartRequest('POST', Uri.parse(url));
+    request.headers.addAll(headers);
+    request.fields['content'] = content;
+    request.files.add(
+      await http.MultipartFile.fromPath(
+        'upload_video',
+        filePath,
+      ),
+    );
+    final response = await request.send();
+    print("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
+    print(response);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      final responseData = jsonDecode(await response.stream.bytesToString());
+      return ReelModel.fromJson(responseData);
     }
     throw ServerException();
   }

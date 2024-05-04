@@ -13,7 +13,7 @@ class AddReelUseCase implements Usecase<ReelEntite, ParamsAddReel> {
 
   @override
   Future<Either<Failure, ReelEntite>> call(ParamsAddReel params) async {
-    return await reelRepository.likeReel(params.reelId);
+    return await reelRepository.addReel(params.filePath, params.content);
   }
 }
 
