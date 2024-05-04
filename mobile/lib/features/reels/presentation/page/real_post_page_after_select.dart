@@ -62,20 +62,30 @@ class ReelPostPageAfterSelect extends StatelessWidget {
                     ),
                     style: TextStyle(color: Colors.white),
                   ),
-                  SizedBox(height: 3,),
-                  Container(color: Colors.grey, width: double.infinity, height: 1,),
-                  SizedBox(height: 8,),
+                  SizedBox(
+                    height: 3,
+                  ),
+                  Container(
+                    color: Colors.grey,
+                    width: double.infinity,
+                    height: 1,
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
                   Center(
                     child: SizedBox(
                       height: 50,
                       width: 120,
                       child: ElevatedButton(
-                        onPressed: () {},
-                        style: ButtonStyle(
+                        onPressed: () {
                           
+                        },
+                        style: ButtonStyle(
                           backgroundColor:
                               MaterialStateProperty.all<Color>(Colors.blue),
-                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
