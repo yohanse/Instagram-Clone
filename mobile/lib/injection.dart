@@ -34,6 +34,7 @@ import 'package:mobile/features/reels/data/data%20source/local_data_source.dart'
 import 'package:mobile/features/reels/data/data%20source/remote_data_source.dart';
 import 'package:mobile/features/reels/data/repository/reel_repository_impl.dart';
 import 'package:mobile/features/reels/domain/repository/reel_repository.dart';
+import 'package:mobile/features/reels/domain/usecase/add_reel_usecase.dart';
 import 'package:mobile/features/reels/domain/usecase/get_all_reels_usecase.dart';
 import 'package:mobile/features/reels/domain/usecase/get_reel.dart';
 import 'package:mobile/features/reels/domain/usecase/unlike_reel_usecase.dart';
@@ -104,6 +105,7 @@ Future<void> init() async {
       likeReelUseCase: sl(),
       commentReelUseCase: sl(),
       unLikeReelUseCase: sl(),
+      addReelUseCase: sl(),
     ),
   );
   sl.registerFactory(
@@ -179,6 +181,11 @@ Future<void> init() async {
   );
   sl.registerLazySingleton(
     () => UnLikeReelUseCase(
+      reelRepository: sl(),
+    ),
+  );
+  sl.registerLazySingleton(
+    () => AddReelUseCase(
       reelRepository: sl(),
     ),
   );
