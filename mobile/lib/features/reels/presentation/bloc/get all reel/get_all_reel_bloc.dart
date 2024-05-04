@@ -26,7 +26,8 @@ class GetAllReelBloc extends Bloc<GetAllReelEvent, GetAllReelState> {
       var result = await getAllReelUseCase(ParamsGetAllReel());
       result.fold((l) => emit(GetAllReelErrorState(message: l.message)), (r) {
         emit(GetAllReelLoadedState(reels: r));
-        print("ALL REAL ALLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLl");
+        print(
+            "ALL REAL ALLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLl");
         print(r);
       });
     });
@@ -89,21 +90,23 @@ class GetAllReelBloc extends Bloc<GetAllReelEvent, GetAllReelState> {
           ReelEntite reel = reels[i];
           if ("${reel.id}" == event.reelId) {
             reel = ReelEntite(
-              id: reel.id,
-              video: reel.video,
-              author: reel.author,
-              comments: [sucess, ...reel.comments!],
-              isILiked: false,
-              created_at: reel.created_at,
-              numberOfLike: reel.numberOfLike! - 1,
-              content: reel.content
-            );
+                id: reel.id,
+                video: reel.video,
+                author: reel.author,
+                comments: [sucess, ...reel.comments!],
+                isILiked: false,
+                created_at: reel.created_at,
+                numberOfLike: reel.numberOfLike! - 1,
+                content: reel.content);
           }
           updatedReels.add(reel);
         }
 
         emit(GetAllReelLoadedState(reels: updatedReels));
       });
+    });
+    on<GetAllAddReelEvent>((event, emit) async {
+      var result = 
     });
   }
 }
