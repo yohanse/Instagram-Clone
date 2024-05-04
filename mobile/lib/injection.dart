@@ -38,6 +38,7 @@ import 'package:mobile/features/reels/domain/usecase/add_reel_usecase.dart';
 import 'package:mobile/features/reels/domain/usecase/get_all_reels_usecase.dart';
 import 'package:mobile/features/reels/domain/usecase/get_reel.dart';
 import 'package:mobile/features/reels/domain/usecase/unlike_reel_usecase.dart';
+import 'package:mobile/features/reels/presentation/bloc/add_reel/add_reel_bloc.dart';
 import 'package:mobile/features/reels/presentation/bloc/get%20all%20reel/get_all_reel_bloc.dart';
 import 'package:mobile/features/reels/presentation/bloc/real%20manager%20select%20all%20albums/real_manager_fetch_all_albums_bloc.dart';
 import 'package:mobile/features/reels/presentation/bloc/real%20manager%20selected%20album/real_manager_selected_album_bloc.dart';
@@ -126,6 +127,11 @@ Future<void> init() async {
   );
   sl.registerFactory(
     () => ReelManagerSelectedLabumMediasBloc(),
+  );
+  sl.registerFactory(
+    () => AddReelBloc(
+      addReelUseCase: sl(),
+    ),
   );
 
   //use case
