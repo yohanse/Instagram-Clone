@@ -1,60 +1,66 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class CustomTabBar extends StatefulWidget {
+  final Function(int) setSelectedIndex;
+  final int selectedIndex;
+
+  final double xOffSet;
+
+  const CustomTabBar({
+    super.key,
+    required this.setSelectedIndex,
+    required this.selectedIndex,
+    required this.xOffSet,
+  });
   @override
   _CustomTabBarState createState() => _CustomTabBarState();
 }
 
 class _CustomTabBarState extends State<CustomTabBar> {
-  double _xOffset = 70;
-  int selectedIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onHorizontalDragUpdate: (details) {
-        setState(() {
-          _xOffset -= details.delta.dx;
-          if (_xOffset > 255) {
-            _xOffset = 255;
-          }
-          if (_xOffset < 70) {
-            _xOffset = 70;
-          }
-        });
+        
+        // print("===================================================================================");
+        // print("details.delta.dx: ${details.delta.dx}");
+        // print(widget.xOffSet - details.delta.dx);
+        
+        // if (details.delta.dx < -0.01) {
+        //   if (widget.selectedIndex != 3) {
+        //     widget.setSelectedIndex(widget.selectedIndex + 1);
+        //   }
+        // }
+        // else if (details.delta.dx > 0.5) {
+        //   if (widget.selectedIndex != 0) {
+        //     widget.setSelectedIndex(widget.selectedIndex - 1);
+        //   }
+        // }
       },
       child: Stack(
         children: [
           Positioned(
-              bottom: 0,
-              right: checkXoffset(_xOffset),
-              child: CustomTabBarComponent(selectedIndex: selectedIndex),),
+            bottom: 0,
+            right: widget.xOffSet,
+            child: CustomTabBarComponent(
+                selectedIndex: widget.selectedIndex,
+                changeState: (index) {
+                  widget.setSelectedIndex(index);
+                }),
+          ),
         ],
       ),
     );
-  }
-
-  void setSelectedIndex(int index) {
-    setState(() {
-      selectedIndex = index;
-    });
-  }
-
-  double checkXoffset(x) {
-    final List<double> possible = [70, 134, 191, 255];
-    for (int i = 0; i < 4; i++) {
-      if (possible[i] >= x) {
-        setSelectedIndex(i);
-        return possible[i];
-      }
-    }
-    return 255;
   }
 }
 
 class CustomTabBarComponent extends StatelessWidget {
   final int selectedIndex;
-  const CustomTabBarComponent({super.key, required this.selectedIndex});
+  final Function(int) changeState;
+  const CustomTabBarComponent(
+      {super.key, required this.selectedIndex, required this.changeState});
 
   @override
   Widget build(BuildContext context) {
@@ -66,28 +72,40 @@ class CustomTabBarComponent extends StatelessWidget {
       ),
       child: Row(
         children: [
-          IsSelected(
-            text: "POST",
-            selectedIndex: selectedIndex,
-            index: 0,
+          GestureDetector(
+            onTap: () => changeState(0),
+            child: IsSelected(
+              text: "POST",
+              selectedIndex: selectedIndex,
+              index: 0,
+            ),
           ),
           SizedBox(width: 14),
-          IsSelected(
-            text: "STORY",
-            selectedIndex: selectedIndex,
-            index: 1,
+          GestureDetector(
+            onTap: () => changeState(1),
+            child: IsSelected(
+              text: "STORY",
+              selectedIndex: selectedIndex,
+              index: 1,
+            ),
           ),
           SizedBox(width: 14),
-          IsSelected(
-            text: "REEL",
-            selectedIndex: selectedIndex,
-            index: 2,
+          GestureDetector(
+            onTap: () => changeState(2),
+            child: IsSelected(
+              text: "REEL",
+              selectedIndex: selectedIndex,
+              index: 2,
+            ),
           ),
           SizedBox(width: 14),
-          IsSelected(
-            text: "LIVE",
-            selectedIndex: selectedIndex,
-            index: 3,
+          GestureDetector(
+            onTap: () => changeState(3),
+            child: IsSelected(
+              text: "LIVE",
+              selectedIndex: selectedIndex,
+              index: 3,
+            ),
           ),
         ],
       ),

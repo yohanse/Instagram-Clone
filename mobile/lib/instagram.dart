@@ -13,6 +13,7 @@ import 'package:mobile/features/auth/presentation/pages/birth_date.dart';
 import 'package:mobile/features/auth/presentation/pages/create_password.dart';
 import 'package:mobile/features/auth/presentation/pages/finalConfirmation.dart';
 import 'package:mobile/features/auth/presentation/pages/name.dart';
+import 'package:mobile/features/common/Ui/picker.dart';
 import 'package:mobile/features/common/presentation/bloc/AddingPost/adding_post_bloc.dart';
 import 'package:mobile/features/common/presentation/bloc/Image/image_manager_bloc.dart';
 import 'package:mobile/features/common/presentation/bloc/IsMultipleSelected/is_multiple_selected_bloc.dart';
@@ -99,8 +100,8 @@ class InstagramApp extends StatelessWidget {
         //   builder: (context, state) => const ListPostPage(),
         // ),
         GoRoute(
-          path: '/pickImage',
-          builder: (context, state) => const ImagePickerPage(),
+          path: '/',
+          builder: (context, state) => const PickerImageVideo(),
         ),
         GoRoute(
           path: '/pickImage/post',
@@ -118,10 +119,10 @@ class InstagramApp extends StatelessWidget {
           builder: (context, state) => ReelPage(),
         ),
 
-        GoRoute(
-          path: "/",
-          builder: (context, state) => SelectReelVideoPage(),
-        ),
+        // GoRoute(
+        //   path: "/",
+        //   builder: (context, state) => SelectReelVideoPage(),
+        // ),
         GoRoute(
           path: "/next",
           builder: (context, state) => ReelPostPageAfterSelect(

@@ -189,7 +189,6 @@ class ImagePickerSuccessPage extends StatelessWidget {
             );
           },
         ),
-        floatingActionButton: CustomTabBar(),
       ),
     );
   }
