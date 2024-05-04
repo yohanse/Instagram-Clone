@@ -8,4 +8,5 @@ abstract class ReelRepository {
   Future<Either<Failure, Like>> likeReel(String reelId);
   Future<Either<Failure, Comment>> commentReel(String reelId, String content);
   Future<Either<Failure, bool>> unlikeReel(String reelId, String likeId);
+  Future<Either<Failure, ReelEntite>> addReel(String filePath, String content);
 }
