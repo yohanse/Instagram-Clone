@@ -14,10 +14,10 @@ class ProfileView(GenericViewSet, CreateModelMixin, ListModelMixin):
     queryset = models.User.objects.all()
     serializer_class = seriliazer.UserProfileShortSerializer
     
-    def list(self, request, *args, **kwargs):
-        user = self.queryset.get(user_id=request.user.id)
-        serializer = self.get_serializer(user)
-        return Response(serializer.data)
+    # def list(self, request, *args, **kwargs):
+    #     users = self.queryset.filter()
+    #     serializer = self.get_serializer(users, many=True)
+    #     return Response(serializer.data)
     
     
 
