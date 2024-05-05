@@ -22,6 +22,7 @@ import 'package:mobile/features/common/presentation/page/ImagePickerPage.dart';
 import 'package:mobile/features/message/presentation/bloc/list%20users/list_users_bloc.dart';
 import 'package:mobile/features/message/presentation/page/list_of_user.dart';
 import 'package:mobile/features/message/presentation/page/message_with_user.dart';
+import 'package:mobile/features/message/presentation/page/test.dart';
 import 'package:mobile/features/profile/presentation/bloc/profile/profile_bloc.dart';
 import 'package:mobile/features/profile/presentation/page/profile_page.dart';
 import 'package:mobile/features/reels/presentation/bloc/add_reel/add_reel_bloc.dart';
@@ -142,6 +143,10 @@ class InstagramApp extends StatelessWidget {
             userParams: state.extra as UserParams,
           ),
         ),
+        // GoRoute(
+        //   path: "/",
+        //   builder: (context, state) => ChatTestPage(),
+        // ),
       ],
     );
     return MultiBlocProvider(

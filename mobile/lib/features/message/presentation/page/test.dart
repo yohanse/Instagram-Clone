@@ -1,35 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
-import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/status.dart' as status;
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-class ChatPage extends StatefulWidget {
-  final UserParams userParams;
-  ChatPage({super.key, required this.userParams});
+
+class ChatTestPage extends StatefulWidget {
+  const ChatTestPage({super.key});
 
   @override
-  State<ChatPage> createState() => _ChatPageState();
+  State<ChatTestPage> createState() => _ChatTestPageState();
 }
 
-class _ChatPageState extends State<ChatPage> {
+class _ChatTestPageState extends State<ChatTestPage> {
   TextEditingController messageController = TextEditingController();
-  final channel = IOWebSocketChannel.connect(
-    Uri.parse('wss://stream.binance.com:9443/ws/btcusdt@trade'),
-  );
+  late WebSocketChannel channel;
+
   List<String> messages = [];
   @override
   void initState() {
+    channel = WebSocketChannel.connect(
+      Uri.parse('ws://127.0.0.1:8000/ws/chat/lobby/'),
+    );
+    preparing();
     super.initState();
-    streamListener();
+  }
+  Future<void> preparing() async {
+    await channel.ready;
+
+    channel.stream.listen((event) {
+      
+    }, onDone: () {
+      channel.sink.close(status.goingAway);
+    });
   }
 
-  streamListener() {
-      channel.stream.listen((event) {
-        print(event);
-      });
-    }
 
   @override
   Widget build(BuildContext context) {
@@ -43,19 +48,6 @@ class _ChatPageState extends State<ChatPage> {
             color: Colors.white,
           ),
           onPressed: () => context.go("/"),
-        ),
-        title: ListTile(
-          leading: CircleAvatar(
-            backgroundImage: NetworkImage(widget.userParams.profile_image),
-            radius: 25,
-          ),
-          title: Text(
-            widget.userParams.name,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-            ),
-          ),
         ),
       ),
       body: Column(
@@ -113,23 +105,6 @@ class _ChatPageState extends State<ChatPage> {
           ),
         ],
       ),
-      // Container(
-      //   height: double.maxFinite,
-      //   width: double.maxFinite,
-      //   child:
-
-      // ),
     );
   }
-}
-
-class UserParams {
-  final String id;
-  final String name;
-  final String profile_image;
-  UserParams({
-    required this.name,
-    required this.profile_image,
-    required this.id,
-  });
 }

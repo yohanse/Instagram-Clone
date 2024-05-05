@@ -55,8 +55,6 @@ dependencies:
   sliding_sheet2: ^2.0.1
   snapping_bottom_sheet: ^1.0.4
   web_socket_channel: ^2.4.5
-  web_socket_client: ^0.1.2
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
