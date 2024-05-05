@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile/features/message/presentation/bloc/list%20users/list_users_bloc.dart';
 
-class ListUsers extends StatelessWidget {
-  const ListUsers({super.key});
+class ListUsersPage extends StatelessWidget {
+  const ListUsersPage({super.key});
 
   @override
   Widget build(BuildContext context) {
