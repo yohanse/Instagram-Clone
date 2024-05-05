@@ -25,6 +25,12 @@ import 'package:mobile/features/common/presentation/bloc/AddingPost/adding_post_
 import 'package:mobile/features/common/presentation/bloc/Image/image_manager_bloc.dart';
 import 'package:mobile/features/common/presentation/bloc/IsMultipleSelected/is_multiple_selected_bloc.dart';
 import 'package:mobile/features/common/presentation/bloc/post/post_bloc.dart';
+import 'package:mobile/features/message/Domain/repository/message_repository.dart';
+import 'package:mobile/features/message/Domain/usecase/get_users_usecase.dart';
+import 'package:mobile/features/message/data/data_source/local_data_source.dart';
+import 'package:mobile/features/message/data/data_source/remote_data_source.dart';
+import 'package:mobile/features/message/data/repository/message_repository_impl.dart';
+import 'package:mobile/features/message/presentation/bloc/list%20users/list_users_bloc.dart';
 import 'package:mobile/features/profile/Data/data_source/remote_data_source.dart';
 import 'package:mobile/features/profile/Data/repository/profile_repository_impl.dart';
 import 'package:mobile/features/profile/Domain/Repository/profile_repository.dart';
@@ -133,6 +139,11 @@ Future<void> init() async {
       addReelUseCase: sl(),
     ),
   );
+  sl.registerFactory(
+    () => ListUsersBloc(
+      getUserUsecase: sl(),
+    ),
+  );
 
   //use case
   sl.registerLazySingleton(() => CheckEmailUsecase(authRepository: sl()));
@@ -195,6 +206,11 @@ Future<void> init() async {
       reelRepository: sl(),
     ),
   );
+  sl.registerLazySingleton(
+    () => GetUserUsecase(
+      messageRepository: sl(),
+    ),
+  );
 
   //Remote Data Source
   sl.registerLazySingleton<AuthRemoteDataSource>(
@@ -202,26 +218,50 @@ Future<void> init() async {
       authLocalDataSource: sl(),
     ),
   );
-
   sl.registerLazySingleton<PostRemoteDataSource>(
-      () => PostRemoteDataSourceImpl(postLocalDataSource: sl()));
+    () => PostRemoteDataSourceImpl(
+      postLocalDataSource: sl(),
+    ),
+  );
   sl.registerLazySingleton<ProfileRemoteDataSource>(
-      () => ProfileRemoteDataSourceImpl());
+    () => ProfileRemoteDataSourceImpl(),
+  );
   sl.registerLazySingleton<ReelRemoteDataSource>(
-      () => ReelRemoteDataSourceImpl(reelLocalDataSource: sl()));
+    () => ReelRemoteDataSourceImpl(
+      reelLocalDataSource: sl(),
+    ),
+  );
+  sl.registerLazySingleton<MessageRemoteDataSource>(
+    () => MessageRemoteDataSourceImpl(
+      messageLocalDataSource: sl(),
+    ),
+  );
 
   // Local Data Source
   sl.registerLazySingleton<AuthLocalDataSource>(
-    () => AuthLocalDataSourceImpl(prefs: sl()),
+    () => AuthLocalDataSourceImpl(
+      prefs: sl(),
+    ),
   );
   sl.registerLazySingleton<PostLocalDataSource>(
-      () => PostLocalDataSourceImpl(prefs: sl()));
+    () => PostLocalDataSourceImpl(
+      prefs: sl(),
+    ),
+  );
   sl.registerLazySingleton<ReelLocalDataSource>(
-      () => ReelLocalDataSourceImpl());
+    () => ReelLocalDataSourceImpl(),
+  );
+  sl.registerLazySingleton<MessageLocalDataSource>(
+    () => MessageLocalDataSourceImpl(),
+  );
 
   // Repository
   sl.registerLazySingleton<PostRepository>(
-      () => PostRepositorieImpl(postRemoteDataSource: sl(), networkInfo: sl()));
+    () => PostRepositorieImpl(
+      postRemoteDataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
 
   sl.registerLazySingleton<AuthRepository>(
     () => AuthRepositorieImpl(
@@ -230,13 +270,28 @@ Future<void> init() async {
     ),
   );
   sl.registerLazySingleton<ProfileRepository>(
-      () => ProfileREpositoryImplementation(remoteDataSource: sl()));
+    () => ProfileREpositoryImplementation(
+      remoteDataSource: sl(),
+    ),
+  );
   sl.registerLazySingleton<ReelRepository>(
-      () => ReelRepositoryImpl(networkInfo: sl(), reelRemoteDataSource: sl()));
-
+    () => ReelRepositoryImpl(
+      networkInfo: sl(),
+      reelRemoteDataSource: sl(),
+    ),
+  );
+  sl.registerLazySingleton<MessageRepository>(
+    () => MessageRepositoryImpl(
+      messageRemoteDataSource: sl(),
+    ),
+  );
+  
   //Core
   sl.registerLazySingleton<NetworkInfo>(
-      () => NetworkInfoImpl(connectionChecker: sl()));
+    () => NetworkInfoImpl(
+      connectionChecker: sl(),
+    ),
+  );
 
   //External
   sl.registerLazySingleton(() => InternetConnectionChecker());

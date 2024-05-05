@@ -19,6 +19,7 @@ import 'package:mobile/features/common/presentation/bloc/Image/image_manager_blo
 import 'package:mobile/features/common/presentation/bloc/IsMultipleSelected/is_multiple_selected_bloc.dart';
 import 'package:mobile/features/common/presentation/bloc/post/post_bloc.dart';
 import 'package:mobile/features/common/presentation/page/ImagePickerPage.dart';
+import 'package:mobile/features/message/presentation/bloc/list%20users/list_users_bloc.dart';
 import 'package:mobile/features/profile/presentation/bloc/profile/profile_bloc.dart';
 import 'package:mobile/features/profile/presentation/page/profile_page.dart';
 import 'package:mobile/features/reels/presentation/bloc/add_reel/add_reel_bloc.dart';
@@ -99,36 +100,36 @@ class InstagramApp extends StatelessWidget {
         //   path: '/',
         //   builder: (context, state) => const ListPostPage(),
         // ),
-        GoRoute(
-          path: '/',
-          builder: (context, state) => const PickerImageVideo(),
-        ),
-        GoRoute(
-          path: '/pickImage/post',
-          builder: (context, state) => AfterImagwPickerPage(
-            medias: state.extra as List<AssetEntity>,
-          ),
-        ),
-        GoRoute(
-          path: "/profile",
-          builder: (context, state) => const ProfilePage(),
-        ),
-
-        GoRoute(
-          path: "/Reel",
-          builder: (context, state) => ReelPage(),
-        ),
+        // GoRoute(
+        //   path: '/',
+        //   builder: (context, state) => const PickerImageVideo(),
+        // ),
+        // GoRoute(
+        //   path: '/pickImage/post',
+        //   builder: (context, state) => AfterImagwPickerPage(
+        //     medias: state.extra as List<AssetEntity>,
+        //   ),
+        // ),
+        // GoRoute(
+        //   path: "/profile",
+        //   builder: (context, state) => const ProfilePage(),
+        // ),
 
         // GoRoute(
-        //   path: "/",
-        //   builder: (context, state) => SelectReelVideoPage(),
+        //   path: "/Reel",
+        //   builder: (context, state) => ReelPage(),
         // ),
-        GoRoute(
-          path: "/next",
-          builder: (context, state) => ReelPostPageAfterSelect(
-            path: state.extra as File,
-          ),
-        ),
+
+        // // GoRoute(
+        // //   path: "/",
+        // //   builder: (context, state) => SelectReelVideoPage(),
+        // // ),
+        // GoRoute(
+        //   path: "/next",
+        //   builder: (context, state) => ReelPostPageAfterSelect(
+        //     path: state.extra as File,
+        //   ),
+        // ),
       ],
     );
     return MultiBlocProvider(
@@ -183,6 +184,9 @@ class InstagramApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => sl<AddReelBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => sl<ListUsersBloc>(),
         ),
       ],
       child: MaterialApp.router(
