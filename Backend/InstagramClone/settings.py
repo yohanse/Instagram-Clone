@@ -172,3 +172,5 @@ EMAIL_USE_SSL = False
 CORS_ORIGIN_ALLOW_ALL = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.0.106', '0.0.0.0', '192.168.57.112', '192.168.43.57', '172.17.0.1']
+
+ASGI_APPLICATION = "InstagramClone.asgi.application"

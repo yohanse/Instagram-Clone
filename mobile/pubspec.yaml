@@ -54,6 +54,7 @@ dependencies:
   video_player: ^2.8.5
   sliding_sheet2: ^2.0.1
   snapping_bottom_sheet: ^1.0.4
+  web_socket_channel: ^2.4.5
 
 dev_dependencies:
   flutter_test:
