@@ -869,6 +869,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.5"
+  web_socket_client:
+    dependency: "direct main"
+    description:
+      name: web_socket_client
+      sha256: "372853daed7330d0de95ab8ad2763c8a0235798d3e6657a51745cdbe6ca069b1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.2"
   win32:
     dependency: transitive
     description:
