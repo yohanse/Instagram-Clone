@@ -12,8 +12,13 @@ class ListUsersBloc extends Bloc<ListUsersEvent, ListUsersState> {
   ListUsersBloc({
     required this.getUserUsecase,
   }) : super(ListUsersInitial()) {
-    on<ListUsersEvent>((event, emit) {
-      // TODO: implement event handler
+    on<GetUsersEvent>((event, emit) async {
+      emit(ListUsersLoadingState());
+      var result = await getUserUsecase(ParamsGetUser());
+      result.fold(
+        (failure) => emit(ListUsersErrorState(message: failure.message)),
+        (users) => emit(ListUsersLoadedState(users: users)),
+      );
     });
   }
 }

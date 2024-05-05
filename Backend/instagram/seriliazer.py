@@ -21,6 +21,10 @@ class UserProfileShortSerializer(serializers.ModelSerializer):
     
     def get_name(self, obj):
         return obj.user.first_name
+    def create(self, validated_data):
+        validated_data['user_id'] = self.context['request'].user.id
+        print(validated_data)
+        return super().create(validated_data)
     
     
 class ImageSerializer(serializers.ModelSerializer):
