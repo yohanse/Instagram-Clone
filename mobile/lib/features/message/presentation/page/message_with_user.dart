@@ -16,7 +16,14 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   TextEditingController messageController = TextEditingController();
   final channel = IOWebSocketChannel.connect(
-    Uri.parse('wss://stream.binance.com:9443/ws/btcusdt@trade'),
+    headers: {
+        
+        'Authorization':
+            "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3NTY3OTcxLCJpYXQiOjE3MTIzODM5NzEsImp0aSI6ImM0NTY2YjgxZTMxODRlYjE5ZDlmOWI2YmJiNzQ2ZDlmIiwidXNlcl9pZCI6MX0.y7M19fO4EcaKgPXI-LLrOjGzFCz98gEWld3kcWDp4os",
+      },
+    Uri.parse(
+      'ws://192.168.43.57:8000/ws/chat/',
+    ),
   );
   List<String> messages = [];
   @override
@@ -26,10 +33,10 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   streamListener() {
-      channel.stream.listen((event) {
-        print(event);
-      });
-    }
+    channel.stream.listen((event) {
+      print(event);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

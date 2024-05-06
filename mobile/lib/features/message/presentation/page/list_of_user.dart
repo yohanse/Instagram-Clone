@@ -20,11 +20,14 @@ class ListUsersPage extends StatelessWidget {
           return ListView.builder(
             itemCount: state.users.length,
             itemBuilder: (context, index) => GestureDetector(
-              onTap: () => context.go('/chat', extra: UserParams(
-                id: "${state.users[index].user_id}",
-                name: state.users[index].name,
-                profile_image: state.users[index].profile_image,
-              ),),
+              onTap: () => context.go(
+                '/chat',
+                extra: UserParams(
+                  id: "${state.users[index].user_id}",
+                  name: state.users[index].name,
+                  profile_image: state.users[index].profile_image,
+                ),
+              ),
               child: ListTile(
                 leading: CircleAvatar(
                   backgroundImage:

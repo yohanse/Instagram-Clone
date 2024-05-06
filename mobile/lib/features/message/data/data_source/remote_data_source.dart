@@ -21,7 +21,7 @@ class MessageRemoteDataSourceImpl implements MessageRemoteDataSource {
   @override
   Future<List<ProfileModel>> getUsers() async {
     String url = "http://192.168.43.57:8000/instagram/users/";
-  
+
     final responseData = await http.get(
       Uri.parse(url),
       headers: {
@@ -30,7 +30,6 @@ class MessageRemoteDataSourceImpl implements MessageRemoteDataSource {
             "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3NTY3OTcxLCJpYXQiOjE3MTIzODM5NzEsImp0aSI6ImM0NTY2YjgxZTMxODRlYjE5ZDlmOWI2YmJiNzQ2ZDlmIiwidXNlcl9pZCI6MX0.y7M19fO4EcaKgPXI-LLrOjGzFCz98gEWld3kcWDp4os",
       },
     );
-    
     if (responseData.statusCode == 200) {
       final response = jsonDecode(responseData.body);
       List<ProfileModel> result = [];
@@ -40,5 +39,5 @@ class MessageRemoteDataSourceImpl implements MessageRemoteDataSource {
       return result;
     }
     throw ServerException();
-   }
+  }
 }
