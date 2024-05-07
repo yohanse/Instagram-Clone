@@ -38,6 +38,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -174,3 +175,12 @@ CORS_ORIGIN_ALLOW_ALL = True
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.0.106', '0.0.0.0', '192.168.57.112', '192.168.43.57', '172.17.0.1']
 
 ASGI_APPLICATION = "InstagramClone.asgi.application"
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
