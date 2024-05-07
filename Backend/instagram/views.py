@@ -7,7 +7,8 @@ from .import seriliazer
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from rest_framework.mixins import CreateModelMixin, ListModelMixin, UpdateModelMixin, RetrieveModelMixin, DestroyModelMixin
 from rest_framework.permissions import IsAuthenticated
-
+from django.db.models import Q
+from rest_framework import status
 
 class ProfileView(GenericViewSet, CreateModelMixin, ListModelMixin):
     # permission_classes = [CanDeletePost]
@@ -77,11 +78,15 @@ class LikeView(ModelViewSet):
         return self.kwargs.get("post_pk") or self.kwargs.get("reel_pk")
     
 
-class MessageView(ModelViewSet):
+class MessageView(GenericViewSet, ListModelMixin, CreateModelMixin):
     queryset = models.Message.objects.all()
     serializer_class = seriliazer.MessageSerializer
     
-    def get_queryset(self):
-        return self.queryset.filter(sender=self.request.user, receiver=self.kwargs["receiver"])
-    
-    
+    def list(self, request):
+        receiver_id = request.query_params.get('receiver_id')
+        if receiver_id:
+            messages = models.Message.objects.filter(Q(sender_id=self.request.user.id, receiver_id=receiver_id) | Q(sender_id=receiver_id, receiver_id=self.request.user.id))
+            serializer = self.get_serializer(messages, many=True)
+            return Response(serializer.data)
+        else:
+            return Response({"error": "receiver_id are required."}, status=status.HTTP_400_BAD_REQUEST)
