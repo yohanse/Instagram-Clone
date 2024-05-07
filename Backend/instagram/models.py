@@ -75,4 +75,4 @@ class Message(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ['-created_at']  # Order messages by creation date (descending)
+        ordering = ['-created_at']
