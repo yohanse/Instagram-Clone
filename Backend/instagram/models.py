@@ -65,3 +65,14 @@ class Like(models.Model):
     content_object = GenericForeignKey('content_type','object_id')
     class Meta:
         unique_together = [('user', 'content_type', 'object_id')]
+
+
+class Messge(models.Model):
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sender')
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='receiver')
+    content = models.TextField()
+    file = models.FileField(upload_to='message/files/', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']  # Order messages by creation date (descending)
