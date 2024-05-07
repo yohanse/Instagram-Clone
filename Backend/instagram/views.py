@@ -75,3 +75,13 @@ class LikeView(ModelViewSet):
     
     def get_pk(self):
         return self.kwargs.get("post_pk") or self.kwargs.get("reel_pk")
+    
+
+class MessageView(ModelViewSet):
+    queryset = models.Message.objects.all()
+    serializer_class = seriliazer.MessageSerializer
+    
+    def get_queryset(self):
+        return self.queryset.filter(sender=self.request.user, receiver=self.kwargs["receiver"])
+    
+    

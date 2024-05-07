@@ -67,7 +67,7 @@ class Like(models.Model):
         unique_together = [('user', 'content_type', 'object_id')]
 
 
-class Messge(models.Model):
+class Message(models.Model):
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sender')
     receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='receiver')
     content = models.TextField()

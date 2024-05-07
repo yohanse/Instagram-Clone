@@ -151,3 +151,16 @@ class ReelSerializer(serializers.ModelSerializer):
         except:
             return None
         
+
+
+class MessageSerializer(serializers.ModelSerializer):
+    sender = UserProfileShortSerializer(read_only=True)
+    receiver = UserProfileShortSerializer(read_only=True)
+    class Meta:
+        model = models.Message
+        fields = ['id', 'sender', 'receiver', 'content', 'created_at', 'file']
+
+    def create(self, validated_data):
+        validated_data["sender_id"] = self.context["request"].user.id
+        return super().create(validated_data)
+        
