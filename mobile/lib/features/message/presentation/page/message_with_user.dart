@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
@@ -15,15 +17,8 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   TextEditingController messageController = TextEditingController();
-  final channel = IOWebSocketChannel.connect(
-    headers: {
-        
-        'Authorization':
-            "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3NTY3OTcxLCJpYXQiOjE3MTIzODM5NzEsImp0aSI6ImM0NTY2YjgxZTMxODRlYjE5ZDlmOWI2YmJiNzQ2ZDlmIiwidXNlcl9pZCI6MX0.y7M19fO4EcaKgPXI-LLrOjGzFCz98gEWld3kcWDp4os",
-      },
-    Uri.parse(
-      'ws://192.168.43.57:8000/ws/chat/',
-    ),
+  final channel = WebSocketChannel.connect(
+    Uri.parse('ws://192.168.43.57:8000/ws/chat/2/'),
   );
   List<String> messages = [];
   @override
@@ -33,8 +28,9 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   streamListener() {
-    channel.stream.listen((event) {
-      print(event);
+    channel.stream.listen((message) {
+      print(
+          "====================================================================================================================================");
     });
   }
 
@@ -96,7 +92,11 @@ class _ChatPageState extends State<ChatPage> {
                         color: Colors.white,
                       ),
                       onPressed: () {
-                        channel.sink.add(messageController.text);
+                        channel.sink.add(jsonEncode({
+                          'type': 'chat.message',
+                          'message': 'Hello, world!',
+                        }));
+
                         messageController.clear();
                       },
                     ),

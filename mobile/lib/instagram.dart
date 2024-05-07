@@ -133,20 +133,20 @@ class InstagramApp extends StatelessWidget {
         //     path: state.extra as File,
         //   ),
         // ),
-        // GoRoute(
-        //   path: "/",
-        //   builder: (context, state) => ListUsersPage(),
-        // ),
-        // GoRoute(
-        //   path: "/chat",
-        //   builder: (context, state) => ChatPage(
-        //     userParams: state.extra as UserParams,
-        //   ),
-        // ),
         GoRoute(
           path: "/",
-          builder: (context, state) => WebsocketDemo(),
+          builder: (context, state) => ListUsersPage(),
         ),
+        GoRoute(
+          path: "/chat",
+          builder: (context, state) => ChatPage(
+            userParams: state.extra as UserParams,
+          ),
+        ),
+        // GoRoute(
+        //   path: "/",
+        //   builder: (context, state) => WebsocketDemo(),
+        // ),
       ],
     );
     return MultiBlocProvider(

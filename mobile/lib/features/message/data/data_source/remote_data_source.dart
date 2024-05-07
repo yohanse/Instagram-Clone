@@ -32,6 +32,7 @@ class MessageRemoteDataSourceImpl implements MessageRemoteDataSource {
     );
     if (responseData.statusCode == 200) {
       final response = jsonDecode(responseData.body);
+      print(response);
       List<ProfileModel> result = [];
       for (int i = 0; i < response.length; i++) {
         result.add(ProfileModel.fromJson(response[i]));
