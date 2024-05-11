@@ -11,7 +11,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.receiver_id = self.scope["url_route"]["kwargs"]["receiver_id"]
         self.sender_id = await self.get_sender_id_from_token()
-        print(self.sender_id, self.receiver_id)
         self.room_group_name = f"chat_sender_id{self.sender_id}receiver_id{self.receiver_id}"
 
         await self.channel_layer.group_add(self.room_group_name, self.channel_name)
@@ -25,19 +24,18 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data):
         text_data = json.loads(text_data)
         message_data = text_data["message"]
-        await self.create_message(message_data)
+        message_json = await self.create_message(message_data)
         
         # Send message to room group
         await self.channel_layer.group_send(
-            self.room_group_name, text_data
+            self.room_group_name, message_json
         )
 
     # Receive message from room group
     async def chat_message(self, event):
-        message = event["message"]
 
         # Send message to WebSocket
-        await self.send(text_data=json.dumps({"message": message}))
+        await self.send(text_data=json.dumps(event))
 
     @database_sync_to_async
     def create_message(self, message, file=None):
@@ -45,7 +43,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
             sender_id=self.sender_id, receiver_id=self.receiver_id, content=message, file=file,
         )
         new_message.save()
-        return new_message
+        message_dict = {"sender_id":self.sender_id, "receiver_id":self.receiver_id, "message":message, "file":file, "type":"chat.message"}
+        return message_dict
+    
 
     @database_sync_to_async
     def get_sender_id_from_token(self):
@@ -54,10 +54,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             token = self.scope['headers'][6][1].split()[1]
             decoded_token = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
             user_id = decoded_token['user_id']
-            print("*" * 100)
-            print(user_id)
             models.User.objects.get(user_id=user_id)
-            print("*" * 100)
             return user_id
         except Exception as e:
             return None
