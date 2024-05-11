@@ -154,11 +154,12 @@ class ReelSerializer(serializers.ModelSerializer):
 
 
 class MessageSerializer(serializers.ModelSerializer):
+    type = serializers.CharField(read_only=True, default="chat.message")
     sender = UserProfileShortSerializer(read_only=True)
     receiver = UserProfileShortSerializer(read_only=True)
     class Meta:
         model = models.Message
-        fields = ['id', 'sender', 'receiver', 'content', 'created_at', 'file']
+        fields = ['id', 'sender', 'receiver', 'content', 'created_at', 'file', 'type']
 
     def create(self, validated_data):
         validated_data["sender_id"] = self.context["request"].user.id

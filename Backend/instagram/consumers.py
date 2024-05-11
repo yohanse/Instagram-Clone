@@ -11,7 +11,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.receiver_id = self.scope["url_route"]["kwargs"]["receiver_id"]
         self.sender_id = await self.get_sender_id_from_token()
-        self.room_group_name = f"chat_sender_id{self.sender_id}receiver_id{self.receiver_id}"
+        self.room_group_name = f"chat_sender_id{min(int(self.sender_id), int(self.receiver_id))}receiver_id{max(int(self.sender_id), int(self.receiver_id))}"
 
         await self.channel_layer.group_add(self.room_group_name, self.channel_name)
 
@@ -39,12 +39,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     @database_sync_to_async
     def create_message(self, message, file=None):
-        new_message = models.Message.objects.create(
+        newmessage = models.Message.objects.create(
             sender_id=self.sender_id, receiver_id=self.receiver_id, content=message, file=file,
         )
-        new_message.save()
+        newmessage.save()
+        value = seriliazer.MessageSerializer(newmessage)
+        print(value)
         message_dict = {"sender_id":self.sender_id, "receiver_id":self.receiver_id, "message":message, "file":file, "type":"chat.message"}
-        return message_dict
+        return value.data
     
 
     @database_sync_to_async

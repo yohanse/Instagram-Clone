@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mobile/features/message/Domain/entitie/message_entitie.dart';
+import 'package:mobile/features/message/data/models/message_model.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/status.dart' as status;
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -17,6 +19,7 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   TextEditingController messageController = TextEditingController();
+
   final channel = IOWebSocketChannel.connect(
     headers: {
       'Authorization':
@@ -24,7 +27,8 @@ class _ChatPageState extends State<ChatPage> {
     },
     Uri.parse('ws://192.168.43.57:8000/ws/chat/2/'),
   );
-  List<String> messages = [];
+  List<dynamic> messages = [];
+
   @override
   void initState() {
     super.initState();
@@ -33,7 +37,9 @@ class _ChatPageState extends State<ChatPage> {
 
   streamListener() {
     channel.stream.listen((message) {
-      print(message);
+      setState(() {
+        messages.add(message);
+      });
     });
   }
 
@@ -68,14 +74,15 @@ class _ChatPageState extends State<ChatPage> {
         children: [
           Expanded(
             child: ListView.builder(
-                itemBuilder: (context, index) => Text(
-                      messages[index],
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 17,
-                      ),
-                    ),
-                itemCount: messages.length),
+              itemBuilder: (context, index) => Text(
+                messages[index],
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 17,
+                ),
+              ),
+              itemCount: messages.length,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
