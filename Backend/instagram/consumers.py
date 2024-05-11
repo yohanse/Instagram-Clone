@@ -22,9 +22,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
 
     async def receive(self, text_data):
-        text_data = json.loads(text_data)
-        message_data = text_data["message"]
-        message_json = await self.create_message(message_data)
+        
+        message_json = await self.create_message(text_data)
         
         # Send message to room group
         await self.channel_layer.group_send(
@@ -44,8 +43,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
         )
         newmessage.save()
         value = seriliazer.MessageSerializer(newmessage)
-        print(value)
-        message_dict = {"sender_id":self.sender_id, "receiver_id":self.receiver_id, "message":message, "file":file, "type":"chat.message"}
         return value.data
     
 

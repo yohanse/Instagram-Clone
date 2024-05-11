@@ -5,6 +5,8 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile/features/message/Domain/entitie/message_entitie.dart';
 import 'package:mobile/features/message/data/models/message_model.dart';
+import 'package:mobile/features/message/presentation/widget/message_accepting_widget.dart';
+import 'package:mobile/features/message/presentation/widget/message_sending_widget.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/status.dart' as status;
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -38,9 +40,16 @@ class _ChatPageState extends State<ChatPage> {
   streamListener() {
     channel.stream.listen((message) {
       setState(() {
-        messages.add(message);
+        messages.insert(
+           0, jsonDecode(message),
+        );
       });
     });
+  }
+
+  void sendMessage() {
+    channel.sink.add(messageController.text);
+    messageController.clear();
   }
 
   @override
@@ -74,15 +83,14 @@ class _ChatPageState extends State<ChatPage> {
         children: [
           Expanded(
             child: ListView.builder(
-              itemBuilder: (context, index) => Text(
-                messages[index],
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 17,
-                ),
-              ),
-              itemCount: messages.length,
-            ),
+              reverse: true,
+                itemCount: messages.length,
+                itemBuilder: (context, index) {
+                  if (messages[index]["sender"]["user_id"] != widget.userParams.id) {
+                    return MessageSendingWidget(message: messages[index]);
+                  }
+                  return MessageAcceptingWidget(message: messages[index]);
+                }),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -91,6 +99,7 @@ class _ChatPageState extends State<ChatPage> {
               children: [
                 TextField(
                   controller: messageController,
+                  onSubmitted: (value) => sendMessage(),
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 17,
@@ -102,11 +111,7 @@ class _ChatPageState extends State<ChatPage> {
                         color: Colors.white,
                       ),
                       onPressed: () {
-                        channel.sink.add(jsonEncode({
-                          'type': 'chat.message',
-                          'message': 'Hello, world!',
-                        }));
-
+                        channel.sink.add(messageController.text);
                         messageController.clear();
                       },
                     ),
