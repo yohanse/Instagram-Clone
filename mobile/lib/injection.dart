@@ -26,10 +26,12 @@ import 'package:mobile/features/common/presentation/bloc/Image/image_manager_blo
 import 'package:mobile/features/common/presentation/bloc/IsMultipleSelected/is_multiple_selected_bloc.dart';
 import 'package:mobile/features/common/presentation/bloc/post/post_bloc.dart';
 import 'package:mobile/features/message/Domain/repository/message_repository.dart';
+import 'package:mobile/features/message/Domain/usecase/get_messages_usecase.dart';
 import 'package:mobile/features/message/Domain/usecase/get_users_usecase.dart';
 import 'package:mobile/features/message/data/data_source/local_data_source.dart';
 import 'package:mobile/features/message/data/data_source/remote_data_source.dart';
 import 'package:mobile/features/message/data/repository/message_repository_impl.dart';
+import 'package:mobile/features/message/presentation/bloc/fetch%20messages/fetch_messages_bloc.dart';
 import 'package:mobile/features/message/presentation/bloc/list%20users/list_users_bloc.dart';
 import 'package:mobile/features/profile/Data/data_source/remote_data_source.dart';
 import 'package:mobile/features/profile/Data/repository/profile_repository_impl.dart';
@@ -50,7 +52,6 @@ import 'package:mobile/features/reels/presentation/bloc/real%20manager%20select%
 import 'package:mobile/features/reels/presentation/bloc/real%20manager%20selected%20album/real_manager_selected_album_bloc.dart';
 import 'package:mobile/features/reels/presentation/bloc/reel%20manger%20selected%20album%20medias/reel_manager_selected_labum_medias_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'features/reels/domain/usecase/comment_reel_usecase.dart';
 import 'features/reels/domain/usecase/like_reel_usecase.dart';
 import 'features/reels/presentation/bloc/get single reel/get_single_reel_bloc.dart';
@@ -144,6 +145,11 @@ Future<void> init() async {
       getUserUsecase: sl(),
     ),
   );
+  sl.registerFactory(
+    () => FetchMessagesBloc(
+      getMessagesUsecase: sl(),
+    ),
+  );
 
   //use case
   sl.registerLazySingleton(() => CheckEmailUsecase(authRepository: sl()));
@@ -211,6 +217,11 @@ Future<void> init() async {
       messageRepository: sl(),
     ),
   );
+  sl.registerLazySingleton(
+    () => GetMessagesUsecase(
+      messageRepository: sl(),
+    ),
+  );
 
   //Remote Data Source
   sl.registerLazySingleton<AuthRemoteDataSource>(
@@ -236,7 +247,7 @@ Future<void> init() async {
       messageLocalDataSource: sl(),
     ),
   );
-
+  
   // Local Data Source
   sl.registerLazySingleton<AuthLocalDataSource>(
     () => AuthLocalDataSourceImpl(
@@ -285,7 +296,7 @@ Future<void> init() async {
       messageRemoteDataSource: sl(),
     ),
   );
-  
+
   //Core
   sl.registerLazySingleton<NetworkInfo>(
     () => NetworkInfoImpl(

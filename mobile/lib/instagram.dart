@@ -19,6 +19,7 @@ import 'package:mobile/features/common/presentation/bloc/Image/image_manager_blo
 import 'package:mobile/features/common/presentation/bloc/IsMultipleSelected/is_multiple_selected_bloc.dart';
 import 'package:mobile/features/common/presentation/bloc/post/post_bloc.dart';
 import 'package:mobile/features/common/presentation/page/ImagePickerPage.dart';
+import 'package:mobile/features/message/presentation/bloc/fetch%20messages/fetch_messages_bloc.dart';
 import 'package:mobile/features/message/presentation/bloc/list%20users/list_users_bloc.dart';
 import 'package:mobile/features/message/presentation/page/list_of_user.dart';
 import 'package:mobile/features/message/presentation/page/message_with_user.dart';
@@ -204,6 +205,9 @@ class InstagramApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => sl<ListUsersBloc>(),
+        ),
+        BlocProvider(
+          create: (context) => sl<FetchMessagesBloc>(),
         ),
       ],
       child: MaterialApp.router(
