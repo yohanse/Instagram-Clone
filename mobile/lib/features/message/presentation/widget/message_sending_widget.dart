@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:mobile/features/message/Domain/entitie/message_entitie.dart';
 
 class MessageSendingWidget extends StatelessWidget {
-  final dynamic message;
+  final MessageEntitie message;
   const MessageSendingWidget({super.key, required this.message});
 
   @override
@@ -25,7 +25,7 @@ class MessageSendingWidget extends StatelessWidget {
                 color: Colors.blue,
               ),
               child: Text(
-                message["content"],
+                message.content,
                 style: TextStyle(color: Colors.white),
               ),
             ),

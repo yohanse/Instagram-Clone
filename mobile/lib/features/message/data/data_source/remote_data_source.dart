@@ -33,7 +33,6 @@ class MessageRemoteDataSourceImpl implements MessageRemoteDataSource {
     );
     if (responseData.statusCode == 200) {
       final response = jsonDecode(responseData.body);
-      print(response);
       List<ProfileModel> result = [];
       for (int i = 0; i < response.length; i++) {
         result.add(ProfileModel.fromJson(response[i]));
@@ -42,10 +41,11 @@ class MessageRemoteDataSourceImpl implements MessageRemoteDataSource {
     }
     throw ServerException();
   }
-  
+
   @override
   Future<List<MessageModel>> getMessages(receiverId) async {
-    String url = "http://192.168.43.57:8000/instagram/messages/?receiver_id=$receiverId";
+    String url =
+        "http://192.168.43.57:8000/instagram/messages/?receiver_id=$receiverId";
 
     final responseData = await http.get(
       Uri.parse(url),
@@ -57,7 +57,6 @@ class MessageRemoteDataSourceImpl implements MessageRemoteDataSource {
     );
     if (responseData.statusCode == 200) {
       final response = jsonDecode(responseData.body);
-      print(response);
       List<MessageModel> result = [];
       for (int i = 0; i < response.length; i++) {
         result.add(MessageModel.fromJson(response[i]));

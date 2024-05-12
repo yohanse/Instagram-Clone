@@ -13,7 +13,7 @@ class MessageModel extends MessageEntitie {
 
   factory MessageModel.fromJson(Map<String, dynamic> json) {
     return MessageModel(
-      id: json['id'],
+      id: "${json['id']}",
       sender: ProfileModel.fromJson(json["sender"]),
       receiver: ProfileModel.fromJson(json["receiver"]),
       content: json["content"],

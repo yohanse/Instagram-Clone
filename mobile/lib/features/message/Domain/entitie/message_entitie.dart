@@ -5,7 +5,7 @@ class MessageEntitie extends Equatable {
   final ProfileModel sender;
   final ProfileModel receiver;
   final String content;
-  final String link;
+  final String? link;
   final DateTime createdAt;
   const MessageEntitie({
     required this.sender,

@@ -31,7 +31,6 @@ class _ChatPageState extends State<ChatPage> {
     },
     Uri.parse('ws://192.168.43.57:8000/ws/chat/2/'),
   );
-  List<dynamic> messages = [];
 
   @override
   void initState() {
@@ -46,18 +45,24 @@ class _ChatPageState extends State<ChatPage> {
 
   streamListener() {
     channel.stream.listen((message) {
-      setState(() {
-        messages.insert(
-          0,
-          jsonDecode(message),
-        );
-      });
+      print(jsonDecode(message));
+      BlocProvider.of<FetchMessagesBloc>(context).add(
+        SendMessageEvent(
+          message: jsonDecode(message),
+        ),
+      );
     });
   }
 
-  void sendMessage() {
+  void _sendMessage() {
     channel.sink.add(messageController.text);
     messageController.clear();
+  }
+
+  void sendMessage(state) {
+    if (state is FetchMessagesLoadedState) {
+      _sendMessage();
+    }
   }
 
   @override
@@ -118,45 +123,45 @@ class _ChatPageState extends State<ChatPage> {
               );
             }
             return Center(
-                child: Text(
-                  "Loading.......",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                  ),
+              child: Text(
+                "Loading.......",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
                 ),
-              );
+              ),
+            );
           }),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                TextField(
-                  controller: messageController,
-                  onSubmitted: (value) => sendMessage(),
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 17,
-                  ),
-                  decoration: InputDecoration(
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        Icons.send,
-                        color: Colors.white,
+                BlocBuilder<FetchMessagesBloc, FetchMessagesState>(
+                    builder: (context, state) {
+                  return TextField(
+                    controller: messageController,
+                    onSubmitted: (value) => sendMessage(state),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 17,
+                    ),
+                    decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          Icons.send,
+                          color: Colors.white,
+                        ),
+                        onPressed: () => sendMessage(state),
                       ),
-                      onPressed: () {
-                        channel.sink.add(messageController.text);
-                        messageController.clear();
-                      },
+                      disabledBorder: InputBorder.none,
+                      hintText: "Message...",
+                      hintStyle: TextStyle(
+                        color: Colors.grey,
+                      ),
                     ),
-                    disabledBorder: InputBorder.none,
-                    hintText: "Message...",
-                    hintStyle: TextStyle(
-                      color: Colors.grey,
-                    ),
-                  ),
-                ),
+                  );
+                }),
                 Container(
                   color: Colors.grey,
                   width: double.maxFinite,

@@ -7,7 +7,9 @@ import 'package:mobile/features/profile/Domain/Entite/profile_entitie.dart';
 
 class MessageRepositoryImpl extends MessageRepository {
   final MessageRemoteDataSource messageRemoteDataSource;
-  MessageRepositoryImpl({required this.messageRemoteDataSource,});
+  MessageRepositoryImpl({
+    required this.messageRemoteDataSource,
+  });
   @override
   Future<Either<Failure, List<ProfileEntitie>>> getUsers() async {
     try {
@@ -22,10 +24,10 @@ class MessageRepositoryImpl extends MessageRepository {
   Future<Either<Failure, List<MessageEntitie>>> getMessages(receiverId) async {
     try {
       final users = await messageRemoteDataSource.getMessages(receiverId);
+      
       return Right(users);
     } catch (err) {
       return const Left(ServerFailure("Server Failure"));
     }
   }
-  
 }

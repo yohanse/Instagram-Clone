@@ -11,3 +11,10 @@ class GetMessagesEvent extends FetchMessagesEvent {
   final String recieverId;
   const GetMessagesEvent({required this.recieverId});
 }
+
+class SendMessageEvent extends FetchMessagesEvent {
+  final dynamic message;
+  const SendMessageEvent({
+    required this.message,
+  });
+}
