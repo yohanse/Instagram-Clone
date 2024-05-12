@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -14,10 +13,28 @@ class ListUsersPage extends StatelessWidget {
     BlocProvider.of<ListUsersBloc>(context).add(GetUsersEvent());
     return Scaffold(
       backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+          onPressed: () => context.go("/"),
+        ),
+        title: ListTile(
+          title: Text(
+            "Messages",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+            ),
+          ),
+        ),
+      ),
       body:
           BlocBuilder<ListUsersBloc, ListUsersState>(builder: (context, state) {
         if (state is ListUsersLoadedState) {
-          
           return ListView.builder(
             itemCount: state.users.length,
             itemBuilder: (context, index) => GestureDetector(
@@ -29,17 +46,20 @@ class ListUsersPage extends StatelessWidget {
                   profile_image: state.users[index].profile_image,
                 ),
               ),
-              child: ListTile(
-                leading: CircleAvatar(
-                  backgroundImage:
-                      NetworkImage(state.users[index].profile_image),
-                  radius: 35,
-                ),
-                title: Text(
-                  state.users[index].name,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
+              child: Container(
+                margin: EdgeInsets.all(6),
+                child: ListTile(
+                  leading: CircleAvatar(
+                    backgroundImage:
+                        NetworkImage(state.users[index].profile_image),
+                    radius: 35,
+                  ),
+                  title: Text(
+                    state.users[index].name,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                    ),
                   ),
                 ),
               ),

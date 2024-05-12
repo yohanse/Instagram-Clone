@@ -14,7 +14,7 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
 
   @override
   Future<ProfileModel> getProfile() async {
-    String url = "http://192.168.43.57:8000/instagram/me/";
+    String url = "http://192.168.43.57:8000/instagram/users/me/";
     final responseData = await http.get(
       Uri.parse(url),
       headers: {

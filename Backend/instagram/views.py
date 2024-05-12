@@ -10,18 +10,18 @@ from rest_framework.permissions import IsAuthenticated
 from django.db.models import Q, Max
 from rest_framework import status
 from django.db import connection
+from rest_framework.decorators import action
+from django.shortcuts import get_object_or_404
 
-class ProfileView(GenericViewSet, CreateModelMixin, ListModelMixin):
-    # permission_classes = [CanDeletePost]
+class ProfileView(GenericViewSet, CreateModelMixin, ListModelMixin, RetrieveModelMixin):
     queryset = models.User.objects.all()
     serializer_class = seriliazer.UserProfileShortSerializer
     
-    # def list(self, request, *args, **kwargs):
-    #     users = self.queryset.filter()
-    #     serializer = self.get_serializer(users, many=True)
-    #     return Response(serializer.data)
-    
-    
+    @action(detail=False, methods=['get'])
+    def me(self, request):
+        user = request.user.id
+        user_object = get_object_or_404(models.User, user_id=user)
+        return Response(seriliazer.UserProfileShortSerializer(user_object).data)
 
 
 class PostView(ModelViewSet):
@@ -95,7 +95,7 @@ class MessageView(GenericViewSet, ListModelMixin, CreateModelMixin):
 class HistoryMessageUsers(GenericViewSet, ListModelMixin):
     serializer_class = seriliazer.UserProfileShortSerializer
     def get_queryset(self):
-        
+
         with connection.cursor() as cursor:
             cursor.execute("""
                 SELECT 

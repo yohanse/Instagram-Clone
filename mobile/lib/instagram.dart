@@ -100,40 +100,40 @@ class InstagramApp extends StatelessWidget {
         //     extra: state.extra! as ExtraUserName,
         //   ),
         // ),
-        // GoRoute(
-        //   path: '/',
-        //   builder: (context, state) => const ListPostPage(),
-        // ),
-        // GoRoute(
-        //   path: '/',
-        //   builder: (context, state) => const PickerImageVideo(),
-        // ),
-        // GoRoute(
-        //   path: '/pickImage/post',
-        //   builder: (context, state) => AfterImagwPickerPage(
-        //     medias: state.extra as List<AssetEntity>,
-        //   ),
-        // ),
-        // GoRoute(
-        //   path: "/profile",
-        //   builder: (context, state) => const ProfilePage(),
-        // ),
+        GoRoute(
+          path: '/',
+          builder: (context, state) => const ListPostPage(),
+        ),
+        GoRoute(
+          path: '/',
+          builder: (context, state) => const PickerImageVideo(),
+        ),
+        GoRoute(
+          path: '/pickImage/post',
+          builder: (context, state) => AfterImagwPickerPage(
+            medias: state.extra as List<AssetEntity>,
+          ),
+        ),
+        GoRoute(
+          path: "/profile",
+          builder: (context, state) => const ProfilePage(),
+        ),
 
-        // GoRoute(
-        //   path: "/Reel",
-        //   builder: (context, state) => ReelPage(),
-        // ),
+        GoRoute(
+          path: "/Reel",
+          builder: (context, state) => ReelPage(),
+        ),
 
-        // // GoRoute(
-        // //   path: "/",
-        // //   builder: (context, state) => SelectReelVideoPage(),
-        // // ),
-        // GoRoute(
-        //   path: "/next",
-        //   builder: (context, state) => ReelPostPageAfterSelect(
-        //     path: state.extra as File,
-        //   ),
-        // ),
+        GoRoute(
+          path: "/",
+          builder: (context, state) => SelectReelVideoPage(),
+        ),
+        GoRoute(
+          path: "/next",
+          builder: (context, state) => ReelPostPageAfterSelect(
+            path: state.extra as File,
+          ),
+        ),
         GoRoute(
           path: "/",
           builder: (context, state) => ListUsersPage(),
@@ -144,10 +144,6 @@ class InstagramApp extends StatelessWidget {
             userParams: state.extra as UserParams,
           ),
         ),
-        // GoRoute(
-        //   path: "/",
-        //   builder: (context, state) => WebsocketDemo(),
-        // ),
       ],
     );
     return MultiBlocProvider(
