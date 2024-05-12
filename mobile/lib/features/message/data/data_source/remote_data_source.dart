@@ -21,7 +21,7 @@ class MessageRemoteDataSourceImpl implements MessageRemoteDataSource {
 
   @override
   Future<List<ProfileModel>> getUsers() async {
-    String url = "http://192.168.43.57:8000/instagram/users/";
+    String url = "http://192.168.43.57:8000/instagram/historyMessage/";
 
     final responseData = await http.get(
       Uri.parse(url),

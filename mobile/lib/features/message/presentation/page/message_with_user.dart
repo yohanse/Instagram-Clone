@@ -24,13 +24,7 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   TextEditingController messageController = TextEditingController();
 
-  final channel = IOWebSocketChannel.connect(
-    headers: {
-      'Authorization':
-          "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3NTY3OTcxLCJpYXQiOjE3MTIzODM5NzEsImp0aSI6ImM0NTY2YjgxZTMxODRlYjE5ZDlmOWI2YmJiNzQ2ZDlmIiwidXNlcl9pZCI6MX0.y7M19fO4EcaKgPXI-LLrOjGzFCz98gEWld3kcWDp4os",
-    },
-    Uri.parse('ws://192.168.43.57:8000/ws/chat/2/'),
-  );
+  late IOWebSocketChannel channel;
 
   @override
   void initState() {
@@ -40,18 +34,31 @@ class _ChatPageState extends State<ChatPage> {
         recieverId: widget.userParams.id,
       ),
     );
+    channel = IOWebSocketChannel.connect(
+      headers: {
+        'Authorization':
+            "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3NTY3OTcxLCJpYXQiOjE3MTIzODM5NzEsImp0aSI6ImM0NTY2YjgxZTMxODRlYjE5ZDlmOWI2YmJiNzQ2ZDlmIiwidXNlcl9pZCI6MX0.y7M19fO4EcaKgPXI-LLrOjGzFCz98gEWld3kcWDp4os",
+      },
+      Uri.parse('ws://192.168.43.57:8000/ws/chat/${widget.userParams.id}/'),
+    );
     streamListener();
   }
 
   streamListener() {
     channel.stream.listen((message) {
-      print(jsonDecode(message));
       BlocProvider.of<FetchMessagesBloc>(context).add(
         SendMessageEvent(
           message: jsonDecode(message),
         ),
       );
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    messageController.dispose();
+    channel.sink.close();
   }
 
   void _sendMessage() {
@@ -103,7 +110,9 @@ class _ChatPageState extends State<ChatPage> {
                     itemCount: state.messages.length,
                     itemBuilder: (context, index) {
                       if ("${state.messages[index].sender.user_id}" !=
-                          widget.userParams.id) {
+                              widget.userParams.id ||
+                          state.messages[index].sender.user_id ==
+                              state.messages[index].receiver.user_id) {
                         return MessageSendingWidget(
                             message: state.messages[index]);
                       }

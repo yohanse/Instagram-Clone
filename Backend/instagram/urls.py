@@ -7,6 +7,7 @@ router.register('posts', views.PostView, basename='post')
 router.register('reels', views.ReelView, basename='reel')
 router.register('users', views.ProfileView, basename='user')
 router.register('messages', views.MessageView, basename='message')
+router.register("historyMessage", views.HistoryMessageUsers, basename="historyMessage")
 
 post_router = NestedDefaultRouter(router, "posts", lookup="post")
 post_router.register("comments", views.CommentView, basename="posts-comments")

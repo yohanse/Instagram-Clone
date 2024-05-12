@@ -7,8 +7,9 @@ from .import seriliazer
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from rest_framework.mixins import CreateModelMixin, ListModelMixin, UpdateModelMixin, RetrieveModelMixin, DestroyModelMixin
 from rest_framework.permissions import IsAuthenticated
-from django.db.models import Q
+from django.db.models import Q, Max
 from rest_framework import status
+from django.db import connection
 
 class ProfileView(GenericViewSet, CreateModelMixin, ListModelMixin):
     # permission_classes = [CanDeletePost]
@@ -90,3 +91,24 @@ class MessageView(GenericViewSet, ListModelMixin, CreateModelMixin):
             return Response(serializer.data)
         else:
             return Response({"error": "receiver_id are required."}, status=status.HTTP_400_BAD_REQUEST)
+
+class HistoryMessageUsers(GenericViewSet, ListModelMixin):
+    serializer_class = seriliazer.UserProfileShortSerializer
+    def get_queryset(self):
+        
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                SELECT 
+                    CASE 
+                        WHEN receiver_id = %s THEN sender_id 
+                        WHEN sender_id = %s THEN receiver_id 
+                        ELSE NULL 
+                    END AS user
+                FROM instagram_message 
+                GROUP BY user
+                ORDER BY MAX(created_at) DESC
+            """, [self.request.user.id, self.request.user.id])
+            results = cursor.fetchall()
+
+        user_ids = [result[0] for result in results if result[0] is not None]
+        return models.User.objects.filter(pk__in=user_ids)
