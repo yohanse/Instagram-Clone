@@ -76,13 +76,15 @@ class PostSerializer(serializers.ModelSerializer):
     )
     images = ImageSerializer(many=True, read_only=True)
     comments = serializers.SerializerMethodField()
+    likes = serializers.SerializerMethodField()
     numberOfLike = serializers.SerializerMethodField()
     isILiked = serializers.SerializerMethodField()
+    likeIdILike = serializers.SerializerMethodField(read_only=True)
     
 
     class Meta:
         model = models.Post
-        fields = ['id', 'user', 'text', 'created_at', 'images', "comments", "upload_images", "numberOfLike", "isILiked"]
+        fields = ['id', 'user', 'text', 'created_at', 'images', "comments", "likes", "upload_images", "numberOfLike", "isILiked", "likeIdILike"]
     
     def create(self, validated_data):
         upload_images = validated_data.pop("upload_images")
@@ -95,6 +97,11 @@ class PostSerializer(serializers.ModelSerializer):
 
         return post
     
+    def get_likes(self, post):
+        likes = models.Like.objects.filter(content_type=ContentType.objects.get_for_model(post), object_id=post.id)
+        return LikeSerializer(likes, many=True).data
+
+
     def get_comments(self, post):
         comments = models.Comment.objects.filter(content_type=ContentType.objects.get_for_model(post), object_id=post.id)
         return CommentSerializer(comments, many=True).data
@@ -103,8 +110,14 @@ class PostSerializer(serializers.ModelSerializer):
         return models.Like.objects.filter(content_type=ContentType.objects.get_for_model(post), object_id=post.id).count()
     
     def get_isILiked(self, post):
-        
         return bool(models.Like.objects.filter(content_type=ContentType.objects.get_for_model(post), object_id=post.id, user_id=self.context["request"].user.id).count())
+    
+    def get_likeIdILike(self, reel):
+        try:
+            like = models.Like.objects.get(content_type=ContentType.objects.get_for_model(reel), object_id=reel.id, user_id=self.context["request"].user.id)
+            return like.id
+        except:
+            return None
     
 
 class ReelSerializer(serializers.ModelSerializer):
@@ -146,7 +159,6 @@ class ReelSerializer(serializers.ModelSerializer):
     def get_likeIdILike(self, reel):
         try:
             like = models.Like.objects.get(content_type=ContentType.objects.get_for_model(reel), object_id=reel.id, user_id=self.context["request"].user.id)
-            
             return like.id
         except:
             return None
