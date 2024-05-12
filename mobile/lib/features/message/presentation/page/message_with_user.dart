@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile/features/message/Domain/entitie/message_entitie.dart';
 import 'package:mobile/features/message/data/models/message_model.dart';
+import 'package:mobile/features/message/presentation/bloc/fetch%20messages/fetch_messages_bloc.dart';
 import 'package:mobile/features/message/presentation/widget/message_accepting_widget.dart';
 import 'package:mobile/features/message/presentation/widget/message_sending_widget.dart';
 import 'package:web_socket_channel/io.dart';
@@ -34,6 +36,11 @@ class _ChatPageState extends State<ChatPage> {
   @override
   void initState() {
     super.initState();
+    BlocProvider.of<FetchMessagesBloc>(context).add(
+      GetMessagesEvent(
+        recieverId: widget.userParams.id,
+      ),
+    );
     streamListener();
   }
 
@@ -41,7 +48,8 @@ class _ChatPageState extends State<ChatPage> {
     channel.stream.listen((message) {
       setState(() {
         messages.insert(
-           0, jsonDecode(message),
+          0,
+          jsonDecode(message),
         );
       });
     });
@@ -81,17 +89,44 @@ class _ChatPageState extends State<ChatPage> {
       ),
       body: Column(
         children: [
-          Expanded(
-            child: ListView.builder(
-              reverse: true,
-                itemCount: messages.length,
-                itemBuilder: (context, index) {
-                  if (messages[index]["sender"]["user_id"] != widget.userParams.id) {
-                    return MessageSendingWidget(message: messages[index]);
-                  }
-                  return MessageAcceptingWidget(message: messages[index]);
-                }),
-          ),
+          BlocBuilder<FetchMessagesBloc, FetchMessagesState>(
+              builder: (context, state) {
+            if (state is FetchMessagesLoadedState) {
+              return Expanded(
+                child: ListView.builder(
+                    reverse: true,
+                    itemCount: state.messages.length,
+                    itemBuilder: (context, index) {
+                      if ("${state.messages[index].sender.user_id}" !=
+                          widget.userParams.id) {
+                        return MessageSendingWidget(
+                            message: state.messages[index]);
+                      }
+                      return MessageAcceptingWidget(
+                          message: state.messages[index]);
+                    }),
+              );
+            } else if (state is FetchMessagesErrorState) {
+              return Center(
+                child: Text(
+                  state.message,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
+                ),
+              );
+            }
+            return Center(
+                child: Text(
+                  "Loading.......",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
+                ),
+              );
+          }),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Column(
