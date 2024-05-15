@@ -109,7 +109,7 @@ class InstagramApp extends StatelessWidget {
           builder: (context, state) => const PickerImageVideo(),
         ),
         GoRoute(
-          path: '/pickImage/post',
+          path: "/pickImage/post",
           builder: (context, state) => AfterImagwPickerPage(
             medias: state.extra as List<AssetEntity>,
           ),
@@ -125,21 +125,17 @@ class InstagramApp extends StatelessWidget {
         ),
 
         GoRoute(
-          path: "/",
-          builder: (context, state) => SelectReelVideoPage(),
-        ),
-        GoRoute(
-          path: "/next",
+          path: '/pickImage/reel',
           builder: (context, state) => ReelPostPageAfterSelect(
             path: state.extra as File,
           ),
         ),
         GoRoute(
-          path: "/",
+          path: "/message",
           builder: (context, state) => ListUsersPage(),
         ),
         GoRoute(
-          path: "/chat",
+          path: "/message/chat",
           builder: (context, state) => ChatPage(
             userParams: state.extra as UserParams,
           ),

@@ -140,7 +140,7 @@ class SelectReelVideoPage extends StatelessWidget {
                                 onTap: () async {
                                   final path = await state.medias[index].file;
                                   context.go(
-                                    "/next",
+                                    '/pickImage/reel',
                                     extra: path!,
                                   );
                                 },

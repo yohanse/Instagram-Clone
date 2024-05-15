@@ -35,12 +35,12 @@ class ImagePickerSuccessPage extends StatelessWidget {
           actions: [
             TextButton(
                 onPressed: () {
-                  context.go("/pickImage/post", extra: state.selectedMedias.toList());
+                  context.go("/pickImage/post", extra: state.selectedMedias.toList(),);
                 },
                 child: Text(
                   "Next",
                   style: TextStyle(color: Colors.blue),
-                ))
+                ),),
           ],
           backgroundColor: Colors.black,
         ),
