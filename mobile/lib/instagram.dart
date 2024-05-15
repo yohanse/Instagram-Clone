@@ -105,7 +105,7 @@ class InstagramApp extends StatelessWidget {
           builder: (context, state) => const ListPostPage(),
         ),
         GoRoute(
-          path: '/',
+          path: '/pickImage',
           builder: (context, state) => const PickerImageVideo(),
         ),
         GoRoute(

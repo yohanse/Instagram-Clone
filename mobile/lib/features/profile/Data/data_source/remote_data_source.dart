@@ -26,6 +26,9 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
     print(responseData.body);
     if (responseData.statusCode == 200) {
       final response = jsonDecode(responseData.body);
+      response["profile_image"] =
+          "http://192.168.43.57:8000${response["profile_image"]}";
+          
       return ProfileModel.fromJson(response);
     }
     throw ServerException();
