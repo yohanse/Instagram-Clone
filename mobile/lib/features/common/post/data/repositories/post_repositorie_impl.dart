@@ -83,4 +83,20 @@ class PostRepositorieImpl implements PostRepository {
       return const Left(NetworkFailure("Netwrok error."));
     }
   }
+  
+  @override
+  Future<Either<Failure, Comment>> commentPost({required int postId, required String content}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final ans = await postRemoteDataSource.commentPost(postId: postId, content: content,);
+        return Right(ans);
+      } on ServerException {
+        return const Left(ServerFailure("Server not working properly."));
+      } on EmailNotCorrectException {
+        return const Left(EmailNotCorrectFailure("Email not correct"));
+      }
+    } else {
+      return const Left(NetworkFailure("Netwrok error."));
+    }
+  }
 }
