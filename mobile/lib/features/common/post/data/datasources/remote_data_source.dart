@@ -12,7 +12,7 @@ abstract class PostRemoteDataSource {
   Future<PostModel> addPost(PostModel postModel);
   Future<LikeModel> likePost({required int postId});
   Future<bool> unlikePost({required int postId, required int likeId});
-  Future<CommentModel> commentReel(String reelId, String content);
+  Future<CommentModel> commentReel(String postId, String content);
 }
 
 class PostRemoteDataSourceImpl implements PostRemoteDataSource {
@@ -110,8 +110,8 @@ class PostRemoteDataSourceImpl implements PostRemoteDataSource {
     throw ServerException();
   }
   @override
-  Future<CommentModel> commentReel(String reelId, String content) async {
-    String url = 'http://192.168.43.57:8000/instagram/reels/$reelId/comments/';
+  Future<CommentModel> commentReel(String postId, String content) async {
+    String url = 'http://192.168.43.57:8000/instagram/posts/$postId/comments/';
     final responseData = await http.post(
       Uri.parse(url),
       headers: {
