@@ -12,6 +12,7 @@ class PostEntite extends Equatable {
   final ProfileEntitie? author;
   final List<Comment>? comments;
   final bool? isILiked;
+  final int? likeIdILike;
   const PostEntite(
       {this.author,
       this.comments,
@@ -21,7 +22,8 @@ class PostEntite extends Equatable {
       this.created_at,
       required this.images,
       this.videos,
-      this.numberOfLike});
+      this.numberOfLike,
+      this.likeIdILike});
   @override
   List<Object?> get props => [];
 }

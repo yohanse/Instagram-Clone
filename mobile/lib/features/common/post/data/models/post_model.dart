@@ -13,6 +13,7 @@ class PostModel extends PostEntite {
     super.author,
     super.comments,
     super.isILiked,
+    super.likeIdILike,
   });
 
   factory PostModel.fromJson(Map<String, dynamic> json) {
@@ -32,6 +33,7 @@ class PostModel extends PostEntite {
           .map((comment) => CommentModel.fromJson(comment))
           .toList(),
       isILiked: json['isILiked'],
+      likeIdILike: json["likeIdILike"],
     );
   }
 

@@ -14,36 +14,37 @@ class ListPostPage extends StatelessWidget {
     BlocProvider.of<PostBloc>(context).add(
       GetAllPostsEvent(),
     );
-    return Scaffold(
-      bottomNavigationBar: CustomBottomNavigationBar(),
-      body: Container(
-        color: Colors.black,
-        child: BlocConsumer<PostBloc, PostState>(
-            builder: (context, state) {
-              if (state is PostError) {
-                return Text(state.message);
-              } else if (state is PostLoading) {
+    return SafeArea(
+      child: Scaffold(
+        bottomNavigationBar: CustomBottomNavigationBar(),
+        body: Container(
+          color: Colors.black,
+          child: BlocConsumer<PostBloc, PostState>(
+              builder: (context, state) {
+                if (state is PostError) {
+                  return Text(state.message);
+                } else if (state is PostLoading) {
+                  return Text("Loading ......");
+                } else if (state is PostLoaded) {
+                  return ListView.builder(
+                      itemCount: state.post.length,
+                      itemBuilder: (BuildContext context, int i) {
+                        return SignlePostWidget(
+                          numberOfComment: state.post[i].comments!.length,
+                          numberOfLike: state.post[i].numberOfLike!,
+                          time: state.post[i].created_at!,
+                          text: state.post[i].text,
+                          imageUrl: state.post[i].images[0],
+                          authName: state.post[i].author!.name,
+                          profileImageUrl: state.post[i].author!.profile_image,
+                        );
+                      });
+                }
                 return Text("Loading ......");
-              } else if (state is PostLoaded) {
-                return ListView.builder(
-                    itemCount: state.post.length,
-                    itemBuilder: (BuildContext context, int i) {
-                      return SignlePostWidget(
-                        numberOfComment: state.post[i].comments!.length,
-                        numberOfLike: state.post[i].numberOfLike!,
-                        time: state.post[i].created_at!,
-                        text: state.post[i].text,
-                        imageUrl: state.post[i].images[0],
-                        authName: state.post[i].author!.name,
-                        profileImageUrl: state.post[i].author!.profile_image,
-                      );
-                    });
-              }
-              return Text("Loading ......");
-            },
-            listener: (context, state) {}),
+              },
+              listener: (context, state) {}),
+        ),
       ),
     );
   }
 }
-

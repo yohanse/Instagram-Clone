@@ -11,11 +11,11 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   PostBloc({required this.getAllPostUseCase}) : super(PostInitial()) {
     on<GetAllPostsEvent>((event, emit) async {
       emit(PostLoading());
+      
       var posts = await getAllPostUseCase(ParamsGetAllPost());
       
-      posts.fold(
-          (l) => emit(PostError(message: l.message)), (r) => emit(PostLoaded(post: r)));
-      
+      posts.fold((l) => emit(PostError(message: l.message)),
+          (r) => emit(PostLoaded(post: r)));
     });
   }
 }
