@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../bloc/post/post_bloc.dart';
 
 class SignlePostWidget extends StatelessWidget {
   final String imageUrl, authName, profileImageUrl, text;
-  final int numberOfComment, numberOfLike;
+  final int numberOfComment, numberOfLike, postId;
   final DateTime time;
+  final bool isILiked;
 
   const SignlePostWidget(
       {super.key,
@@ -13,7 +17,8 @@ class SignlePostWidget extends StatelessWidget {
       required this.numberOfComment,
       required this.numberOfLike,
       required this.text,
-      required this.time});
+      required this.time,
+      required this.isILiked, required this.postId,});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +51,10 @@ class SignlePostWidget extends StatelessWidget {
             ),
           ],
         ),
-        BottomBarButtons(),
+        BottomBarButtons(
+          isIliked: isILiked,
+          postId: postId,
+        ),
         LastSection(
           text: text,
           time: time,
@@ -117,7 +125,10 @@ class ProfileWidget extends StatelessWidget {
 }
 
 class BottomBarButtons extends StatelessWidget {
-  const BottomBarButtons({super.key});
+  final bool isIliked;
+  final int postId; 
+
+  const BottomBarButtons({super.key, required this.isIliked, required this.postId,});
 
   @override
   Widget build(BuildContext context) {
@@ -130,9 +141,18 @@ class BottomBarButtons extends StatelessWidget {
           Row(
             textBaseline: TextBaseline.alphabetic,
             children: [
-              Icon(
+              IconButton(
+                icon: Icon(
                 Icons.favorite_outline_rounded,
-                color: Colors.white,
+                color:  isIliked ? Colors.red: Colors.white,
+              ),
+              onPressed: () {
+                if(isIliked){
+                  BlocProvider.of<PostBloc>(context).add(
+                    LikePostEvent(postId: postId),
+                  );
+                }
+              },
               ),
               SizedBox(
                 width: 10,
