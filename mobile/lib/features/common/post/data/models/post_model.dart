@@ -1,4 +1,5 @@
 import '../../../../profile/Data/model/profile_model.dart';
+import '../../../../reels/data/model/reel_model.dart';
 import '../../domain/entities/post_entitie.dart';
 
 class PostModel extends PostEntite {
@@ -46,24 +47,4 @@ class PostModel extends PostEntite {
   }
 }
 
-class CommentModel extends Comment {
-  const CommentModel({
-    required super.id,
-    required super.content,
-    required super.created_at,
-    required super.user,
-  });
 
-  factory CommentModel.fromJson(Map<String, dynamic> json) {
-    return CommentModel(
-      id: json['id'],
-      content: json['content'],
-      created_at: DateTime.parse(json['created_at']),
-      user: ProfileModel.fromJson(json['user']),
-    );
-  }
-
-  Map<String, dynamic> tojson() {
-    return {};
-  }
-}

@@ -12,6 +12,7 @@ abstract class PostRemoteDataSource {
   Future<PostModel> addPost(PostModel postModel);
   Future<LikeModel> likePost({required int postId});
   Future<bool> unlikePost({required int postId, required int likeId});
+  Future<CommentModel> commentReel(String reelId, String content);
 }
 
 class PostRemoteDataSourceImpl implements PostRemoteDataSource {
@@ -105,6 +106,23 @@ class PostRemoteDataSourceImpl implements PostRemoteDataSource {
 
     if (responseData.statusCode == 200 || responseData.statusCode == 204) {
       return true;
+    }
+    throw ServerException();
+  }
+  @override
+  Future<CommentModel> commentReel(String reelId, String content) async {
+    String url = 'http://192.168.43.57:8000/instagram/reels/$reelId/comments/';
+    final responseData = await http.post(
+      Uri.parse(url),
+      headers: {
+        'Authorization':
+            "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3NTY3OTcxLCJpYXQiOjE3MTIzODM5NzEsImp0aSI6ImM0NTY2YjgxZTMxODRlYjE5ZDlmOWI2YmJiNzQ2ZDlmIiwidXNlcl9pZCI6MX0.y7M19fO4EcaKgPXI-LLrOjGzFCz98gEWld3kcWDp4os",
+      },
+      body: {"content": content},
+    );
+    if (responseData.statusCode == 200 || responseData.statusCode == 201) {
+      final response = jsonDecode(responseData.body);
+      return CommentModel.fromJson(response);
     }
     throw ServerException();
   }
