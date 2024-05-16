@@ -23,7 +23,7 @@ class PostRemoteDataSourceImpl implements PostRemoteDataSource {
   @override
   Future<List<PostModel>> getAllPost() async {
     String url = "http://192.168.43.57:8000/instagram/posts/";
-    print("yohanse");
+
     final responseData = await http.get(
       Uri.parse(url),
       headers: {
@@ -69,55 +69,43 @@ class PostRemoteDataSourceImpl implements PostRemoteDataSource {
     }
     throw ServerException();
   }
-  
-  @override
-  Future<LikeModel> likePost({required int id}) {
-    String url = "http://192.168.43.57:8000/instagram/posts/";
-    final Map<String, String> headers = {
-      'Content-Type': 'multipart/form-data',
-      'Authorization':
-          "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3NTY3OTcxLCJpYXQiOjE3MTIzODM5NzEsImp0aSI6ImM0NTY2YjgxZTMxODRlYjE5ZDlmOWI2YmJiNzQ2ZDlmIiwidXNlcl9pZCI6MX0.y7M19fO4EcaKgPXI-LLrOjGzFCz98gEWld3kcWDp4os",
-    };
-    final request = http.MultipartRequest('POST', Uri.parse(url));
 
-    request.headers.addAll(headers);
-    request.fields['text'] = postModel.text;
-    for (int i = 0; i < postModel.images.length; i++) {
-      request.files.add(await http.MultipartFile.fromPath(
-        'upload_images',
-        postModel.images[i],
-      ));
-    }
-    final response = await request.send();
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      final responseData = jsonDecode(await response.stream.bytesToString());
-      return PostModel.fromJson(responseData);
+  @override
+  Future<LikeModel> likePost({required int postId}) async {
+    String url = "http://192.168.43.57:8000/instagram/posts/$postId";
+
+    final responseData = await http.post(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization':
+            "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3NTY3OTcxLCJpYXQiOjE3MTIzODM5NzEsImp0aSI6ImM0NTY2YjgxZTMxODRlYjE5ZDlmOWI2YmJiNzQ2ZDlmIiwidXNlcl9pZCI6MX0.y7M19fO4EcaKgPXI-LLrOjGzFCz98gEWld3kcWDp4os",
+      },
+    );
+
+    if (responseData.statusCode == 200 || responseData.statusCode == 201) {
+      final response = jsonDecode(responseData.body);
+      return LikeModel.fromJson(response);
     }
     throw ServerException();
   }
-  
-  @override
-  Future<bool> unlikePost({required int postId, required int likeId}) {
-    String url = "http://192.168.43.57:8000/instagram/posts/";
-    final Map<String, String> headers = {
-      'Content-Type': 'multipart/form-data',
-      'Authorization':
-          "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3NTY3OTcxLCJpYXQiOjE3MTIzODM5NzEsImp0aSI6ImM0NTY2YjgxZTMxODRlYjE5ZDlmOWI2YmJiNzQ2ZDlmIiwidXNlcl9pZCI6MX0.y7M19fO4EcaKgPXI-LLrOjGzFCz98gEWld3kcWDp4os",
-    };
-    final request = http.MultipartRequest('POST', Uri.parse(url));
 
-    request.headers.addAll(headers);
-    request.fields['text'] = postModel.text;
-    for (int i = 0; i < postModel.images.length; i++) {
-      request.files.add(await http.MultipartFile.fromPath(
-        'upload_images',
-        postModel.images[i],
-      ));
-    }
-    final response = await request.send();
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      final responseData = jsonDecode(await response.stream.bytesToString());
-      return PostModel.fromJson(responseData);
+  @override
+  Future<bool> unlikePost({required int postId, required int likeId}) async {
+    String url =
+        "http://192.168.43.57:8000/instagram/posts/$postId/likes/$likeId";
+
+    final responseData = await http.delete(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization':
+            "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3NTY3OTcxLCJpYXQiOjE3MTIzODM5NzEsImp0aSI6ImM0NTY2YjgxZTMxODRlYjE5ZDlmOWI2YmJiNzQ2ZDlmIiwidXNlcl9pZCI6MX0.y7M19fO4EcaKgPXI-LLrOjGzFCz98gEWld3kcWDp4os",
+      },
+    );
+
+    if (responseData.statusCode == 200 || responseData.statusCode == 204) {
+      return true;
     }
     throw ServerException();
   }

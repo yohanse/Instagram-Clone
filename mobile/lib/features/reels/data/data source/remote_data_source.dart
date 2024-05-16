@@ -133,8 +133,7 @@ class ReelRemoteDataSourceImpl implements ReelRemoteDataSource {
       ),
     );
     final response = await request.send();
-    print("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
-    print(response);
+    
     if (response.statusCode == 200 || response.statusCode == 201) {
       final responseData = jsonDecode(await response.stream.bytesToString());
       return ReelModel.fromJson(responseData);
