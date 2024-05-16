@@ -20,6 +20,7 @@ import 'package:mobile/features/common/post/data/datasources/remote_data_source.
 import 'package:mobile/features/common/post/data/repositories/post_repositorie_impl.dart';
 import 'package:mobile/features/common/post/domain/repository/post_repository.dart';
 import 'package:mobile/features/common/post/domain/usecases/add_post.dart';
+import 'package:mobile/features/common/post/domain/usecases/comment_post_usecase.dart';
 import 'package:mobile/features/common/post/domain/usecases/get_all_post.dart';
 import 'package:mobile/features/common/post/domain/usecases/like_post_usecase.dart';
 import 'package:mobile/features/common/post/domain/usecases/unlike_post_usecase.dart';
@@ -93,6 +94,7 @@ Future<void> init() async {
       getAllPostUseCase: sl(),
       likePostUseCase: sl(),
       unLikePostUseCase: sl(),
+      commentPostUseCase: sl(),
     ),
   );
   sl.registerFactory(
@@ -233,6 +235,11 @@ Future<void> init() async {
   );
   sl.registerLazySingleton(
     () => UnLikePostUseCase(
+      postRepository: sl(),
+    ),
+  );
+  sl.registerLazySingleton(
+    () => CommentPostUseCase(
       postRepository: sl(),
     ),
   );

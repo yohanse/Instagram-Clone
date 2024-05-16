@@ -18,3 +18,9 @@ class UnLikePostEvent extends PostEvent {
   final int postId, likeId;
   const UnLikePostEvent({required this.postId, required this.likeId});
 }
+
+class CommentPostEvent extends PostEvent {
+  final int postId;
+  final String content;
+  const CommentPostEvent({required this.postId, required this.content});
+}

@@ -1,4 +1,3 @@
-import 'package:mobile/core/error/exception.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class PostLocalDataSource {

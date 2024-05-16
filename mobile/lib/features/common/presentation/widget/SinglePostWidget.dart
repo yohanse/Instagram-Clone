@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:snapping_bottom_sheet/snapping_bottom_sheet.dart';
 
 import '../bloc/post/post_bloc.dart';
 
@@ -61,6 +62,8 @@ class SignlePostWidget extends StatelessWidget {
           isIliked: isILiked,
           postId: postId,
           likeId: likeId,
+          postIndex: index,
+          profileImageUrl: profileImageUrl,
         ),
         LastSection(
           text: text,
@@ -131,22 +134,166 @@ class ProfileWidget extends StatelessWidget {
   }
 }
 
-class BottomBarButtons extends StatelessWidget {
+class BottomBarButtons extends StatefulWidget {
   final bool isIliked;
-  final int postId;
+  final int postId, postIndex;
   final int? likeId;
+  final String profileImageUrl;
 
-  const BottomBarButtons({
+  BottomBarButtons({
     super.key,
     required this.isIliked,
     required this.postId,
     this.likeId,
+    required this.postIndex,
+    required this.profileImageUrl,
   });
 
   @override
+  State<BottomBarButtons> createState() => _BottomBarButtonsState();
+}
+
+class _BottomBarButtonsState extends State<BottomBarButtons> {
+  final TextEditingController _commentController = TextEditingController();
+
+  void commentBottomSheet() async {
+    showSnappingBottomSheet(context, builder: (context) {
+      return SnappingBottomSheetDialog(
+        elevation: 8,
+        cornerRadius: 25,
+        color: Color(0xFF262626),
+        snapSpec: const SnapSpec(
+          snap: true,
+          snappings: [0.6, 1],
+        ),
+        builder: (context, state) {
+          return BlocBuilder<PostBloc, PostState>(builder: (context, state) {
+            if (state is PostLoaded && state.post.isNotEmpty) {
+              return ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: state.post[widget.postIndex].comments!.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    color: Color(0xFF262626),
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        backgroundImage: NetworkImage(state
+                            .post[widget.postIndex]
+                            .comments![index]
+                            .user
+                            .profile_image),
+                        radius: 25,
+                      ),
+                      title: Text(
+                        state.post[widget.postIndex].comments![index].user.name,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      subtitle: Text(
+                          state.post[widget.postIndex].comments![index].content,
+                          style: TextStyle(color: Colors.white)),
+                    ),
+                  );
+                },
+              );
+            }
+            return Text(
+              "Loading",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 13,
+                decoration: TextDecoration.none,
+              ),
+            );
+          });
+        },
+        headerBuilder: (context, state) {
+          return Container(
+            height: 56,
+            width: double.infinity,
+            padding: EdgeInsets.only(top: 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  height: 4,
+                  width: 40,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Colors.grey,
+                  ),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Text(
+                  "Comments",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    decoration: TextDecoration.none,
+                  ),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Container(
+                  height: 1,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Colors.grey,
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+        footerBuilder: (context, state) => Row(
+          children: [
+            CircleAvatar(
+              backgroundImage: NetworkImage("http://192.168.43.57:8000${widget.profileImageUrl}"),
+              radius: 20,
+            ),
+            Expanded(
+              child: Card(
+                child: Container(
+                  color: Color(0xFF262626),
+                  child: TextField(
+                    autofocus: true,
+                    controller: _commentController,
+                    onSubmitted: (value) {
+                      BlocProvider.of<PostBloc>(context).add(
+                        CommentPostEvent(
+                          postId: widget.postId,
+                          content: value,
+                        ),
+                      );
+                      _commentController.clear();
+                    },
+                    decoration: InputDecoration(
+                      hintText: "Add a comment",
+                      hintStyle: TextStyle(color: Colors.white10, fontSize: 14),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
+                    ),
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    print(
-        "<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>$isIliked");
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
       child: Row(
@@ -158,37 +305,36 @@ class BottomBarButtons extends StatelessWidget {
             children: [
               IconButton(
                 icon: Icon(
-                  isIliked
+                  size: 30,
+                  widget.isIliked
                       ? Icons.favorite_rounded
                       : Icons.favorite_outline_rounded,
-                  color: isIliked ? Colors.red : Colors.white,
+                  color: widget.isIliked ? Colors.red : Colors.white,
                 ),
                 onPressed: () {
-                  print(
-                      "likeIdIlike likeIdIlike likeIdIlike likeIdIlikelikeIdIlikelikeIdIlike likeIdIlike: $likeId");
-                  if (!isIliked) {
-                    print(
-                        "liking post liking post liking post liking post liking post liking post liking post");
+                  if (!widget.isIliked) {
                     BlocProvider.of<PostBloc>(context).add(
-                      LikePostEvent(postId: postId),
+                      LikePostEvent(postId: widget.postId),
                     );
                   } else {
-                    print("unlike post unlike post unlike post unlike post unlike post unlike post unlike post unlike post");
                     BlocProvider.of<PostBloc>(context).add(
                       UnLikePostEvent(
-                        postId: postId,
-                        likeId: likeId!,
+                        postId: widget.postId,
+                        likeId: widget.likeId!,
                       ),
                     );
                   }
                 },
               ),
-              SizedBox(
-                width: 10,
-              ),
-              Icon(
-                Icons.chat_bubble_outline_rounded,
-                color: Colors.white,
+
+              IconButton(
+                onPressed: () => commentBottomSheet(),
+                icon: Icon(
+                  
+                  Icons.chat_bubble_outline_rounded,
+                  color: Colors.white,
+                  size: 30,
+                ),
               ),
               SizedBox(
                 width: 10,
@@ -196,6 +342,7 @@ class BottomBarButtons extends StatelessWidget {
               Transform.rotate(
                 angle: -45 * 3.141592653589793 / 180,
                 child: Icon(
+                  size: 30,
                   Icons.send_outlined,
                   color: Colors.white,
                 ),
