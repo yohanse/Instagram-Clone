@@ -53,9 +53,19 @@ class PostRepositorieImpl implements PostRepository {
   }
 
   @override
-  Future<Either<Failure, Like>> likePost({required int postId}) {
-    // TODO: implement likePost
-    throw UnimplementedError();
+  Future<Either<Failure, Like>> likePost({required int postId}) async{
+    if (await networkInfo.isConnected) {
+      try {
+        final ans = await postRemoteDataSource.likePost(postId: postId);
+        return Right(ans);
+      } on ServerException {
+        return const Left(ServerFailure("Server not working properly."));
+      } on EmailNotCorrectException {
+        return const Left(EmailNotCorrectFailure("Email not correct"));
+      }
+    } else {
+      return const Left(NetworkFailure("Netwrok error."));
+    }
   }
 
   @override

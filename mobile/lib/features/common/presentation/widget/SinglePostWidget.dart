@@ -8,6 +8,7 @@ class SignlePostWidget extends StatelessWidget {
   final int numberOfComment, numberOfLike, postId;
   final DateTime time;
   final bool isILiked;
+  final int? likeId;
 
   const SignlePostWidget(
       {super.key,
@@ -18,7 +19,8 @@ class SignlePostWidget extends StatelessWidget {
       required this.numberOfLike,
       required this.text,
       required this.time,
-      required this.isILiked, required this.postId,});
+      required this.isILiked, required this.postId,
+      required this.likeId,});
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +56,7 @@ class SignlePostWidget extends StatelessWidget {
         BottomBarButtons(
           isIliked: isILiked,
           postId: postId,
+          likeId: likeId,
         ),
         LastSection(
           text: text,
@@ -126,9 +129,10 @@ class ProfileWidget extends StatelessWidget {
 
 class BottomBarButtons extends StatelessWidget {
   final bool isIliked;
-  final int postId; 
+  final int postId;
+  final int? likeId; 
 
-  const BottomBarButtons({super.key, required this.isIliked, required this.postId,});
+  const BottomBarButtons({super.key, required this.isIliked, required this.postId, this.likeId,});
 
   @override
   Widget build(BuildContext context) {
@@ -143,13 +147,19 @@ class BottomBarButtons extends StatelessWidget {
             children: [
               IconButton(
                 icon: Icon(
-                Icons.favorite_outline_rounded,
+                isIliked ? Icons.favorite_rounded : Icons.favorite_outline_rounded,
                 color:  isIliked ? Colors.red: Colors.white,
               ),
               onPressed: () {
-                if(isIliked){
+
+                if(!isIliked){
                   BlocProvider.of<PostBloc>(context).add(
                     LikePostEvent(postId: postId),
+                  );
+                }
+                else {
+                  BlocProvider.of<PostBloc>(context).add(
+                    UnLikePostEvent(postId: postId, likeId: likeId!,),
                   );
                 }
               },

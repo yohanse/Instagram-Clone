@@ -21,6 +21,8 @@ import 'package:mobile/features/common/post/data/repositories/post_repositorie_i
 import 'package:mobile/features/common/post/domain/repository/post_repository.dart';
 import 'package:mobile/features/common/post/domain/usecases/add_post.dart';
 import 'package:mobile/features/common/post/domain/usecases/get_all_post.dart';
+import 'package:mobile/features/common/post/domain/usecases/like_post_usecase.dart';
+import 'package:mobile/features/common/post/domain/usecases/unlike_post_usecase.dart';
 import 'package:mobile/features/common/presentation/bloc/AddingPost/adding_post_bloc.dart';
 import 'package:mobile/features/common/presentation/bloc/Image/image_manager_bloc.dart';
 import 'package:mobile/features/common/presentation/bloc/IsMultipleSelected/is_multiple_selected_bloc.dart';
@@ -89,6 +91,8 @@ Future<void> init() async {
   sl.registerFactory(
     () => PostBloc(
       getAllPostUseCase: sl(),
+      likePostUseCase: sl(),
+      unLikePostUseCase: sl(),
     ),
   );
   sl.registerFactory(
@@ -222,6 +226,16 @@ Future<void> init() async {
       messageRepository: sl(),
     ),
   );
+  sl.registerLazySingleton(
+    () => LikePostUseCase(
+      postRepository: sl(),
+    ),
+  );
+  sl.registerLazySingleton(
+    () => UnLikePostUseCase(
+      postRepository: sl(),
+    ),
+  );
 
   //Remote Data Source
   sl.registerLazySingleton<AuthRemoteDataSource>(
@@ -247,7 +261,7 @@ Future<void> init() async {
       messageLocalDataSource: sl(),
     ),
   );
-  
+
   // Local Data Source
   sl.registerLazySingleton<AuthLocalDataSource>(
     () => AuthLocalDataSourceImpl(

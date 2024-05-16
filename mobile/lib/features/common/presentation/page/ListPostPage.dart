@@ -39,6 +39,7 @@ class ListPostPage extends StatelessWidget {
                           profileImageUrl: state.post[i].author!.profile_image,
                           isILiked: state.post[i].isILiked!,
                           postId: state.post[i].id!,
+                          likeId: state.post[i].likeIdILike,
                         );
                       });
                 }

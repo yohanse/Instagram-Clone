@@ -14,6 +14,8 @@ class PostLoading extends PostState {}
 class PostLoaded extends PostState {
   final List<PostEntite> post;
   const PostLoaded({required this.post});
+  @override
+  List<Object> get props => [post];
 }
 
 class PostError extends PostState {

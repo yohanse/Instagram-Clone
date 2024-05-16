@@ -72,7 +72,7 @@ class PostRemoteDataSourceImpl implements PostRemoteDataSource {
 
   @override
   Future<LikeModel> likePost({required int postId}) async {
-    String url = "http://192.168.43.57:8000/instagram/posts/$postId";
+    String url = "http://192.168.43.57:8000/instagram/posts/$postId/likes/";
 
     final responseData = await http.post(
       Uri.parse(url),
@@ -82,7 +82,8 @@ class PostRemoteDataSourceImpl implements PostRemoteDataSource {
             "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3NTY3OTcxLCJpYXQiOjE3MTIzODM5NzEsImp0aSI6ImM0NTY2YjgxZTMxODRlYjE5ZDlmOWI2YmJiNzQ2ZDlmIiwidXNlcl9pZCI6MX0.y7M19fO4EcaKgPXI-LLrOjGzFCz98gEWld3kcWDp4os",
       },
     );
-
+    print("=================================================================");
+    print(responseData);
     if (responseData.statusCode == 200 || responseData.statusCode == 201) {
       final response = jsonDecode(responseData.body);
       return LikeModel.fromJson(response);
