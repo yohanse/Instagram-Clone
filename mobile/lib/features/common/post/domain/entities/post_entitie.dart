@@ -25,7 +25,7 @@ class PostEntite extends Equatable {
       this.numberOfLike,
       this.likeIdILike});
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [id, text, created_at, numberOfLike, images, videos, author, comments, isILiked, likeIdILike];
 }
 
 class Comment extends Equatable {

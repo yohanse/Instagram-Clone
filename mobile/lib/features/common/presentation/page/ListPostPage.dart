@@ -30,6 +30,7 @@ class ListPostPage extends StatelessWidget {
                       itemCount: state.post.length,
                       itemBuilder: (BuildContext context, int i) {
                         return SignlePostWidget(
+                          index: i,
                           numberOfComment: state.post[i].comments!.length,
                           numberOfLike: state.post[i].numberOfLike!,
                           time: state.post[i].created_at!,

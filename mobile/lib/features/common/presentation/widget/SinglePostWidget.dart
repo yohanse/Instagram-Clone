@@ -9,18 +9,22 @@ class SignlePostWidget extends StatelessWidget {
   final DateTime time;
   final bool isILiked;
   final int? likeId;
+  final int index;
 
-  const SignlePostWidget(
-      {super.key,
-      required this.imageUrl,
-      required this.authName,
-      required this.profileImageUrl,
-      required this.numberOfComment,
-      required this.numberOfLike,
-      required this.text,
-      required this.time,
-      required this.isILiked, required this.postId,
-      required this.likeId,});
+  const SignlePostWidget({
+    super.key,
+    required this.imageUrl,
+    required this.authName,
+    required this.profileImageUrl,
+    required this.numberOfComment,
+    required this.numberOfLike,
+    required this.text,
+    required this.time,
+    required this.isILiked,
+    required this.postId,
+    required this.likeId,
+    required this.index,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -130,12 +134,19 @@ class ProfileWidget extends StatelessWidget {
 class BottomBarButtons extends StatelessWidget {
   final bool isIliked;
   final int postId;
-  final int? likeId; 
+  final int? likeId;
 
-  const BottomBarButtons({super.key, required this.isIliked, required this.postId, this.likeId,});
+  const BottomBarButtons({
+    super.key,
+    required this.isIliked,
+    required this.postId,
+    this.likeId,
+  });
 
   @override
   Widget build(BuildContext context) {
+    print(
+        "<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>$isIliked");
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
       child: Row(
@@ -147,22 +158,30 @@ class BottomBarButtons extends StatelessWidget {
             children: [
               IconButton(
                 icon: Icon(
-                isIliked ? Icons.favorite_rounded : Icons.favorite_outline_rounded,
-                color:  isIliked ? Colors.red: Colors.white,
-              ),
-              onPressed: () {
-
-                if(!isIliked){
-                  BlocProvider.of<PostBloc>(context).add(
-                    LikePostEvent(postId: postId),
-                  );
-                }
-                else {
-                  BlocProvider.of<PostBloc>(context).add(
-                    UnLikePostEvent(postId: postId, likeId: likeId!,),
-                  );
-                }
-              },
+                  isIliked
+                      ? Icons.favorite_rounded
+                      : Icons.favorite_outline_rounded,
+                  color: isIliked ? Colors.red : Colors.white,
+                ),
+                onPressed: () {
+                  print(
+                      "likeIdIlike likeIdIlike likeIdIlike likeIdIlikelikeIdIlikelikeIdIlike likeIdIlike: $likeId");
+                  if (!isIliked) {
+                    print(
+                        "liking post liking post liking post liking post liking post liking post liking post");
+                    BlocProvider.of<PostBloc>(context).add(
+                      LikePostEvent(postId: postId),
+                    );
+                  } else {
+                    print("unlike post unlike post unlike post unlike post unlike post unlike post unlike post unlike post");
+                    BlocProvider.of<PostBloc>(context).add(
+                      UnLikePostEvent(
+                        postId: postId,
+                        likeId: likeId!,
+                      ),
+                    );
+                  }
+                },
               ),
               SizedBox(
                 width: 10,

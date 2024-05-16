@@ -82,8 +82,6 @@ class PostRemoteDataSourceImpl implements PostRemoteDataSource {
             "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3NTY3OTcxLCJpYXQiOjE3MTIzODM5NzEsImp0aSI6ImM0NTY2YjgxZTMxODRlYjE5ZDlmOWI2YmJiNzQ2ZDlmIiwidXNlcl9pZCI6MX0.y7M19fO4EcaKgPXI-LLrOjGzFCz98gEWld3kcWDp4os",
       },
     );
-    print("=================================================================");
-    print(responseData);
     if (responseData.statusCode == 200 || responseData.statusCode == 201) {
       final response = jsonDecode(responseData.body);
       return LikeModel.fromJson(response);
@@ -94,7 +92,7 @@ class PostRemoteDataSourceImpl implements PostRemoteDataSource {
   @override
   Future<bool> unlikePost({required int postId, required int likeId}) async {
     String url =
-        "http://192.168.43.57:8000/instagram/posts/$postId/likes/$likeId";
+        "http://192.168.43.57:8000/instagram/posts/$postId/likes/$likeId/";
 
     final responseData = await http.delete(
       Uri.parse(url),

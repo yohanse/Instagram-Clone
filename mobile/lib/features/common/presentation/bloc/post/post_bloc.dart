@@ -58,7 +58,9 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     on<LikePostEvent>((event, emit) async {
       var posts = await likePostUseCase(ParamsLikePost(postId: event.postId));
       posts.fold((l) {}, (r) {
+        
         if (state is PostLoaded) {
+
           List<PostEntite> post = [];
           for (int i = 0; i < (state as PostLoaded).post.length; i++) {
             if ((state as PostLoaded).post[i].id == event.postId) {
@@ -73,7 +75,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
                   numberOfLike: (state as PostLoaded).post[i].numberOfLike! + 1,
                   comments: (state as PostLoaded).post[i].comments,
                   isILiked: true,
-                  likeIdILike: 1,
+                  likeIdILike: r.id,
                 ),
               );
             } else {
