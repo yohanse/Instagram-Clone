@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mobile/features/common/presentation/bloc/post/post_bloc.dart';
 
 import '../../../profile/presentation/widget/custom_bottom_bar_navigation.dart';
@@ -16,6 +18,42 @@ class ListPostPage extends StatelessWidget {
     );
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          // assets/icons/IgNote.svg
+          actions: [
+            IconButton(
+              icon: Icon(
+                size: 30,
+                Icons.favorite_outline_rounded,
+                color: Colors.white,
+              ),
+              onPressed: () {},
+            ),
+            Transform.rotate(
+              angle: -45 * 3.141592653589793 / 180,
+              child: IconButton(
+                icon: Icon(
+                  size: 30,
+                  Icons.send_outlined,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  context.go("/message");
+                },
+              ),
+            ),
+          ],
+          title: SizedBox(
+            width: 150,
+            height: 50,
+            child: SvgPicture.asset(
+              'assets/icons/IgNote.svg',
+              color: Colors.white,
+              fit: BoxFit.contain,
+            ),
+          ),
+        ),
         bottomNavigationBar: CustomBottomNavigationBar(),
         body: Container(
           color: Colors.black,

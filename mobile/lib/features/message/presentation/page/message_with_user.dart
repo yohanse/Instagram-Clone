@@ -83,7 +83,7 @@ class _ChatPageState extends State<ChatPage> {
             Icons.arrow_back,
             color: Colors.white,
           ),
-          onPressed: () => context.go("/"),
+          onPressed: () => context.go("/message"),
         ),
         title: ListTile(
           leading: CircleAvatar(
