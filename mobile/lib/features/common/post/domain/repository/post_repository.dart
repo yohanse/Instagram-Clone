@@ -6,8 +6,8 @@ import 'package:mobile/features/reels/domain/Entitie/reel_entitie.dart';
 abstract class PostRepository {
   Future<Either<Failure, List<PostEntite>>> getAllPost();
   Future<Either<Failure, PostEntite>> addPost(PostEntite postEntite);
-  Future<Either<Failure, Like>> likePost();
-  Future<Either<Failure, bool>> unlikePost({required int id});
+  Future<Either<Failure, Like>> likePost({required int postId});
+  Future<Either<Failure, bool>> unlikePost({required int postId, required int likeId});
 
   // Future<Either<Failure, bool>> getPost({required String email, required String confimationCode});
   // Future<Either<Failure, bool>> deletePost({required String email, required String confimationCode});

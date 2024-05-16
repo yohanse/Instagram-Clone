@@ -53,13 +53,13 @@ class PostRepositorieImpl implements PostRepository {
   }
 
   @override
-  Future<Either<Failure, Like>> likePost() {
+  Future<Either<Failure, Like>> likePost({required int postId}) {
     // TODO: implement likePost
     throw UnimplementedError();
   }
 
   @override
-  Future<Either<Failure, bool>> unlikePost({required int id}) {
+  Future<Either<Failure, bool>> unlikePost({required int postId, required int likeId}) {
     // TODO: implement unlikePost
     throw UnimplementedError();
   }

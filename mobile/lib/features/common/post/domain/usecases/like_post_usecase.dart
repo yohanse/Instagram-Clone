@@ -13,12 +13,13 @@ class LikePostUseCase implements Usecase<Like, ParamsLikePost> {
 
   @override
   Future<Either<Failure, Like>> call(ParamsLikePost params) async {
-    return await postRepository.likePost();
+    return await postRepository.likePost(postId:params.postId);
   }
 }
 
 class ParamsLikePost extends Equatable {
-  
+  final int postId;
+  const ParamsLikePost({required this.postId});
   @override
   List<Object?> get props => [];
 }

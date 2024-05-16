@@ -11,13 +11,13 @@ class UnLikePostUseCase implements Usecase<bool, ParamsUnLikePost> {
 
   @override
   Future<Either<Failure, bool>> call(ParamsUnLikePost params) async {
-    return await postRepository.unlikePost(id: params.id);
+    return await postRepository.unlikePost(postId: params.postId, likeId: params.likeId);
   }
 }
 
 class ParamsUnLikePost extends Equatable {
-  final int id;
-  const ParamsUnLikePost({required this.id});
+  final int postId, likeId;
+  const ParamsUnLikePost({required this.postId, required this.likeId});
   @override
   List<Object?> get props => [];
 }
