@@ -11,7 +11,7 @@ class UnLikePostUseCase implements Usecase<bool, ParamsUnLikePost> {
 
   @override
   Future<Either<Failure, bool>> call(ParamsUnLikePost params) async {
-    return await postRepository.unlikePost();
+    return await postRepository.unlikePost(id: params.id);
   }
 }
 

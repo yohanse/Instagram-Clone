@@ -4,6 +4,7 @@ import 'package:mobile/core/error/failures.dart';
 import 'package:mobile/core/network/network_info.dart';
 import 'package:mobile/features/common/post/data/models/post_model.dart';
 import 'package:mobile/features/common/post/domain/entities/post_entitie.dart';
+import 'package:mobile/features/reels/domain/Entitie/reel_entitie.dart';
 
 import '../../domain/repository/post_repository.dart';
 import '../datasources/remote_data_source.dart';
@@ -49,5 +50,17 @@ class PostRepositorieImpl implements PostRepository {
     } else {
       return const Left(NetworkFailure("Netwrok error."));
     }
+  }
+
+  @override
+  Future<Either<Failure, Like>> likePost() {
+    // TODO: implement likePost
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, bool>> unlikePost({required int id}) {
+    // TODO: implement unlikePost
+    throw UnimplementedError();
   }
 }
