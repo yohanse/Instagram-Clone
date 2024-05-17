@@ -4,7 +4,6 @@ import 'package:mobile/features/common/post/domain/entities/post_entitie.dart';
 import 'package:mobile/features/common/post/domain/usecases/comment_post_usecase.dart';
 import 'package:mobile/features/common/post/domain/usecases/get_all_post.dart';
 import 'package:mobile/features/common/post/domain/usecases/unlike_post_usecase.dart';
-import 'package:mobile/features/reels/domain/Entitie/reel_entitie.dart';
 
 import '../../../post/domain/usecases/like_post_usecase.dart';
 

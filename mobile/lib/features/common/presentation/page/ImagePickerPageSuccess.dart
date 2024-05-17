@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:mobile/features/common/presentation/bloc/Image/image_manager_bloc.dart';
 import 'package:mobile/features/common/presentation/bloc/IsMultipleSelected/is_multiple_selected_bloc.dart';
 import 'package:mobile/features/common/presentation/widget/CustomSelectMultipleWidget.dart';
-import 'package:mobile/features/common/presentation/widget/CustomTabBarScrollable.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
 import 'package:transparent_image/transparent_image.dart';

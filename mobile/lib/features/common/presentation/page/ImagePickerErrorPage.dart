@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile/features/common/presentation/bloc/Image/image_manager_bloc.dart';
-import 'package:mobile/features/common/presentation/widget/CustomTabBarScrollable.dart';
-import 'package:photo_manager_image_provider/photo_manager_image_provider.dart';
-import 'package:transparent_image/transparent_image.dart';
 
 class ImagePickerErrorPage extends StatelessWidget {
   final String text;
