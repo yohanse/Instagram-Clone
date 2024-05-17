@@ -4,14 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile/features/message/Domain/entitie/message_entitie.dart';
-import 'package:mobile/features/message/data/models/message_model.dart';
 import 'package:mobile/features/message/presentation/bloc/fetch%20messages/fetch_messages_bloc.dart';
 import 'package:mobile/features/message/presentation/widget/message_accepting_widget.dart';
 import 'package:mobile/features/message/presentation/widget/message_sending_widget.dart';
 import 'package:web_socket_channel/io.dart';
-import 'package:web_socket_channel/status.dart' as status;
-import 'package:web_socket_channel/web_socket_channel.dart';
 
 class ChatPage extends StatefulWidget {
   final UserParams userParams;
