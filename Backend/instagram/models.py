@@ -3,6 +3,7 @@ from django.conf import settings
 from django.db import models
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
+from . import validator
 
 class User(models.Model):
     profile_image = models.ImageField(upload_to="profile/images", default="profile/images/profile.webp")
@@ -10,7 +11,7 @@ class User(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,primary_key=True)
 
 class UserFollow(models.Model):
-    follower = models.ForeignKey(User, related_name='following', on_delete=models.CASCADE)
+    follower = models.ForeignKey(User, related_name='following', on_delete=models.CASCADE, validators=[validator.validate_not_same_user])
     followed = models.ForeignKey(User, related_name='followers', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
