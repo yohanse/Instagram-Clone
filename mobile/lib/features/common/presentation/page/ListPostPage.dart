@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile/features/common/presentation/bloc/post/post_bloc.dart';
+import 'package:mobile/features/message/presentation/page/message_with_user.dart';
 
 import '../../../profile/presentation/widget/custom_bottom_bar_navigation.dart';
 import '../widget/SinglePostWidget.dart';
@@ -79,6 +80,11 @@ class ListPostPage extends StatelessWidget {
                           isILiked: state.post[i].isILiked!,
                           postId: state.post[i].id!,
                           likeId: state.post[i].likeIdILike,
+                          author: UserParams(
+                            id: "${state.post[i].author!.user_id}",
+                            name: state.post[i].author!.name,
+                            profile_image: state.post[i].author!.profile_image,
+                          ),
                         );
                       });
                 }

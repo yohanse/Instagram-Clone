@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:snapping_bottom_sheet/snapping_bottom_sheet.dart';
 
+import '../../../message/presentation/page/message_with_user.dart';
 import '../bloc/post/post_bloc.dart';
 
 class SignlePostWidget extends StatelessWidget {
@@ -11,6 +13,7 @@ class SignlePostWidget extends StatelessWidget {
   final bool isILiked;
   final int? likeId;
   final int index;
+  final UserParams author;
 
   const SignlePostWidget({
     super.key,
@@ -25,6 +28,7 @@ class SignlePostWidget extends StatelessWidget {
     required this.postId,
     required this.likeId,
     required this.index,
+    required this.author,
   });
 
   @override
@@ -38,7 +42,7 @@ class SignlePostWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(15),
               child: Image.network(
                 imageUrl,
-                height: 500,
+                height: 700,
                 width: double.infinity,
                 fit: BoxFit.cover,
               ),
@@ -64,6 +68,7 @@ class SignlePostWidget extends StatelessWidget {
           likeId: likeId,
           postIndex: index,
           profileImageUrl: profileImageUrl,
+          author: author,
         ),
         LastSection(
           text: text,
@@ -139,6 +144,7 @@ class BottomBarButtons extends StatefulWidget {
   final int postId, postIndex;
   final int? likeId;
   final String profileImageUrl;
+  final UserParams author;
 
   BottomBarButtons({
     super.key,
@@ -147,6 +153,7 @@ class BottomBarButtons extends StatefulWidget {
     this.likeId,
     required this.postIndex,
     required this.profileImageUrl,
+    required this.author,
   });
 
   @override
@@ -252,7 +259,8 @@ class _BottomBarButtonsState extends State<BottomBarButtons> {
         footerBuilder: (context, state) => Row(
           children: [
             CircleAvatar(
-              backgroundImage: NetworkImage("http://192.168.43.57:8000${widget.profileImageUrl}"),
+              backgroundImage: NetworkImage(
+                  "http://192.168.43.57:8000${widget.profileImageUrl}"),
               radius: 20,
             ),
             Expanded(
@@ -326,11 +334,9 @@ class _BottomBarButtonsState extends State<BottomBarButtons> {
                   }
                 },
               ),
-
               IconButton(
                 onPressed: () => commentBottomSheet(),
                 icon: Icon(
-                  
                   Icons.chat_bubble_outline_rounded,
                   color: Colors.white,
                   size: 30,
@@ -339,12 +345,18 @@ class _BottomBarButtonsState extends State<BottomBarButtons> {
               SizedBox(
                 width: 10,
               ),
-              Transform.rotate(
-                angle: -45 * 3.141592653589793 / 180,
-                child: Icon(
-                  size: 30,
-                  Icons.send_outlined,
-                  color: Colors.white,
+              IconButton(
+                onPressed: () => context.go(
+                  "/message/chat",
+                  extra: widget.author,
+                ),
+                icon: Transform.rotate(
+                  angle: -45 * 3.141592653589793 / 180,
+                  child: Icon(
+                    size: 30,
+                    Icons.send_outlined,
+                    color: Colors.white,
+                  ),
                 ),
               ),
               SizedBox(
