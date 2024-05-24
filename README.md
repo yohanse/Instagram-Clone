@@ -92,7 +92,7 @@ To set up the frontend:
 1. Ensure you have Flutter installed. For installation instructions, visit [Flutter's official site](https://flutter.dev/docs/get-started/install).
 2. Navigate to the frontend directory:
    ```bash
-   cd frontend/instagram_clone_flutter
+   cd frontend
    ```
 3. Install the required dependencies:
    ```bash
@@ -110,7 +110,7 @@ To set up the backend:
 1. Ensure you have Python and Django installed. For installation instructions, visit [Django's official site](https://www.djangoproject.com/start/).
 2. Navigate to the backend directory:
    ```bash
-   cd backend/instagram_clone_django
+   cd backend
    ```
 3. Create a virtual environment and activate it:
    ```bash
