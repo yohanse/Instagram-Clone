@@ -24,9 +24,9 @@ This project is an Instagram clone with a Flutter frontend and a Django backend.
 ```
 instagram_clone/
 ├── frontend/
-│   └── instagram_clone_flutter/
+│   └── 
 ├── backend/
-│   └── instagram_clone_django/
+│   └── 
 └── README.md
 ```
 
@@ -114,14 +114,11 @@ To set up the backend:
    ```
 3. Create a virtual environment and activate it:
    ```bash
-   python -m venv env
-   source env/bin/activate  # On Windows use `env\Scripts\activate`
+   pip install pipenv
+   pipenv install
+   pipenv shell
    ```
-4. Install the required dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-5. Run the Django development server:
+4. Run the Django development server:
    ```bash
    python manage.py runserver
    ```
