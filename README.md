@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project is an Instagram clone with a Flutter frontend and a Django backend. The backend provides RESTful endpoints for managing posts, reels, user profiles, messages, and more. The frontend interacts with these endpoints to create a seamless user experience similar to Instagram.
+This project is an Instagram clone with a Flutter frontend and a Django backend. The backend provides RESTful endpoints for managing posts, reels, user profiles, messages, and more. The frontend interacts with these endpoints to create a seamless user experience similar to Instagram. The mobile code is written in a way that allows for easy integration, following Reso Coder's clean architecture strategy, which is based on principles by Robert C. Martin (Uncle Bob).
 
 ## Table of Contents
 
