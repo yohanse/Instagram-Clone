@@ -52,3 +52,11 @@ class UsernameAndPasswordDoesNotMatchFailure extends Failure{
   @override
   List<Object?> get props => [];
 }
+
+
+
+class WrongEmailFormatFailure extends Failure{
+  const WrongEmailFormatFailure(super.message);
+  @override
+  List<Object?> get props => [];
+}

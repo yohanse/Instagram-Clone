@@ -45,6 +45,8 @@ class AuthRepositorieImpl implements AuthRepository {
             EmailAlreadyExistFaliure("Email already have an account."));
       } on EmailDoesNotExistException {
         return const Left(EmailDoesNotExistFaliure("Wrong email."));
+      } on WrongEmailFormatException {
+        return const Left(WrongEmailFormatFailure("Email format is wrong."));
       }
     } else {
       return const Left(NetworkFailure("Network error."));
@@ -106,7 +108,8 @@ class AuthRepositorieImpl implements AuthRepository {
       } on ServerException {
         return const Left(ServerFailure("Server not working properly."));
       } on UsernameAndPasswordDoesNotMatchException {
-        return const Left(UsernameAndPasswordDoesNotMatchFailure("Username and password does not match."));
+        return const Left(UsernameAndPasswordDoesNotMatchFailure(
+            "Username and password does not match."));
       }
     } else {
       return const Left(NetworkFailure("Network error."));

@@ -48,6 +48,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     if (jsonDecode(responseData.body)['error'] == 'Email already exists') {
       throw EmailAlreadyExistException();
     }
+    if (responseData.statusCode == 400) {
+      throw WrongEmailFormatException();
+    }
     throw ServerException();
   }
 
@@ -88,19 +91,19 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<bool> logIn(
       {required String username, required String password}) async {
     String url = "http://192.168.43.57:8000/auth/jwt/create/";
-    
 
     final responseData = await http.post(Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'username': username, 'password': password}));
-    
+
     if (responseData.statusCode == 200 || responseData.statusCode == 201) {
       authLocalDataSource.cacheToken(
-          accessToken: jsonDecode(responseData.body)["access"],
-          refreshToken: jsonDecode(responseData.body)["refresh"]);
+        accessToken: jsonDecode(responseData.body)["access"],
+        refreshToken: jsonDecode(responseData.body)["refresh"],
+      );
       return true;
     }
-    if(responseData.statusCode == 401){
+    if (responseData.statusCode == 401) {
       throw UsernameAndPasswordDoesNotMatchException();
     }
     throw ServerException();

@@ -13,3 +13,5 @@ class UsernameAlreadyExistException implements Exception {}
 class NoTokenException implements Exception {}
 
 class UsernameAndPasswordDoesNotMatchException implements Exception {}
+
+class WrongEmailFormatException implements Exception {}
