@@ -23,7 +23,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<bool> checkConfirmation(
       {required String email, required String confimationCode}) async {
-    String url = "http://127.0.0.1:8000/core/checkCode/";
+    String url = "http://192.168.43.57:8000/core/checkCode/";
     final responseData = await http.post(Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
         body:
@@ -38,7 +38,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<bool> checkEmail({required String email}) async {
-    String url = "http://127.0.0.1:8000/core/checkEmail/";
+    String url = "http://192.168.43.57:8000/core/checkEmail/";
     final responseData = await http.post(Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'email': email}));
@@ -53,7 +53,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<bool> checkUsername({required String username}) async {
-    String url = "http://127.0.0.1:8000/core/checkUsername/";
+    String url = "http://192.168.43.57:8000/core/checkUsername/";
     print("remote");
 
     final responseData = await http.post(Uri.parse(url),
@@ -71,7 +71,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<bool> signUp({required AuthModel user}) async {
-    String url = "http://127.0.0.1:8000/auth/users/";
+    String url = "http://192.168.43.57:8000/auth/users/";
     print("remote");
 
     final responseData = await http.post(Uri.parse(url),
@@ -87,18 +87,21 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<bool> logIn(
       {required String username, required String password}) async {
-    String url = "http://127.0.0.1:8000/auth/jwt/create/";
-    print("remote");
+    String url = "http://192.168.43.57:8000/auth/jwt/create/";
+    
 
     final responseData = await http.post(Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({'username': username, 'password': password}));
-    print(responseData.body);
+    
     if (responseData.statusCode == 200 || responseData.statusCode == 201) {
       authLocalDataSource.cacheToken(
           accessToken: jsonDecode(responseData.body)["access"],
           refreshToken: jsonDecode(responseData.body)["refresh"]);
       return true;
+    }
+    if(responseData.statusCode == 401){
+      throw UsernameAndPasswordDoesNotMatchException();
     }
     throw ServerException();
   }

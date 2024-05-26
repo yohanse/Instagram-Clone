@@ -18,7 +18,7 @@ class LoginPage extends StatelessWidget {
     return BlocConsumer<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state is LogInLoaded) {
-          context.go("/finally");
+          context.go("/posts");
         }
 
         if (state is LogInError) {
@@ -49,8 +49,8 @@ class LoginPage extends StatelessWidget {
                 ),
                 SvgPicture.asset(
                   'assets/icons/instagram.svg',
-                  width: 40,
-                  height: 40,
+                  width: 60,
+                  height: 60,
                 ),
                 SizedBox(
                   height: 80,

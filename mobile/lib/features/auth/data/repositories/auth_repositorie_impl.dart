@@ -12,9 +12,7 @@ class AuthRepositorieImpl implements AuthRepository {
   final NetworkInfo networkInfo;
 
   AuthRepositorieImpl(
-      {
-      required this.authRemoteDataSource,
-      required this.networkInfo});
+      {required this.authRemoteDataSource, required this.networkInfo});
 
   @override
   Future<Either<Failure, bool>> checkConfirmation(
@@ -87,27 +85,29 @@ class AuthRepositorieImpl implements AuthRepository {
         birthDate: user.birthDate,
       );
       try {
-        final ans =
-            await authRemoteDataSource.signUp(user: authModel);
+        final ans = await authRemoteDataSource.signUp(user: authModel);
         return Right(ans);
       } on ServerException {
         return const Left(ServerFailure("Server not working properly."));
-      } 
+      }
     } else {
       return const Left(NetworkFailure("Network error."));
     }
   }
-  
+
   @override
-  Future<Either<Failure, bool>> logIn({required String username, required String password}) async{
+  Future<Either<Failure, bool>> logIn(
+      {required String username, required String password}) async {
     if (await networkInfo.isConnected) {
       try {
-        final ans =
-            await authRemoteDataSource.logIn(username: username, password: password);
+        final ans = await authRemoteDataSource.logIn(
+            username: username, password: password);
         return Right(ans);
       } on ServerException {
         return const Left(ServerFailure("Server not working properly."));
-      } 
+      } on UsernameAndPasswordDoesNotMatchException {
+        return const Left(UsernameAndPasswordDoesNotMatchFailure("Username and password does not match."));
+      }
     } else {
       return const Left(NetworkFailure("Network error."));
     }

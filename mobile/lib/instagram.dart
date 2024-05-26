@@ -7,6 +7,14 @@ import 'package:mobile/features/auth/presentation/bloc/check_email/check_email_b
 import 'package:mobile/features/auth/presentation/bloc/check_confirmation/check_confirmation_bloc.dart';
 import 'package:mobile/features/auth/presentation/bloc/check_username/check_username_bloc.dart';
 import 'package:mobile/features/auth/presentation/bloc/login/login_bloc.dart';
+import 'package:mobile/features/auth/presentation/pages/birth_date.dart';
+import 'package:mobile/features/auth/presentation/pages/code.dart';
+import 'package:mobile/features/auth/presentation/pages/create_password.dart';
+import 'package:mobile/features/auth/presentation/pages/email.dart';
+import 'package:mobile/features/auth/presentation/pages/finalConfirmation.dart';
+import 'package:mobile/features/auth/presentation/pages/login.dart';
+import 'package:mobile/features/auth/presentation/pages/name.dart';
+import 'package:mobile/features/auth/presentation/pages/username.dart';
 import 'package:mobile/features/common/Ui/picker.dart';
 import 'package:mobile/features/common/presentation/bloc/AddingPost/adding_post_bloc.dart';
 import 'package:mobile/features/common/presentation/bloc/Image/image_manager_bloc.dart';
@@ -42,53 +50,53 @@ class InstagramApp extends StatelessWidget {
     final GoRouter _router = GoRouter(
       navigatorKey: GlobalKey<NavigatorState>(),
       routes: [
-        // GoRoute(
-        //   path: '/',
-        //   builder: (context, state) => LoginPage(),
-        // ),
-        // GoRoute(
-        //   path: '/signup',
-        //   builder: (context, state) => EmailPage(),
-        // ),
-        // GoRoute(
-        //   path: '/signup/confirmation',
-        //   builder: (context, state) => CodePage(
-        //     email: state.extra! as String,
-        //   ),
-        // ),
-        // GoRoute(
-        //   path: '/signup/confirmation/password',
-        //   builder: (context, state) => CreatePasswordPage(
-        //     email: state.extra! as String,
-        //   ),
-        // ),
-        // GoRoute(
-        //   path: '/signup/confirmation/password/birthday',
-        //   builder: (context, state) => BirthDatePage(
-        //     extra: state.extra! as ExtraPassword,
-        //   ),
-        // ),
-        // GoRoute(
-        //   path: '/signup/confirmation/password/birthday/name',
-        //   builder: (context, state) => NamePage(
-        //     extra: state.extra! as ExtraBirthDate,
-        //   ),
-        // ),
-        // GoRoute(
-        //   path: "/signup/confirmation/password/birthday/name/username",
-        //   builder: (context, state) => UserNamePage(
-        //     extra: state.extra! as ExtraName,
-        //   ),
-        // ),
-        // GoRoute(
-        //   path:
-        //       "/signup/confirmation/password/birthday/name/username/finalConfirmation",
-        //   builder: (context, state) => FinalConfirmationPage(
-        //     extra: state.extra! as ExtraUserName,
-        //   ),
-        // ),
         GoRoute(
           path: '/',
+          builder: (context, state) => LoginPage(),
+        ),
+        GoRoute(
+          path: '/signup',
+          builder: (context, state) => EmailPage(),
+        ),
+        GoRoute(
+          path: '/signup/confirmation',
+          builder: (context, state) => CodePage(
+            email: state.extra! as String,
+          ),
+        ),
+        GoRoute(
+          path: '/signup/confirmation/password',
+          builder: (context, state) => CreatePasswordPage(
+            email: state.extra! as String,
+          ),
+        ),
+        GoRoute(
+          path: '/signup/confirmation/password/birthday',
+          builder: (context, state) => BirthDatePage(
+            extra: state.extra! as ExtraPassword,
+          ),
+        ),
+        GoRoute(
+          path: '/signup/confirmation/password/birthday/name',
+          builder: (context, state) => NamePage(
+            extra: state.extra! as ExtraBirthDate,
+          ),
+        ),
+        GoRoute(
+          path: "/signup/confirmation/password/birthday/name/username",
+          builder: (context, state) => UserNamePage(
+            extra: state.extra! as ExtraName,
+          ),
+        ),
+        GoRoute(
+          path:
+              "/signup/confirmation/password/birthday/name/username/finalConfirmation",
+          builder: (context, state) => FinalConfirmationPage(
+            extra: state.extra! as ExtraUserName,
+          ),
+        ),
+        GoRoute(
+          path: '/posts',
           builder: (context, state) => const ListPostPage(),
         ),
         GoRoute(

@@ -46,3 +46,9 @@ class NoTokenFailure extends Failure {
   @override
   List<Object?> get props => [];
 }
+
+class UsernameAndPasswordDoesNotMatchFailure extends Failure{
+  const UsernameAndPasswordDoesNotMatchFailure(super.message);
+  @override
+  List<Object?> get props => [];
+}
