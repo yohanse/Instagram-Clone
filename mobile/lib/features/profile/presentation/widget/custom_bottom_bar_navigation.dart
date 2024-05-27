@@ -14,7 +14,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
         children: [
           IconButton(
             onPressed: () {
-              context.go("/");
+              context.go("/posts");
             },
             icon: Icon(
               Icons.home,

@@ -58,7 +58,7 @@ class UserNamePage extends StatelessWidget {
                       UsernameField(
                           controller: usernameController,
                           suffixIcon: state is CheckUsernameLoading
-                              ? SizedBox(
+                              ? Container(
                                   width: 5.0,
                                   height: 5.0,
                                   child: CircularProgressIndicator(
