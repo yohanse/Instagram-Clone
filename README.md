@@ -136,3 +136,7 @@ Contributions are welcome! Please fork the repository and create a pull request 
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+
+## Demo
+
+There is a small demo that does not show all the features, but it is enough to showcase some basics and the UI. You can view the demo [here](https://drive.google.com/file/d/1-D4e_HybeGGC5PG1kzM61Qq15ru9bO6p/view?usp=sharing).
