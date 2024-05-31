@@ -18,6 +18,7 @@ This project is an Instagram clone with a Flutter frontend and a Django backend.
 - [Running the Application](#running-the-application)
 - [Contributing](#contributing)
 - [License](#license)
+- [Demo](#Demo)
 
 ## Project Structure
 
