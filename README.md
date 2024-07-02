@@ -132,7 +132,7 @@ To set up the backend:
 
 ## Contributing
 
-Contributions are welcome! Please fork the repository and create a pull request with your changes. Ensure your code follows the project's coding standards and includes appropriate tests.
+Contributions are welcome! Please fork the repository and create a pull request with your changes. Ensure your code follows the project's coding standards.
 
 ## License
 
