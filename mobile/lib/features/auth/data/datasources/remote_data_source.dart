@@ -29,7 +29,6 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         body:
             jsonEncode({'email': email, 'confirmation_code': confimationCode}));
     final response = jsonDecode(responseData.body);
-    print(response);
     if (responseData.statusCode == 200 || responseData.statusCode == 201) {
       return response['valid'];
     }
@@ -75,12 +74,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<bool> signUp({required AuthModel user}) async {
     String url = "http://192.168.43.57:8000/auth/users/";
-    print("remote");
 
     final responseData = await http.post(Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(user.tojson()));
-    print(responseData.body);
     if (responseData.statusCode == 200 || responseData.statusCode == 201) {
       return true;
     }

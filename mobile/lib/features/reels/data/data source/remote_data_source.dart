@@ -30,7 +30,7 @@ class ReelRemoteDataSourceImpl implements ReelRemoteDataSource {
       headers: {
         'Content-Type': 'application/json',
         'Authorization':
-            "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3NTY3OTcxLCJpYXQiOjE3MTIzODM5NzEsImp0aSI6ImM0NTY2YjgxZTMxODRlYjE5ZDlmOWI2YmJiNzQ2ZDlmIiwidXNlcl9pZCI6MX0.y7M19fO4EcaKgPXI-LLrOjGzFCz98gEWld3kcWDp4os",
+            "JWT ${reelLocalDataSource.getToken()}",
       },
     );
     if (responseData.statusCode == 200) {
@@ -52,7 +52,7 @@ class ReelRemoteDataSourceImpl implements ReelRemoteDataSource {
       headers: {
         'Content-Type': 'application/json',
         'Authorization':
-            "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3NTY3OTcxLCJpYXQiOjE3MTIzODM5NzEsImp0aSI6ImM0NTY2YjgxZTMxODRlYjE5ZDlmOWI2YmJiNzQ2ZDlmIiwidXNlcl9pZCI6MX0.y7M19fO4EcaKgPXI-LLrOjGzFCz98gEWld3kcWDp4os",
+            "JWT ${reelLocalDataSource.getToken()}",
       },
     );
     if (responseData.statusCode == 200 || responseData.statusCode == 201) {
@@ -69,7 +69,7 @@ class ReelRemoteDataSourceImpl implements ReelRemoteDataSource {
       headers: {
         'Content-Type': 'application/json',
         'Authorization':
-            "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3NTY3OTcxLCJpYXQiOjE3MTIzODM5NzEsImp0aSI6ImM0NTY2YjgxZTMxODRlYjE5ZDlmOWI2YmJiNzQ2ZDlmIiwidXNlcl9pZCI6MX0.y7M19fO4EcaKgPXI-LLrOjGzFCz98gEWld3kcWDp4os",
+            "JWT ${reelLocalDataSource.getToken()}",
       },
     );
     if (responseData.statusCode == 200) {
@@ -88,7 +88,7 @@ class ReelRemoteDataSourceImpl implements ReelRemoteDataSource {
       Uri.parse(url),
       headers: {
         'Authorization':
-            "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3NTY3OTcxLCJpYXQiOjE3MTIzODM5NzEsImp0aSI6ImM0NTY2YjgxZTMxODRlYjE5ZDlmOWI2YmJiNzQ2ZDlmIiwidXNlcl9pZCI6MX0.y7M19fO4EcaKgPXI-LLrOjGzFCz98gEWld3kcWDp4os",
+            "JWT ${reelLocalDataSource.getToken()}",
       },
     );
     if (responseData.statusCode == 200 || responseData.statusCode == 204) {
@@ -104,7 +104,7 @@ class ReelRemoteDataSourceImpl implements ReelRemoteDataSource {
       Uri.parse(url),
       headers: {
         'Authorization':
-            "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3NTY3OTcxLCJpYXQiOjE3MTIzODM5NzEsImp0aSI6ImM0NTY2YjgxZTMxODRlYjE5ZDlmOWI2YmJiNzQ2ZDlmIiwidXNlcl9pZCI6MX0.y7M19fO4EcaKgPXI-LLrOjGzFCz98gEWld3kcWDp4os",
+            "JWT ${reelLocalDataSource.getToken()}",
       },
       body: {"content": content},
     );
@@ -121,7 +121,7 @@ class ReelRemoteDataSourceImpl implements ReelRemoteDataSource {
     final Map<String, String> headers = {
       'Content-Type': 'multipart/form-data',
       'Authorization':
-          "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE3NTY3OTcxLCJpYXQiOjE3MTIzODM5NzEsImp0aSI6ImM0NTY2YjgxZTMxODRlYjE5ZDlmOWI2YmJiNzQ2ZDlmIiwidXNlcl9pZCI6MX0.y7M19fO4EcaKgPXI-LLrOjGzFCz98gEWld3kcWDp4os",
+          "JWT ${reelLocalDataSource.getToken()}",
     };
     final request = http.MultipartRequest('POST', Uri.parse(url));
     request.headers.addAll(headers);
